@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import TypeVar, Union, Callable
+from typing import TypeVar, Union, Callable, Iterator
+
 
 T = TypeVar('T')
+
 
 Option = Union["Some", "Empty"]
 
@@ -58,8 +60,19 @@ class OptionProtocol(ABC):
     def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
         ...
 
+    @abstractmethod
+    def iter(self) -> Iterator[T]:
+        ...
+
+    @abstractmethod
+    def filter(self, predicate: Callable[[T], bool]) -> Option:
+        ...
+
     def __contains__(self, item: T) -> bool:
         return self.contains(item)
+
+    def __iter__(self):
+        return self.iter()
 
 
 @dataclass
@@ -70,10 +83,3 @@ class Some(OptionProtocol):
 @dataclass
 class Empty(OptionProtocol):
     ...
-
-
-
-
-
-if __name__ == "__main__":
-    print("Compiling")
