@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import TypeVar, Union, Callable, Generic, Iterator
 from patmat_wrappers.option import Option, Some, Empty
+from patmat_wrappers.exceptions import UnwrapException
 
 T = TypeVar('T')
 U = TypeVar('U')
@@ -176,12 +177,10 @@ class Ok(ResultProtocol):
         return self.Value
 
     def unwrap_err(self) -> E:
-        # TODO: Create a proper exception
-        assert False
+        raise UnwrapException(f"{self.Value}")
 
     def expect_err(self, msg: str) -> E:
-        # TODO: Create a proper exception
-        assert False, msg
+        raise UnwrapException(msg)
 
 
 @dataclass
@@ -215,7 +214,7 @@ class Err(ResultProtocol):
         return default
 
     def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -> U:
-        return default()
+        return default(self.Error)
 
     def map_err(self, f: Callable[[E], U]) -> Result:
         return Err(f(self.Error))
@@ -236,7 +235,7 @@ class Err(ResultProtocol):
         return Err(op(self.Error))
 
     def unwrap(self) -> T:
-        assert False, f"self.Error"
+        raise UnwrapException(self.Error)
 
     def unwrap_or(self, default: T) -> T:
         return default
@@ -245,11 +244,9 @@ class Err(ResultProtocol):
         return default()
 
     def expect(self, msg: str) -> T:
-        # TODO: Create a proper exception
-        assert False, msg
+        raise UnwrapException(msg)
 
     def expect_err(self, msg: str) -> E:
-        # TODO: Create a proper exception
         return self.Error
 
     def unwrap_err(self) -> E:
