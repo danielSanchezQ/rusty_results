@@ -37,7 +37,7 @@ class OptionProtocol(ABC):
         ...
 
     @abstractmethod
-    def unwrap_or_else(self, f: Callable[[], T]):
+    def unwrap_or_else(self, f: Callable[[], T]) -> Option:
         ...
 
     @abstractmethod
@@ -68,6 +68,17 @@ class OptionProtocol(ABC):
     def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
         ...
 
+    @abstractmethod
+    def _and(self, optb: Option) -> Option:
+        ...
+
+    @abstractmethod
+    def and_then(self, f: Callable[[T], Option]) -> Option:
+        ...
+
+    def __and__(self, other: Option) -> Option:
+        return self._and(other)
+
     def __contains__(self, item: T) -> bool:
         return self.contains(item)
 
@@ -91,36 +102,37 @@ class Some(OptionProtocol):
         return item == self.Value
 
     def expects(self, msg: str) -> T:
-        assert self.Value is not None, msg
         return self.Value
 
     def unwrap(self) -> T:
-        assert self.Value is not None
         return self.Value
 
     def unwrap_or(self, default: T) -> T:
-        return self.Value or default
+        return self.Value
 
     def unwrap_or_else(self, f: Callable[[], T]):
-        return self.Value or f()
+        return self.copy()
 
     def map(self, f: Callable[[T], T]) -> "Option":
-        return f(self.Value)
+        return Some(f(self.Value))
 
     def map_or(self, default: T, f: Callable[[T], T]) -> Option:
-        return f(self.Value) or default
+        return Some(f(self.Value))
 
     def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> Option:
-        return f(self.Value) or default()
+        return Some(f(self.Value))
 
     def iter(self) -> Iterator[T]:
         return iter(self.Value)
 
     def filter(self, predicate: Callable[[T], bool]) -> Option:
-        if self.Value is None:
-            return None
+        return self.copy() if predicate(self.Value) else Empty
 
-        return True if predicate(self.Value) else None
+    def _and(self, optb: Option) -> Option:
+        return optb
+
+    def and_then(self, f: Callable[[T], Option]) -> Option:
+        return f(self.Value)
 
 @dataclass
 class Empty(OptionProtocol):
@@ -144,21 +156,27 @@ class Empty(OptionProtocol):
     def unwrap_or(self, default: T) -> T:
         return default
 
-    def unwrap_or_else(self, f: Callable[[], T]):
-        return f()
+    def unwrap_or_else(self, f: Callable[[], T]) -> Option:
+        return Some(f())
 
     def map(self, f: Callable[[T], T]) -> "Option":
-        return None
+        return self
 
     def map_or(self, default: T, f: Callable[[T], T]) -> Option:
-        return default
+        return Some(default)
 
     def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> Option:
-        return default()
+        return Some(default())
 
     def iter(self) -> Iterator[T]:
-        return None
+        return iter([])
 
     def filter(self, predicate: Callable[[T], bool]) -> Option:
-        return None
+        return self
+
+    def _and(self, optb: Option) -> Option:
+        return Empty
+
+    def and_then(self, f: Callable[[T], Option]) -> Option:
+        return Empty
 
