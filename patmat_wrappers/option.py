@@ -41,7 +41,7 @@ class OptionProtocol(ABC):
         ...
 
     @abstractmethod
-    def map(self, f: Callable[[T], T]) -> "Option":
+    def map(self, f: Callable[[T], T]) -> Option:
         ...
 
     @abstractmethod
@@ -113,7 +113,7 @@ class Some(OptionProtocol):
     def unwrap_or_else(self, f: Callable[[], T]):
         return self.copy()
 
-    def map(self, f: Callable[[T], T]) -> "Option":
+    def map(self, f: Callable[[T], T]) -> Option:
         return Some(f(self.Value))
 
     def map_or(self, default: T, f: Callable[[T], T]) -> Option:
@@ -159,7 +159,7 @@ class Empty(OptionProtocol):
     def unwrap_or_else(self, f: Callable[[], T]) -> Option:
         return Some(f())
 
-    def map(self, f: Callable[[T], T]) -> "Option":
+    def map(self, f: Callable[[T], T]) -> Option:
         return self
 
     def map_or(self, default: T, f: Callable[[T], T]) -> Option:
