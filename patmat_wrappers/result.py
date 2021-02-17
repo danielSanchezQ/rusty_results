@@ -91,11 +91,11 @@ class ResultProtocol(ABC, Generic[T, E]):
         ...
 
     @abstractmethod
-    def expect_err(self, msg: str) -> E:
+    def unwrap_err(self) -> E:
         ...
 
     @abstractmethod
-    def unwrap_err(self) -> E:
+    def expect_err(self, msg: str) -> E:
         ...
 
     def __and__(self, other: Result) -> Result:
@@ -246,10 +246,8 @@ class Err(ResultProtocol):
     def expect(self, msg: str) -> T:
         raise UnwrapException(msg)
 
-    def expect_err(self, msg: str) -> E:
-        return self.Error
-
     def unwrap_err(self) -> E:
         return self.Error
 
-
+    def expect_err(self, msg: str) -> E:
+        return self.Error
