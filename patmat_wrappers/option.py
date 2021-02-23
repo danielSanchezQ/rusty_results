@@ -76,14 +76,49 @@ class OptionProtocol(ABC):
     def and_then(self, f: Callable[[T], Option]) -> Option:
         ...
 
+    @abstractmethod
+    def _or(self, optb: Option) -> Option:
+        ...
+
+    @abstractmethod
+    def or_else(self, f: Callable[[T], Option]) -> Option:
+        ...
+
+    @abstractmethod
+    def xor(self, optb: Option) -> Option:
+        ...
+
     def __and__(self, other: Option) -> Option:
         return self._and(other)
+
+    def __or__(self, other: Option) -> Option:
+        return self._or(other)
 
     def __contains__(self, item: T) -> bool:
         return self.contains(item)
 
     def __iter__(self):
         return self.iter()
+
+"""
+pub fn get_or_insert(&mut self, value: T) -> &mut Tⓘ
+pub fn get_or_insert_with<F>(&mut self, f: F) -> &mut Tⓘ
+pub fn take(&mut self) -> Option<T>
+pub fn replace(&mut self, value: T) -> Option<T>
+pub fn zip<U>(self, other: Option<U>) -> Option<(T, U)>
+pub fn zip_with<U, F, R>(self, other: Option<U>, f: F) -> Option<R>
+pub fn copied(self) -> Option<T>
+pub fn copied(self) -> Option<T>
+pub fn cloned(self) -> Option<T>
+pub fn cloned(self) -> Option<T>
+pub fn expect_none(self, msg: &str)
+pub fn unwrap_none(self)
+pub fn unwrap_or_default(self) -> T
+pub fn as_deref(&self) -> Option<&<T as Deref>::Target>
+pub fn as_deref_mut(&mut self) -> Option<&mut <T as Deref>::Target>
+pub fn transpose(self) -> Result<Option<T>, E>
+pub fn flatten(self) -> Option<T>
+"""
 
 
 @dataclass
@@ -134,6 +169,20 @@ class Some(OptionProtocol):
     def and_then(self, f: Callable[[T], Option]) -> Option:
         return f(self.Value)
 
+    def _or(self, optb: Option) -> Option:
+        return Some(self.Value)
+
+    def or_else(self, f: Callable[[T], Option]) -> Option:
+        return Some(self.Value)
+
+    def xor(self, optb: Option) -> Option:
+        """
+        Returns Some if exactly one of self, optb is Some, otherwise returns None.
+        Tengo dudas con este por eso pongo el comentario
+        """
+        return Some(self.Value)
+
+
 @dataclass
 class Empty(OptionProtocol):
     @property
@@ -180,3 +229,15 @@ class Empty(OptionProtocol):
     def and_then(self, f: Callable[[T], Option]) -> Option:
         return Empty
 
+    def _or(self, optb: Option) -> Option:
+        return optb
+
+    def or_else(self, f: Callable[[T], Option]) -> Option:
+        return f()
+
+    def xor(self, optb: Option) -> Option:
+        """
+        Returns Some if exactly one of self, optb is Some, otherwise returns None.
+        Tengo dudas con este por eso pongo el comentario
+        """
+        return Empty
