@@ -4,6 +4,8 @@ from typing import TypeVar, Union, Callable, Iterator
 
 
 T = TypeVar('T')
+U = TypeVar('U')
+R = TypeVar('R')
 
 
 Option = Union["Some", "Empty"]
@@ -88,6 +90,30 @@ class OptionProtocol(ABC):
     def xor(self, optb: Option) -> Option:
         ...
 
+    @abstractmethod
+    def zip(self, value: T) -> Option:
+        ...
+
+    @abstractmethod
+    def zip_with(self, other: Option, f: Callable[[T, U], R]) -> Option:
+        ...
+
+    @abstractmethod
+    def expect_none(self, msg: str):
+        ...
+
+    @abstractmethod
+    def unwrap_empty(self):
+        ...
+
+    @abstractmethod
+    def transpose(self) -> "Result":
+        ...
+
+    @abstractmethod
+    def flatten(self) -> Option:
+        ...
+
     def __and__(self, other: Option) -> Option:
         return self._and(other)
 
@@ -100,28 +126,8 @@ class OptionProtocol(ABC):
     def __iter__(self):
         return self.iter()
 
-"""
-pub fn get_or_insert(&mut self, value: T) -> &mut Tⓘ
-pub fn get_or_insert_with<F>(&mut self, f: F) -> &mut Tⓘ
-pub fn take(&mut self) -> Option<T>
-pub fn replace(&mut self, value: T) -> Option<T>
-pub fn zip<U>(self, other: Option<U>) -> Option<(T, U)>
-pub fn zip_with<U, F, R>(self, other: Option<U>, f: F) -> Option<R>
-pub fn copied(self) -> Option<T>
-pub fn copied(self) -> Option<T>
-pub fn cloned(self) -> Option<T>
-pub fn cloned(self) -> Option<T>
-pub fn expect_none(self, msg: &str)
-pub fn unwrap_none(self)
-pub fn unwrap_or_default(self) -> T
-pub fn as_deref(&self) -> Option<&<T as Deref>::Target>
-pub fn as_deref_mut(&mut self) -> Option<&mut <T as Deref>::Target>
-pub fn transpose(self) -> Result<Option<T>, E>
-pub fn flatten(self) -> Option<T>
-"""
 
-
-@dataclass
+@dataclass(eq=True, frozen=True)
 class Some(OptionProtocol):
     Value: T
 
@@ -161,7 +167,7 @@ class Some(OptionProtocol):
         return iter(self.Value)
 
     def filter(self, predicate: Callable[[T], bool]) -> Option:
-        return self.copy() if predicate(self.Value) else Empty
+        return self.copy() if predicate(self.Value) else Empty()
 
     def _and(self, optb: Option) -> Option:
         return optb
@@ -176,14 +182,35 @@ class Some(OptionProtocol):
         return Some(self.Value)
 
     def xor(self, optb: Option) -> Option:
-        """
-        Returns Some if exactly one of self, optb is Some, otherwise returns None.
-        Tengo dudas con este por eso pongo el comentario
-        """
-        return Some(self.Value)
+        return Some(self.Value) if optb.is_empty else Empty()
+
+    def zip(self, other: Option) -> Option:
+        if other.is_some:
+            return Some((self.Value, other.Value))
+
+        return Empty()
+
+    def zip_with(self, other: Option, f: Callable[[T, U], R]) -> Option:
+        if other.is_some:
+            return Some(f(self.Value, other.Value))
+
+        return Empty()
+
+    def expect_none(self, msg: str):
+        # TODO: Use a better exception
+        raise Exception(msg)
+
+    def unwrap_empty(self):
+        return self.expect_none()
+
+    def transpose(self) -> "Result":
+        ...
+
+    def flatten(self) -> Option:
+        ...
 
 
-@dataclass
+@dataclass(eq=True, frozen=True)
 class Empty(OptionProtocol):
     @property
     def is_some(self) -> bool:
@@ -224,10 +251,10 @@ class Empty(OptionProtocol):
         return self
 
     def _and(self, optb: Option) -> Option:
-        return Empty
+        return Empty()
 
     def and_then(self, f: Callable[[T], Option]) -> Option:
-        return Empty
+        return Empty()
 
     def _or(self, optb: Option) -> Option:
         return optb
@@ -236,8 +263,23 @@ class Empty(OptionProtocol):
         return f()
 
     def xor(self, optb: Option) -> Option:
-        """
-        Returns Some if exactly one of self, optb is Some, otherwise returns None.
-        Tengo dudas con este por eso pongo el comentario
-        """
-        return Empty
+        return optb if optb.is_some else Empty()
+
+    def zip(self, value: T) -> Option:
+        return Empty()
+
+    def zip_with(self, other: Option, f: Callable[[T, U], R]) -> Option:
+        return Empty()
+
+    def expect_none(self, msg: str):
+        return Empty()
+
+    def unwrap_empty(self):
+        return self.expect_none()
+
+    def transpose(self) -> "Result":
+        ...
+
+    def flatten(self) -> Option:
+        ...
+
