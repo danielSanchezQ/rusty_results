@@ -125,17 +125,3 @@ def test_some_copy():
     some, value = create_some()
     assert some.copy() == some
     assert some.copy().Value == value
-
-
-def test_option_and():
-    assert (Some(5) and Some(10)) == Some(10)
-    assert (Some(5) and Empty) == Empty
-    assert (Empty and Empty) == Empty
-    assert (Empty and Some(10)) == Empty
-
-
-def test_option_or():
-    assert (Some(5) and Some(10)) == Some(10)
-    assert (Some(5) and Empty) == Some(5)
-    assert (Empty and Empty) == Empty
-    assert (Empty and Some(10)) == Some(10)

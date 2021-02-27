@@ -160,6 +160,12 @@ class Some(OptionProtocol):
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
         return self.copy() if predicate(self.Value) else Empty()
 
+    def ok_or(self, err: Exception) -> "Result":
+        ...
+
+    def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
+        ...
+
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
         return f(self.Value)
 
@@ -240,6 +246,12 @@ class Empty(OptionProtocol):
 
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
         return self.copy()
+
+    def ok_or(self, err: Exception) -> "Result":
+        ...
+
+    def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
+        ...
 
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
         return Empty()
