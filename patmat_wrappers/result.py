@@ -4,14 +4,17 @@ from typing import TypeVar, Union, Callable, Generic, Iterator
 from patmat_wrappers.option import Option, Some, Empty
 from patmat_wrappers.exceptions import UnwrapException
 
+# base inner type generic
 T = TypeVar('T')
-U = TypeVar('U')
+# base error type generic
 E = TypeVar('E')
+# generic callable args for T -> U, E -> U
+U = TypeVar('U')
 
-Result = Union["Ok", "Err"]
+Result = Union["Ok[T]", "Err[E]"]
 
 
-class ResultProtocol(ABC, Generic[T, E]):
+class ResultProtocol(ABC):
     @property
     @abstractmethod
     def is_ok(self) -> bool:
@@ -112,7 +115,7 @@ class ResultProtocol(ABC, Generic[T, E]):
 
 
 @dataclass
-class Ok(ResultProtocol):
+class Ok(Generic[T], ResultProtocol):
     Value: T
 
     @property
@@ -184,7 +187,7 @@ class Ok(ResultProtocol):
 
 
 @dataclass
-class Err(ResultProtocol):
+class Err(Generic[E], ResultProtocol):
     Error: E
 
     @property
