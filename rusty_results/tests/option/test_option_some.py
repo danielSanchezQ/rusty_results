@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pytest
 
-from patmat_wrappers.prelude import *
+from rusty_results.prelude import *
 
 
 def create_some(value: int = 10) -> Tuple[Some[int], int]:

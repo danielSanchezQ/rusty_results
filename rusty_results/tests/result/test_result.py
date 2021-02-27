@@ -1,5 +1,5 @@
 import pytest
-from patmat_wrappers.prelude import *
+from rusty_results.prelude import *
 
 
 def test_result_eq():

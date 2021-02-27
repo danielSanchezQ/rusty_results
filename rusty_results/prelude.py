@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TypeVar, Union, Callable, Generic, Iterator
-from patmat_wrappers.exceptions import UnwrapException
+from typing import TypeVar, Union, Callable, Generic, Iterator, Tuple
+from rusty_results.exceptions import UnwrapException
 
 # base inner type generic
 T = TypeVar('T')
@@ -12,7 +12,7 @@ U = TypeVar('U')
 R = TypeVar('R')
 
 
-class OptionProtocol(ABC):
+class OptionProtocol(Generic[T]):
     @property
     @abstractmethod
     def is_some(self) -> bool:
@@ -115,7 +115,7 @@ class OptionProtocol(ABC):
 
 
 @dataclass(eq=True, frozen=True)
-class Some(Generic[T], OptionProtocol):
+class Some(Generic[T]):
     Value: T
 
     @property
@@ -171,15 +171,19 @@ class Some(Generic[T], OptionProtocol):
     def xor(self, optb: "Option[T]") -> "Option[T]":
         return self.copy() if optb.is_empty else Empty()
 
-    def zip(self, other: "Option[T]") -> "Option[T]":
+    def zip(self, other: "Option[U]") -> "Option[Tuple[T, U]]":
         if other.is_some:
-            return Some((self.Value, other.Value))
+            # function typing is correct, we really return an Option[Tuple] but mypy complains that
+            # other may not have a Value attribute because it do not understand the previous line check.
+            return Some((self.Value, other.Value))  # type: ignore
 
         return Empty()
 
     def zip_with(self, other: "Option[T]", f: Callable[[T, U], R]) -> "Option[R]":
         if other.is_some:
-            return Some(f(self.Value, other.Value))
+            # function typing is correct, we really return an Option[Tuple] but mypy complains that
+            # other may not have a Value attribute because it do not understand the previous line check.
+            return Some(f(self.Value, other.Value))  # type: ignore
 
         return Empty()
 
@@ -273,7 +277,7 @@ class Empty(OptionProtocol):
 Option = Union[Some[T], Empty]
 
 
-class ResultProtocol(ABC):
+class ResultProtocol(Generic[T, E]):
     @property
     @abstractmethod
     def is_ok(self) -> bool:
@@ -313,7 +317,7 @@ class ResultProtocol(ABC):
         ...
 
     @abstractmethod
-    def map_err(self, f: Callable[[E], U]) -> "Result[U, E]":
+    def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
         ...
 
     @abstractmethod
@@ -368,7 +372,7 @@ class ResultProtocol(ABC):
 
 
 @dataclass(eq=True, frozen=True)
-class Ok(Generic[T], ResultProtocol):
+class Ok(ResultProtocol[T, E]):
     Value: T
 
     @property
@@ -391,7 +395,7 @@ class Ok(Generic[T], ResultProtocol):
     def err(self) -> Option:
         return Empty()
 
-    def map(self, f: Callable[[T], U]) -> "Result[T, E]":
+    def map(self, f: Callable[[T], U]) -> "Result[U, E]":
         return Ok(f(self.Value))
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
@@ -401,7 +405,9 @@ class Ok(Generic[T], ResultProtocol):
         return f(self.Value)
 
     def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
-        return self
+        # Type ignored here. It complains that we do not transform error to U (E -> U)
+        # since we do not really have an error, generic type remains the same.
+        return self  # type: ignore
 
     def iter(self) -> Iterator[T]:
         def _iter():
@@ -418,7 +424,9 @@ class Ok(Generic[T], ResultProtocol):
         return self or res
 
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
-        return self
+        # Type ignored here. It complains that we do not transform error to U (E -> U)
+        # since we do not really have an error, generic type remains the same.
+        return self  # type: ignore
 
     def unwrap(self) -> T:
         return self.Value
@@ -446,7 +454,7 @@ class Ok(Generic[T], ResultProtocol):
 
 
 @dataclass(eq=True, frozen=True)
-class Err(Generic[E], ResultProtocol):
+class Err(ResultProtocol[T, E]):
     Error: E
 
     @property
@@ -482,7 +490,7 @@ class Err(Generic[E], ResultProtocol):
         return Err(f(self.Error))
 
     def iter(self) -> Iterator[T]:
-        return iter(e for e in tuple())
+        return iter(tuple())
 
     def _and(self, res: "Result[T, E]") -> "Result[T, E]":
         return self and res
@@ -521,4 +529,4 @@ class Err(Generic[E], ResultProtocol):
         return False
 
 
-Result = Union[Ok[T], Err[E]]
+Result = Union[Ok[T, E], Err[T, E]]

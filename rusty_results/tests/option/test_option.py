@@ -1,4 +1,4 @@
-from patmat_wrappers.prelude import *
+from rusty_results.prelude import *
 
 
 def test_option_and():
