@@ -1,6 +1,6 @@
 import pytest
 
-from ..option import *
+from option import *
 
 
 def create_empty() -> Empty:

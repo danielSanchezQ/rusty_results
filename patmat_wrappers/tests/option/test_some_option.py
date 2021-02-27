@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pytest
 
-from ..option import *
+from option import *
 
 
 def create_some(value: int = 10) -> Tuple[Some[int], int]:
