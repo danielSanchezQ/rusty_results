@@ -61,10 +61,6 @@ class ResultProtocol(ABC):
         ...
 
     @abstractmethod
-    def _and(self, res: "Result[T, E]") -> "Result[T, E]":
-        ...
-
-    @abstractmethod
     def and_then(self, op: Callable[[T], "Result[T, E]"]) -> "Result[T, E]":
         ...
 
@@ -100,11 +96,9 @@ class ResultProtocol(ABC):
     def expect_err(self, msg: str) -> E:
         ...
 
-    def __and__(self, other: "Result[T, E]") -> "Result[T, E]":
-        return self._and(other)
-
-    def __or__(self, other: "Result[T, E]") -> "Result[T, E]":
-        return self._or(other)
+    @abstractmethod
+    def __bool__(self) -> bool:
+        ...
 
     def __contains__(self, item: T) -> bool:
         return self.contains(item)
@@ -155,13 +149,13 @@ class Ok(Generic[T], ResultProtocol):
         return iter(_iter())
 
     def _and(self, res: "Result[T, E]") -> "Result[T, E]":
-        return res
+        return self and res
 
     def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
         return op(self.Value)
 
     def _or(self, res: "Result[T, E]") -> "Result[T, E]":
-        return self
+        return self or res
 
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         return self
@@ -186,6 +180,9 @@ class Ok(Generic[T], ResultProtocol):
 
     def __repr__(self):
         return f"Ok({self.Value})"
+
+    def __bool__(self):
+        return True
 
 
 @dataclass(eq=True, frozen=True)
@@ -228,13 +225,13 @@ class Err(Generic[E], ResultProtocol):
         return iter(e for e in tuple())
 
     def _and(self, res: "Result[T, E]") -> "Result[T, E]":
-        return self
+        return self and res
 
     def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
         return self
 
     def _or(self, res: "Result[T, E]") -> "Result[T, E]":
-        return res
+        return self or res
 
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         return Err(op(self.Error))
@@ -259,6 +256,9 @@ class Err(Generic[E], ResultProtocol):
 
     def __repr__(self):
         return f"Err({self.Error})"
+
+    def __bool__(self):
+        return False
 
 
 Result = Union[Ok[T], Err[E]]

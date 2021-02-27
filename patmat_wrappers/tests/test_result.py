@@ -1,3 +1,4 @@
+import pytest
 from patmat_wrappers.result import *
 
 
@@ -179,3 +180,121 @@ def test_ok_iter():
 def test_err_iter():
     err: Result[int, int] = Err(0)
     assert list(err) == []
+
+
+def test_result_and():
+    assert (Ok(0) and Ok(1)) == Ok(1)
+    assert (Ok(0) and Err(0)) == Err(0)
+    assert (Err(0) and Err(1)) == Err(0)
+    assert (Err(0) and Ok(1)) == Err(0)
+
+
+def test_ok_and_then():
+    ok: Result[int, int] = Ok(0)
+
+    def op(x: int) -> Result[int, int]:
+        return Ok(x+10)
+
+    assert ok.and_then(op) == Ok(10)
+
+
+def test_err_and_then():
+    err: Result[int, int] = Err(0)
+
+    def op(x: int) -> Result[int, int]:
+        return Ok(x+10)
+
+    assert err.and_then(op) == err
+
+
+def test_result_or():
+    assert (Ok(0) or Ok(1)) == Ok(0)
+    assert (Ok(0) or Err(0)) == Ok(0)
+    assert (Err(0) or Err(1)) == Err(1)
+    assert (Err(0) or Ok(1)) == Ok(1)
+
+
+def test_ok_or_else():
+    ok: Result[int, int] = Ok(0)
+
+    def op(e: int) -> int:
+        return e+10
+
+    assert ok.or_else(op) == ok
+
+
+def test_err_or_else():
+    err: Result[int, int] = Err(0)
+
+    def op(e: int) -> int:
+        return e+10
+
+    assert err.or_else(op) == Err(10)
+
+
+def test_ok_unwrap():
+    ok: Result[int, int] = Ok(0)
+    assert ok.unwrap() == 0
+
+
+def test_err_unwrap():
+    err: Result[int, int] = Err(0)
+    with pytest.raises(UnwrapException):
+        err.unwrap()
+
+
+def test_ok_unwrap_or():
+    ok: Result[int, int] = Ok(0)
+    assert ok.unwrap_or(1) == 0
+
+
+def test_err_unwrap_or():
+    err: Result[int, int] = Err(0)
+    assert err.unwrap_or(1) == 1
+
+
+def test_ok_unwrap_or_else():
+    ok: Result[int, int] = Ok(0)
+    assert ok.unwrap_or_else(lambda: 1) == 0
+
+
+def test_err_unwrap_or_else():
+    err: Result[int, int] = Err(0)
+    assert err.unwrap_or_else(lambda: 1) == 1
+
+
+def test_ok_expect():
+    ok: Result[int, int] = Ok(0)
+    assert ok.expect("foo") == 0
+
+
+def test_err_expect():
+    exception_msg = "foo"
+    err: Result[int, int] = Err(0)
+    with pytest.raises(UnwrapException) as e:
+        err.expect(exception_msg)
+    assert str(e.value) == exception_msg
+
+
+def test_ok_unwrap_err():
+    ok: Result[int, int] = Ok(0)
+    with pytest.raises(UnwrapException):
+        ok.unwrap_err()
+
+
+def test_err_unwrap_err():
+    err: Result[int, int] = Err(0)
+    assert err.unwrap_err() == 0
+
+
+def test_ok_expect_err():
+    exception_msg = "foo"
+    ok: Result[int, int] = Ok(0)
+    with pytest.raises(UnwrapException) as e:
+        ok.expect_err(exception_msg)
+    assert str(e.value) == exception_msg
+
+
+def test_err_expect_err():
+    err: Result[int, int] = Err(0)
+    assert err.expect_err("foo") == 0
