@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from hashlib import blake2b
 from dataclasses import dataclass
 from typing import TypeVar, Union, Callable, Generic, Iterator
 from patmat_wrappers.option import Option, Some, Empty
@@ -112,7 +113,7 @@ class ResultProtocol(ABC):
         return self.iter()
 
 
-@dataclass
+@dataclass(eq=True, frozen=True)
 class Ok(Generic[T], ResultProtocol):
     Value: T
 
@@ -140,10 +141,10 @@ class Ok(Generic[T], ResultProtocol):
         return Ok(f(self.Value))
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
-        return self.map(f)
+        return f(self.Value)
 
     def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -> U:
-        return self.map(f)
+        return f(self.Value)
 
     def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
         return self
@@ -183,8 +184,11 @@ class Ok(Generic[T], ResultProtocol):
     def expect_err(self, msg: str) -> E:
         raise UnwrapException(msg)
 
+    def __repr__(self):
+        return f"Ok({self.Value})"
 
-@dataclass
+
+@dataclass(eq=True, frozen=True)
 class Err(Generic[E], ResultProtocol):
     Error: E
 
@@ -252,6 +256,9 @@ class Err(Generic[E], ResultProtocol):
 
     def expect_err(self, msg: str) -> E:
         return self.Error
+
+    def __repr__(self):
+        return f"Err({self.Error})"
 
 
 Result = Union[Ok[T], Err[E]]
