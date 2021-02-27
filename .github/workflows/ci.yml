@@ -29,4 +29,4 @@ jobs:
       - name: Run tests with pytest
         run: pytest
       - name: Run mypy on result.py
-        run: python -m mypy rusty_results/prelude.py
+        run: mypy rusty_results/prelude.py
