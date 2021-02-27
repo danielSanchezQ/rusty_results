@@ -11,8 +11,6 @@ E = TypeVar('E')
 # generic callable args for T -> U, E -> U
 U = TypeVar('U')
 
-Result = Union["Ok[T]", "Err[E]"]
-
 
 class ResultProtocol(ABC):
     @property
@@ -42,7 +40,7 @@ class ResultProtocol(ABC):
         ...
 
     @abstractmethod
-    def map(self, f: Callable[[T], U]) -> Result:
+    def map(self, f: Callable[[T], U]) -> "Result[U, E]":
         ...
 
     @abstractmethod
@@ -54,7 +52,7 @@ class ResultProtocol(ABC):
         ...
 
     @abstractmethod
-    def map_err(self, f: Callable[[E], U]) -> Result:
+    def map_err(self, f: Callable[[E], U]) -> "Result[U, E]":
         ...
 
     @abstractmethod
@@ -62,19 +60,19 @@ class ResultProtocol(ABC):
         ...
 
     @abstractmethod
-    def _and(self, res: Result) -> Result:
+    def _and(self, res: "Result[T, E]") -> "Result[T, E]":
         ...
 
     @abstractmethod
-    def and_then(self, op: Callable[[T], Result]) -> Result:
+    def and_then(self, op: Callable[[T], "Result[T, E]"]) -> "Result[T, E]":
         ...
 
     @abstractmethod
-    def _or(self, res: Result) -> Result:
+    def _or(self, res: "Result[T, E]") -> "Result[T, E]":
         ...
 
     @abstractmethod
-    def or_else(self, op: Callable[[E], U]) -> Result:
+    def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         ...
 
     @abstractmethod
@@ -101,10 +99,10 @@ class ResultProtocol(ABC):
     def expect_err(self, msg: str) -> E:
         ...
 
-    def __and__(self, other: Result) -> Result:
+    def __and__(self, other: "Result[T, E]") -> "Result[T, E]":
         return self._and(other)
 
-    def __or__(self, other: Result) -> Result:
+    def __or__(self, other: "Result[T, E]") -> "Result[T, E]":
         return self._or(other)
 
     def __contains__(self, item: T) -> bool:
@@ -138,7 +136,7 @@ class Ok(Generic[T], ResultProtocol):
     def err(self) -> Option:
         return Empty()
 
-    def map(self, f: Callable[[T], U]) -> Result:
+    def map(self, f: Callable[[T], U]) -> "Result[T, E]":
         return Ok(f(self.Value))
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
@@ -147,7 +145,7 @@ class Ok(Generic[T], ResultProtocol):
     def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -> U:
         return self.map(f)
 
-    def map_err(self, f: Callable[[E], U]) -> Result:
+    def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
         return self
 
     def iter(self) -> Iterator[T]:
@@ -155,16 +153,16 @@ class Ok(Generic[T], ResultProtocol):
             yield self.Value
         return iter(_iter())
 
-    def _and(self, res: Result) -> Result:
+    def _and(self, res: "Result[T, E]") -> "Result[T, E]":
         return res
 
-    def and_then(self, op: Callable[[T], Result]) -> Result:
+    def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
         return op(self.Value)
 
-    def _or(self, res: Result) -> Result:
+    def _or(self, res: "Result[T, E]") -> "Result[T, E]":
         return self
 
-    def or_else(self, op: Callable[[E], U]) -> Result:
+    def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         return self
 
     def unwrap(self) -> T:
@@ -210,7 +208,7 @@ class Err(Generic[E], ResultProtocol):
     def err(self) -> Option:
         return Some(self.Error)
 
-    def map(self, f: Callable[[T], U]) -> Result:
+    def map(self, f: Callable[[T], U]) -> "Result[U, E]":
         return self
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
@@ -219,22 +217,22 @@ class Err(Generic[E], ResultProtocol):
     def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -> U:
         return default(self.Error)
 
-    def map_err(self, f: Callable[[E], U]) -> Result:
+    def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
         return Err(f(self.Error))
 
     def iter(self) -> Iterator[T]:
         return iter(e for e in tuple())
 
-    def _and(self, res: Result) -> Result:
+    def _and(self, res: "Result[T, E]") -> "Result[T, E]":
         return self
 
-    def and_then(self, op: Callable[[T], Result]) -> Result:
+    def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
         return self
 
-    def _or(self, res: Result) -> Result:
+    def _or(self, res: "Result[T, E]") -> "Result[T, E]":
         return res
 
-    def or_else(self, op: Callable[[E], U]) -> Result:
+    def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         return Err(op(self.Error))
 
     def unwrap(self) -> T:
@@ -254,3 +252,6 @@ class Err(Generic[E], ResultProtocol):
 
     def expect_err(self, msg: str) -> E:
         return self.Error
+
+
+Result = Union[Ok[T], Err[E]]
