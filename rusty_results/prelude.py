@@ -151,7 +151,9 @@ class Some(Generic[T]):
         return Some(f(self.Value))
 
     def iter(self) -> Iterator[T]:
-        return iter(self.Value)
+        def _iter():
+            yield self.Value
+        return iter(_iter())
 
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
         return self.copy() if predicate(self.Value) else Empty()
@@ -179,7 +181,7 @@ class Some(Generic[T]):
 
         return Empty()
 
-    def zip_with(self, other: "Option[T]", f: Callable[[T, U], R]) -> "Option[R]":
+    def zip_with(self, other: "Option[U]", f: Callable[[T, U], R]) -> "Option[R]":
         if other.is_some:
             # function typing is correct, we really return an Option[Tuple] but mypy complains that
             # other may not have a Value attribute because it do not understand the previous line check.
@@ -478,7 +480,8 @@ class Err(ResultProtocol[T, E]):
         return Some(self.Error)
 
     def map(self, f: Callable[[T], U]) -> "Result[U, E]":
-        return self
+        # Type ignored here. In this case U is the same type as T, but mypy cannot understand that match.
+        return self  # type: ignore
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
         return default
@@ -496,7 +499,8 @@ class Err(ResultProtocol[T, E]):
         return self and res
 
     def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
-        return self
+        # Type ignored here. In this case U is the same type as T, but mypy cannot understand that match.
+        return self  # type: ignore
 
     def _or(self, res: "Result[T, E]") -> "Result[T, E]":
         return self or res
