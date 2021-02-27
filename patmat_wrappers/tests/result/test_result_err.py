@@ -21,13 +21,13 @@ def test_err_contains():
 
 
 def test_err_ok():
-    # TODO: implement when Option is finished
     err: Result[int, int] = Err(0)
+    assert err.ok() == Empty()
 
 
 def test_err_err():
-    # TODO: implement when Option is finished
     err: Result[int, int] = Err(0)
+    assert  err.err() == Some(0)
 
 
 def test_err_map():

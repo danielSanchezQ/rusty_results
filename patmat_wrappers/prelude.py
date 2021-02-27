@@ -92,19 +92,11 @@ class OptionProtocol(ABC):
         ...
 
     @abstractmethod
-    def expect_none(self, msg: str):
+    def expect_empty(self, msg: str):
         ...
 
     @abstractmethod
     def unwrap_empty(self):
-        ...
-
-    @abstractmethod
-    def transpose(self) -> "Result[T, E]":
-        ...
-
-    @abstractmethod
-    def flatten(self) -> "Option[T]":
         ...
 
     @abstractmethod
@@ -164,11 +156,11 @@ class Some(Generic[T], OptionProtocol):
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
         return self.copy() if predicate(self.Value) else Empty()
 
-    def ok_or(self, err: Exception) -> "Result":
-        ...
+    def ok_or(self, err: E) -> "Result":
+        return Ok(self.Value)
 
-    def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
-        ...
+    def ok_or_else(self, f: Callable[[], E]) -> "Result":
+        return Ok(self.Value)
 
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
         return f(self.Value)
@@ -191,18 +183,11 @@ class Some(Generic[T], OptionProtocol):
 
         return Empty()
 
-    def expect_none(self, msg: str):
-        # TODO: Use a better exception
-        raise Exception(msg)
+    def expect_empty(self, msg: str):
+        raise UnwrapException(msg)
 
     def unwrap_empty(self):
-        self.expect_none("")
-
-    def transpose(self) -> "Result":
-        ...
-
-    def flatten(self) -> "Option[T]":
-        ...
+        self.expect_empty("")
 
     def copy(self) -> "Option[T]":
         return Some(self.Value)
@@ -251,11 +236,11 @@ class Empty(OptionProtocol):
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
         return self
 
-    def ok_or(self, err: Exception) -> "Result":
-        ...
+    def ok_or(self, err: E) -> "Result":
+        return Err(err)
 
-    def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
-        ...
+    def ok_or_else(self, f: Callable[[], E]) -> "Result":
+        return Err(f())
 
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
         return self
@@ -272,16 +257,10 @@ class Empty(OptionProtocol):
     def zip_with(self, other: "Option[U]", f: Callable[[T, U], R]) -> "Option[R]":
         return Empty()
 
-    def expect_none(self, msg: str):
+    def expect_empty(self, msg: str):
         ...
 
     def unwrap_empty(self):
-        ...
-
-    def transpose(self) -> "Result":
-        ...
-
-    def flatten(self) -> "Option[T]":
         ...
 
     def copy(self) -> "Option[T]":

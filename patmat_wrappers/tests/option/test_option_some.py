@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pytest
 
-from option import *
+from patmat_wrappers.prelude import *
 
 
 def create_some(value: int = 10) -> Tuple[Some[int], int]:
@@ -120,13 +120,13 @@ def test_some_zip_with():
 def test_some_expect_none():
     some, value = create_some()
     with pytest.raises(Exception):
-        some.expect_none("")
+        some.expect_empty("")
 
 
 def test_some_unwrap_empty():
     some, value = create_some()
     with pytest.raises(Exception):
-        some.expect_none("")
+        some.expect_empty("")
 
 
 def test_some_copy():
