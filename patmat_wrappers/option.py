@@ -4,9 +4,8 @@ from typing import TypeVar, Union, Callable, Iterator
 
 
 T = TypeVar('T')
-
-
-Option = Union["Some", "Empty"]
+U = TypeVar('U')
+R = TypeVar('R')
 
 
 class OptionProtocol(ABC):
@@ -37,19 +36,27 @@ class OptionProtocol(ABC):
         ...
 
     @abstractmethod
-    def unwrap_or_else(self, f: Callable[[], T]):
+    def unwrap_or_else(self, f: Callable[[], T]) -> T:
         ...
 
     @abstractmethod
-    def map(self, f: Callable[[T], T]) -> "Option":
+    def map(self, f: Callable[[T], T]) -> "Option[T]":
         ...
 
     @abstractmethod
-    def map_or(self, default: T, f: Callable[[T], T]) -> Option:
+    def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
         ...
 
     @abstractmethod
-    def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> Option:
+    def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> "Option[T]":
+        ...
+
+    @abstractmethod
+    def iter(self) -> Iterator[T]:
+        ...
+
+    @abstractmethod
+    def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
         ...
 
     @abstractmethod
@@ -61,11 +68,47 @@ class OptionProtocol(ABC):
         ...
 
     @abstractmethod
-    def iter(self) -> Iterator[T]:
+    def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
         ...
 
     @abstractmethod
-    def filter(self, predicate: Callable[[T], bool]) -> Option:
+    def or_else(self, f: Callable[[], "Option[T]"]) -> "Option[T]":
+        ...
+
+    @abstractmethod
+    def xor(self, optb: "Option[T]") -> "Option[T]":
+        ...
+
+    @abstractmethod
+    def zip(self, value: T) -> "Option[T]":
+        ...
+
+    @abstractmethod
+    def zip_with(self, other: "Option[T]", f: Callable[[T, U], R]) -> "Option[R]":
+        ...
+
+    @abstractmethod
+    def expect_none(self, msg: str):
+        ...
+
+    @abstractmethod
+    def unwrap_empty(self):
+        ...
+
+    @abstractmethod
+    def transpose(self) -> "Result":
+        ...
+
+    @abstractmethod
+    def flatten(self) -> "Option[T]":
+        ...
+
+    @abstractmethod
+    def copy(self) -> "Option[T]":
+        ...
+
+    @abstractmethod
+    def __bool__(self) -> bool:
         ...
 
     def __contains__(self, item: T) -> bool:
@@ -75,11 +118,173 @@ class OptionProtocol(ABC):
         return self.iter()
 
 
-@dataclass
+@dataclass(eq=True, frozen=True)
 class Some(OptionProtocol):
     Value: T
 
+    @property
+    def is_some(self) -> bool:
+        return True
 
-@dataclass
+    @property
+    def is_empty(self) -> bool:
+        return False
+
+    def contains(self, item: T) -> bool:
+        return item == self.Value
+
+    def expects(self, msg: str) -> T:
+        return self.Value
+
+    def unwrap(self) -> T:
+        return self.Value
+
+    def unwrap_or(self, default: T) -> T:
+        return self.Value
+
+    def unwrap_or_else(self, f: Callable[[], T]) -> T:
+        return self.Value
+
+    def map(self, f: Callable[[T], T]) -> "Option[T]":
+        return Some(f(self.Value))
+
+    def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
+        return Some(f(self.Value))
+
+    def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> "Option[T]":
+        return Some(f(self.Value))
+
+    def iter(self) -> Iterator[T]:
+        return iter(self.Value)
+
+    def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
+        return self.copy() if predicate(self.Value) else Empty()
+
+    def ok_or(self, err: Exception) -> "Result":
+        ...
+
+    def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
+        ...
+
+    def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
+        return f(self.Value)
+
+    def or_else(self, f: Callable[[], "Option[T]"]) -> "Option[T]":
+        return self.copy()
+
+    def xor(self, optb: "Option[T]") -> "Option[T]":
+        return self.copy() if optb.is_empty else Empty()
+
+    def zip(self, other: "Option[T]") -> "Option[T]":
+        if other.is_some:
+            return Some((self.Value, other.Value))
+
+        return Empty()
+
+    def zip_with(self, other: "Option[T]", f: Callable[[T, U], R]) -> "Option[R]":
+        if other.is_some:
+            return Some(f(self.Value, other.Value))
+
+        return Empty()
+
+    def expect_none(self, msg: str):
+        # TODO: Use a better exception
+        raise Exception(msg)
+
+    def unwrap_empty(self):
+        self.expect_none("")
+
+    def transpose(self) -> "Result":
+        ...
+
+    def flatten(self) -> "Option[T]":
+        ...
+
+    def copy(self) -> "Option[T]":
+        return Some(self.Value)
+
+    def __bool__(self) -> bool:
+        return True
+
+
+@dataclass(eq=True, frozen=True)
 class Empty(OptionProtocol):
-    ...
+    @property
+    def is_some(self) -> bool:
+        return False
+
+    @property
+    def is_empty(self) -> bool:
+        return True
+
+    def contains(self, item: T) -> bool:
+        return False
+
+    def expects(self, msg: str) -> T:
+        raise Exception(msg)
+
+    def unwrap(self) -> T:
+        raise Exception()
+
+    def unwrap_or(self, default: T) -> T:
+        return default
+
+    def unwrap_or_else(self, f: Callable[[], T]) -> T:
+        return f()
+
+    def map(self, f: Callable[[T], T]) -> "Option[T]":
+        return self.copy()
+
+    def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
+        return Some(default)
+
+    def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> "Option[T]":
+        return Some(default())
+
+    def iter(self) -> Iterator[T]:
+        return iter([])
+
+    def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
+        return self.copy()
+
+    def ok_or(self, err: Exception) -> "Result":
+        ...
+
+    def ok_or_else(self, f: Callable[[], Exception]) -> "Result":
+        ...
+
+    def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
+        return Empty()
+
+    def or_else(self, f: Callable[[], "Option[T]"]) -> "Option[T]":
+        return f()
+
+    def xor(self, optb: "Option[T]") -> "Option[T]":
+        return optb if optb.is_some else Empty()
+
+    def zip(self, value: T) -> "Option[T]":
+        return Empty()
+
+    def zip_with(self, other: "Option[U]", f: Callable[[T, U], R]) -> "Option[R]":
+        return Empty()
+
+    def expect_none(self, msg: str):
+        ...
+
+    def unwrap_empty(self):
+        ...
+
+    def transpose(self) -> "Result":
+        ...
+
+    def flatten(self) -> "Option[T]":
+        ...
+
+    def copy(self) -> "Option[T]":
+        return Empty()
+
+    def __bool__(self) -> bool:
+        return False
+
+
+Option = Union[Some[T], Empty]
