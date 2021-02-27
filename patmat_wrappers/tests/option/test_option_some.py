@@ -80,6 +80,14 @@ def test_some_filter():
     assert some.filter(predicate=lambda x: False) == Empty()
 
 
+def test_some_ok_or():
+    ...
+
+
+def test_some_ok_or_else():
+    ...
+
+
 def test_some_and_then():
     some, value = create_some()
     assert some.and_then(lambda x: Some(x + 5)).Value == value + 5
@@ -125,3 +133,11 @@ def test_some_copy():
     some, value = create_some()
     assert some.copy() == some
     assert some.copy().Value == value
+
+
+def test_some_transpose():
+    ...
+
+
+def test_some_flatten():
+    ...

@@ -75,6 +75,14 @@ def test_empty_filter():
     assert empty.filter(lambda x: False) == empty
 
 
+def test_empty_ok_or():
+    ...
+
+
+def test_empty_ok_or_else():
+    ...
+
+
 def test_empty_and_then():
     empty = create_empty()
     assert empty.and_then(lambda x: Some(4)) == empty
@@ -110,3 +118,11 @@ def test_empty_expect_none():
 def test_empty_unwrap_empty():
     empty = create_empty()
     empty.unwrap_empty()
+
+
+def test_empty_transpose():
+    ...
+
+
+def test_empty_flatten():
+    ...
