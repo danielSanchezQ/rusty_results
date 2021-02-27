@@ -17,12 +17,12 @@ def test_empty_contains():
 
 def test_empty_expects():
     with pytest.raises(Exception):
-        empty.expects("")
+        Empty().expects("")
 
 
 def test_empty_unwrap():
     with pytest.raises(Exception):
-        empty.expects()
+        Empty().expects()
 
 
 def test_empty_unwrap_or():
@@ -46,8 +46,7 @@ def test_empty_map_or_else():
 
 
 def test_empty_iter():
-    empty = create_empty()
-    assert empty.iter() == iter([])
+    assert list(Empty().iter()) == list(iter([]))
 
 
 def test_empty_filter():
@@ -56,7 +55,7 @@ def test_empty_filter():
 
 
 def test_empty_ok_or():
-    ...
+    assert Empty().ok_or(0) == Err(0)
 
 
 def test_empty_ok_or_else():

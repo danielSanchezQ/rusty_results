@@ -70,7 +70,7 @@ def test_some_map_or_else():
 
 def test_some_iter():
     some, value = create_some()
-    assert some.iter() == iter([10])
+    assert list(some.iter()) == [10]
 
 
 def test_some_filter():
@@ -81,11 +81,13 @@ def test_some_filter():
 
 
 def test_some_ok_or():
-    ...
+    some, value = create_some()
+    assert some.ok_or(0) == Ok(10)
 
 
 def test_some_ok_or_else():
-    ...
+    some, value = create_some()
+    assert some.ok_or_else(lambda: 0) == Ok(10)
 
 
 def test_some_and_then():
@@ -133,11 +135,3 @@ def test_some_copy():
     some, value = create_some()
     assert some.copy() == some
     assert some.copy().Value == value
-
-
-def test_some_transpose():
-    ...
-
-
-def test_some_flatten():
-    ...
