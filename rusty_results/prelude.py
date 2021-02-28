@@ -254,10 +254,10 @@ class Some(Generic[T]):
     def map(self, f: Callable[[T], U]) -> "Option[U]":
         return Some(f(self.Value))
 
-    def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
+    def map_or(self, default: U, f: Callable[[T], U]) -> "Option[U]":
         return Some(f(self.Value))
 
-    def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> "Option[T]":
+    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> "Option[U]":
         return Some(f(self.Value))
 
     def iter(self) -> Iterator[T]:
@@ -266,22 +266,22 @@ class Some(Generic[T]):
         return iter(_iter())
 
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
-        return self.copy() if predicate(self.Value) else Empty()
+        return self if predicate(self.Value) else Empty()
 
-    def ok_or(self, err: E) -> "Result":
+    def ok_or(self, err: E) -> "Result[T, E]":
         return Ok(self.Value)
 
-    def ok_or_else(self, f: Callable[[], E]) -> "Result":
+    def ok_or_else(self, err: Callable[[], E]) -> "Result[T, E]":
         return Ok(self.Value)
 
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
         return f(self.Value)
 
     def or_else(self, f: Callable[[], "Option[T]"]) -> "Option[T]":
-        return self.copy()
+        return self
 
     def xor(self, optb: "Option[T]") -> "Option[T]":
-        return self.copy() if optb.is_empty else Empty()
+        return self if optb.is_empty else Empty()
 
     def zip(self, other: "Option[U]") -> "Option[Tuple[T, U]]":
         if other.is_some:
@@ -291,7 +291,7 @@ class Some(Generic[T]):
 
         return Empty()
 
-    def zip_with(self, other: "Option[U]", f: Callable[[T, U], R]) -> "Option[R]":
+    def zip_with(self, other: "Option[U]", f: Callable[[Tuple[T, U]], R]) -> "Option[R]":
         if other.is_some:
             # function typing is correct, we really return an Option[Tuple] but mypy complains that
             # other may not have a Value attribute because it do not understand the previous line check.
@@ -323,7 +323,7 @@ class Empty(OptionProtocol):
         return False
 
     def expects(self, msg: str) -> T:
-        raise Exception(msg)
+        raise UnwrapException(msg)
 
     def unwrap(self) -> T:
         raise UnwrapException("Tried to unwrap on an Empty value")
@@ -337,10 +337,10 @@ class Empty(OptionProtocol):
     def map(self, f: Callable[[T], U]) -> "Option[U]":
         return self
 
-    def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
+    def map_or(self, default: U, f: Callable[[T], U]) -> "Option[U]":
         return Some(default)
 
-    def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> "Option[T]":
+    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> "Option[U]":
         return Some(default())
 
     def iter(self) -> Iterator[T]:
@@ -349,11 +349,11 @@ class Empty(OptionProtocol):
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
         return self
 
-    def ok_or(self, err: E) -> "Result":
+    def ok_or(self, err: E) -> "Result[T, E]":
         return Err(err)
 
-    def ok_or_else(self, f: Callable[[], E]) -> "Result":
-        return Err(f())
+    def ok_or_else(self, err: Callable[[], E]) -> "Result[T, E]":
+        return Err(err())
 
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
         return self
@@ -387,83 +387,185 @@ class ResultProtocol(Generic[T, E]):
     @property
     @abstractmethod
     def is_ok(self) -> bool:
+        """
+        :return: True if the result is Ok
+        """
         ...
 
     @property
     @abstractmethod
     def is_err(self) -> bool:
+        """
+        :return: True if the result is Err
+        """
         ...
 
     @abstractmethod
     def contains(self, value: T) -> bool:
+        """
+        :param value: Value to be checked
+        :return: True if the result is an Ok value containing the given value
+        """
         ...
 
     @abstractmethod
     def contains_err(self, err: E) -> bool:
+        """
+        :param err: Value to be checked
+        :return: True if the result is an Err containing the given err value
+        """
         ...
 
     @abstractmethod
-    def ok(self) -> Option:
+    def ok(self) -> Option[T]:
+        """
+        Converts from `Result[T, E]` to `Option[T]`
+        :return: `Some(T)` if result is `Ok(T)` otherwise `Empty` discarding the error, if any.
+        """
         ...
 
     @abstractmethod
-    def err(self) -> Option:
+    def err(self) -> Option[E]:
+        """
+        Converts from `Result[T, E]` to `Option[E]`
+        :return: `Some(E)` if result is `Err(E)` otherwise `Empty` discarding the success value, if any.
+        """
         ...
 
     @abstractmethod
     def map(self, f: Callable[[T], U]) -> "Result[U, E]":
+        """
+        Maps a `Result[T, E]` to `Result[U, E]` by applying a function to a contained Ok value, leaving an Err value untouched.
+
+        This function can be used to compose the results of two functions.
+        :param f: Function to apply to the `Ok(T)`
+        :return: A new result wrapping the new value, if applied.
+        """
         ...
 
     @abstractmethod
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
+        """
+        Applies a function to the contained value (if Ok), or returns the provided default (if Err).
+
+        Arguments passed to map_or are eagerly evaluated; if you are passing the result of a function call,
+        it is recommended to use map_or_else, which is lazily evaluated.
+        :param default: Default value to be returned if result ir Err
+        :param f: Function to apply to the `Ok(T)`
+        :return: A new value with the result of applying the function to the Ok(value) or the default value.
+        """
         ...
 
     @abstractmethod
     def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -> U:
+        """
+        Maps a `Result[T, E]` to `U` by applying a function to a contained Ok value,
+        or a fallback function to a contained Err value.
+
+        This function can be used to unpack a successful result while handling an error.
+        :param default: Callable to lazy load the default return value
+        :param f: Function to apply to the `Ok(T)`
+        :return: A new value with the result of applying the function to the Ok(value) or the default value loaded from the default function call.
+        """
         ...
 
     @abstractmethod
     def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
+        """
+        Maps a `Result[T, E]` to `Result[T, F]` by applying a function to a contained `Err` value,
+        leaving an Ok value untouched.
+
+        This function can be used to pass through a successful result while handling an error.
+        :param f: Function to apply to the `E`
+        :return: A new result with the modified `Err` value if applies.
+        """
         ...
 
     @abstractmethod
     def iter(self) -> Iterator[T]:
+        """
+        :return: An iterator with a value if the result is `Ok` otherwise an empty iterator.
+        """
         ...
 
     @abstractmethod
     def and_then(self, op: Callable[[T], "Result[T, E]"]) -> "Result[T, E]":
-        ...
+        """
+        Calls op if the result is `Ok`, otherwise returns the `Err` value of self.
 
-    @abstractmethod
-    def _or(self, res: "Result[T, E]") -> "Result[T, E]":
+        This function can be used for control flow based on Result values.
+        :param op: Callable to apply if result value if is `Ok`
+        :return: A result from applying op if `Ok`, original `Err` if not
+        """
         ...
 
     @abstractmethod
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
+        """
+        Calls op if the result is `Err`, otherwise returns the `Ok` value of self.
+
+        This function can be used for control flow based on Result values.
+        :param op: Callable to apply if result value if is `Err`
+        :return: A result from applying op if `Err`, original `Ok` if not
+        """
         ...
 
     @abstractmethod
     def unwrap(self) -> T:
+        """
+        Returns the contained `Ok` value.
+
+        Because this function may raise an exception, its use is generally discouraged. Instead, prefer to use
+        pattern matching and handle the `Err` case explicitly, or call unwrap_or, unwrap_or_else, or unwrap_or_default.
+        :return: Contained `Ok` value
+        :raises: `UnwrapException` if resutl is `Err`
+        """
         ...
 
     @abstractmethod
     def unwrap_or(self, default: T) -> T:
+        """
+        Returns the contained `Ok` value or a provided default.
+
+        Arguments passed to unwrap_or are eagerly evaluated; if you are passing the result of a function call,
+        it is recommended to use unwrap_or_else, which is lazily evaluated.
+        :param default: Value to be returned if result is `Err`
+        :return: `Ok` value or `default`
+        """
         ...
 
     @abstractmethod
     def unwrap_or_else(self, default: Callable[[], T]) -> T:
+        """
+        :param default: Function to call for the default value
+        :return: The contained `Ok` value or computes it from a closure.
+        """
         ...
 
     @abstractmethod
     def expect(self, msg: str) -> T:
+        """
+        :param msg: Attached message in case result is `Err` and `UnwrapException` is raised
+        :return: The contained `Ok` value
+        :raises: `UnwrapException`
+        """
         ...
 
     @abstractmethod
     def unwrap_err(self) -> E:
+        """
+        :return: The contained `Err` value.
+        :raises: `UnwrapException` if result is `Ok`.
+        """
         ...
 
     @abstractmethod
     def expect_err(self, msg: str) -> E:
+        """
+        :param msg: Attached message in case result is `Ok` and `UnwrapException` is raised
+        :return: The contained `Err` value.
+        :raises: `UnwrapException` if result is `Ok`.
+        """
         ...
 
     @abstractmethod
@@ -495,10 +597,10 @@ class Ok(ResultProtocol[T, E]):
     def contains_err(self, err: E) -> bool:
         return False
 
-    def ok(self) -> Option:
+    def ok(self) -> Option[T]:
         return Some(self.Value)
 
-    def err(self) -> Option:
+    def err(self) -> Option[E]:
         return Empty()
 
     def map(self, f: Callable[[T], U]) -> "Result[U, E]":
@@ -520,14 +622,8 @@ class Ok(ResultProtocol[T, E]):
             yield self.Value
         return iter(_iter())
 
-    def _and(self, res: "Result[T, E]") -> "Result[T, E]":
-        return self and res
-
     def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
         return op(self.Value)
-
-    def _or(self, res: "Result[T, E]") -> "Result[T, E]":
-        return self or res
 
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         # Type ignored here. It complains that we do not transform error to U (E -> U)
@@ -599,15 +695,9 @@ class Err(ResultProtocol[T, E]):
     def iter(self) -> Iterator[T]:
         return iter(tuple())
 
-    def _and(self, res: "Result[T, E]") -> "Result[T, E]":
-        return self and res
-
     def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
         # Type ignored here. In this case U is the same type as T, but mypy cannot understand that match.
         return self  # type: ignore
-
-    def _or(self, res: "Result[T, E]") -> "Result[T, E]":
-        return self or res
 
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         return Err(op(self.Error))

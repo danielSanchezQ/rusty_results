@@ -129,9 +129,3 @@ def test_some_unwrap_empty():
     some, value = create_some()
     with pytest.raises(Exception):
         some.expect_empty("")
-
-
-def test_some_copy():
-    some, value = create_some()
-    assert some.copy() == some
-    assert some.copy().Value == value
