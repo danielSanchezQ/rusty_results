@@ -64,7 +64,7 @@ if __name__ == "__main__":
                 print(e)
 ```
 
-You can find more exmaples in the `/examples` folder.
+You can find more examples in the `/examples` folder.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
