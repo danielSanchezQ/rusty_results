@@ -16,91 +16,201 @@ class OptionProtocol(Generic[T]):
     @property
     @abstractmethod
     def is_some(self) -> bool:
+        """
+        :return: True if the option is `Some`.
+        """
         ...
 
     @property
     @abstractmethod
     def is_empty(self) -> bool:
+        """
+        :return: True if the option is `Empty`.
+        """
         ...
 
     @abstractmethod
     def contains(self, item: T) -> bool:
+        """
+        :param item: The value to check.
+        :return: True if the option is `Some` containing the given value.
+        """
         ...
 
     @abstractmethod
     def expects(self, msg: str) -> T:
+        """
+        :param msg: Attached message for `UnwrapException` if raised.
+        :return: The contained `Some` value
+        :raises: `UnwrapException` if option is Empty.
+        """
         ...
 
     @abstractmethod
     def unwrap(self) -> T:
+        """
+        Because this function may panic, its use is generally discouraged.
+        Instead, prefer to use pattern matching and handle the None case explicitly, or call unwrap_or, unwrap_or_else,
+        or unwrap_or_default
+
+        :return: The contained Some value, consuming the self value.
+        :raises: `UnwrapException` if option is `Empty`
+        """
         ...
 
     @abstractmethod
     def unwrap_or(self, default: T) -> T:
+        """
+        Arguments passed to unwrap_or are eagerly evaluated; if you are passing the result of a function call,
+        it is recommended to use unwrap_or_else, which is lazily evaluated.
+
+        :param default: default value.
+        :return: The contained `Some` value or a provided default.
+        """
         ...
 
     @abstractmethod
     def unwrap_or_else(self, f: Callable[[], T]) -> T:
+        """
+        :param f: Compute function in case option is `Empty`.
+        :return: The contained `Some` value or computed value from the closure.
+        """
         ...
 
     @abstractmethod
-    def map(self, f: Callable[[T], T]) -> "Option[T]":
+    def map(self, f: Callable[[T], U]) -> "Option[U]":
+        """
+        Maps an `Option[T]` to `Option[U]` by applying a function to a contained value.
+        :param f: Function to apply.
+        :return: `Some(f(value))` if option is `Some(value)` else `Empty`
+        """
         ...
 
     @abstractmethod
-    def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
+    def map_or(self, default: U, f: Callable[[T], U]) -> "Option[U]":
+        """
+        Applies a function to the contained value (if any), or returns the provided default (if not).
+
+        Arguments passed to map_or are eagerly evaluated; if you are passing the result of a function call,
+        it is recommended to use map_or_else, which is lazily evaluated.
+
+        :param default: default value
+        :param f: function to apply
+        :return: `Some(f(value))` if option is `Some(value)` else `default`
+        """
         ...
 
     @abstractmethod
-    def map_or_else(self, default: Callable[[], T], f: Callable[[T], T]) -> "Option[T]":
+    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> "Option[U]":
+        """
+        Applies a function to the contained value (if any), or computes a default (if not).
+
+        :param default: Default value.
+        :param f: Function to apply to the map
+        :return: `Some(f(value))` if option is `Some(value)` else `default()`
+        """
         ...
 
     @abstractmethod
     def iter(self) -> Iterator[T]:
+        """
+        :return: An iterator over the contained value if option is `Some(T)` or an empty iterator if not.
+        """
         ...
 
     @abstractmethod
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
+        """
+        :param predicate:
+        :return: `Some(T)` if predicate returns `True` (where T is the wrapped value), `Empty` if predicate returns `False`
+        """
         ...
 
     @abstractmethod
-    def ok_or(self, err: Exception) -> "Result[T, E]":
+    def ok_or(self, err: E) -> "Result[T, E]":
+        """
+        Transforms the `Option[T]` into a `Result[T, E]`, mapping `Some(v)` to `Ok(v)` and `None` to `Err(err)`.
+
+        Arguments passed to ok_or are eagerly evaluated; if you are passing the result of a function call,
+        it is recommended to use ok_or_else, which is lazily evaluated.
+
+        :param err: `Err` value
+        :return: `Ok(T)` if option is `Some(T)` else `Err(err)`
+        """
         ...
 
     @abstractmethod
-    def ok_or_else(self, f: Callable[[], Exception]) -> "Result[T, E]":
+    def ok_or_else(self, err: Callable[[], E]) -> "Result[T, E]":
+        """
+        Transforms the `Option[T]` into a `Result[T, E]`, mapping `Some(v)` to `Ok(v)` and `None` to `Err(err())`.
+        :param err: Callable that return the `Err` value
+        :return: `Ok(T)` if option is `Some(T)` else `Err(err())`
+        """
         ...
 
     @abstractmethod
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
+        """
+        Some languages call this operation flatmap.
+
+        :param f: The function to call.
+        :return: `Empty` if the option is `Empty`, otherwise calls f with the wrapped value and returns the result.
+        """
         ...
 
     @abstractmethod
     def or_else(self, f: Callable[[], "Option[T]"]) -> "Option[T]":
+        """
+
+        :param f: The function to call.
+        :return: The option if it contains a value, otherwise calls f and returns the result.
+        """
         ...
 
     @abstractmethod
     def xor(self, optb: "Option[T]") -> "Option[T]":
+        """
+
+        :param optb: `Option` to compare with.
+        :return: `Some` if exactly one of self or optb is `Some`, otherwise returns `Empty`.
+        """
         ...
 
     @abstractmethod
-    def zip(self, value: T) -> "Option[T]":
+    def zip(self, value: "Option[U]") -> "Option[Tuple[T, U]]":
+        """
+        Zips self with another Option.
+        :param value: `Option` to zip with.
+        :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[[s], [o]]`.
+        Otherwise, `Empty` is returned.
+        """
         ...
 
     @abstractmethod
-    def zip_with(self, other: "Option[T]", f: Callable[[T, U], R]) -> "Option[R]":
+    def zip_with(self, other: "Option[U]", f: Callable[[Tuple[T, U]], R]) -> "Option[R]":
+        """
+        Zips self and another Option with function f.
+
+        :param other: `Option` to zip with.
+        :param f: Function to apply to the zipped options values.
+        :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[f(s, o)]`.
+        Otherwise, `Empty` is returned.
+        """
         ...
 
     @abstractmethod
     def expect_empty(self, msg: str):
+        """
+        :param msg: Message to be wrapped by `UnwrapException` if raised
+        :raises: `UnwrapException` if option is `Some`
+        """
         ...
 
     @abstractmethod
     def unwrap_empty(self):
-        ...
-
-    @abstractmethod
-    def copy(self) -> "Option[T]":
+        """
+        :raises: `UnwrapException` if option is `Some`
+        """
         ...
 
     @abstractmethod
@@ -141,7 +251,7 @@ class Some(Generic[T]):
     def unwrap_or_else(self, f: Callable[[], T]) -> T:
         return self.Value
 
-    def map(self, f: Callable[[T], T]) -> "Option[T]":
+    def map(self, f: Callable[[T], U]) -> "Option[U]":
         return Some(f(self.Value))
 
     def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
@@ -195,9 +305,6 @@ class Some(Generic[T]):
     def unwrap_empty(self):
         self.expect_empty("")
 
-    def copy(self) -> "Option[T]":
-        return Some(self.Value)
-
     def __bool__(self) -> bool:
         return True
 
@@ -219,7 +326,7 @@ class Empty(OptionProtocol):
         raise Exception(msg)
 
     def unwrap(self) -> T:
-        raise Exception()
+        raise UnwrapException("Tried to unwrap on an Empty value")
 
     def unwrap_or(self, default: T) -> T:
         return default
@@ -227,7 +334,7 @@ class Empty(OptionProtocol):
     def unwrap_or_else(self, f: Callable[[], T]) -> T:
         return f()
 
-    def map(self, f: Callable[[T], T]) -> "Option[T]":
+    def map(self, f: Callable[[T], U]) -> "Option[U]":
         return self
 
     def map_or(self, default: T, f: Callable[[T], T]) -> "Option[T]":
@@ -257,10 +364,10 @@ class Empty(OptionProtocol):
     def xor(self, optb: "Option[T]") -> "Option[T]":
         return optb if optb.is_some else Empty()
 
-    def zip(self, value: T) -> "Option[T]":
+    def zip(self, value: "Option[U]") -> "Option[Tuple[T, U]]":
         return Empty()
 
-    def zip_with(self, other: "Option[U]", f: Callable[[T, U], R]) -> "Option[R]":
+    def zip_with(self, other: "Option[U]", f: Callable[[Tuple[T, U]], R]) -> "Option[R]":
         return Empty()
 
     def expect_empty(self, msg: str):
@@ -268,9 +375,6 @@ class Empty(OptionProtocol):
 
     def unwrap_empty(self):
         ...
-
-    def copy(self) -> "Option[T]":
-        return self
 
     def __bool__(self) -> bool:
         return False
