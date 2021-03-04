@@ -115,8 +115,8 @@ def test_some_zip():
 
 def test_some_zip_with():
     some, value = create_some()
-    assert some.zip_with(Empty(), lambda x, y: x + y) == Empty()
-    assert some.zip_with(Some(5), lambda x, y: x + y) == Some(value + 5)
+    assert some.zip_with(Empty(), lambda x: sum(x)) == Empty()
+    assert some.zip_with(Some(5), lambda x: sum(x)) == Some(value + 5)
 
 
 def test_some_expect_none():

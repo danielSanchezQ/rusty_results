@@ -292,12 +292,7 @@ class Some(Generic[T]):
         return Empty()
 
     def zip_with(self, other: "Option[U]", f: Callable[[Tuple[T, U]], R]) -> "Option[R]":
-        if other.is_some:
-            # function typing is correct, we really return an Option[Tuple] but mypy complains that
-            # other may not have a Value attribute because it do not understand the previous line check.
-            return Some(f(self.Value, other.Value))  # type: ignore
-
-        return Empty()
+        return self.zip(other).map(f)
 
     def expect_empty(self, msg: str):
         raise UnwrapException(msg)
