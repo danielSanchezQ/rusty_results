@@ -87,7 +87,7 @@ class OptionProtocol(Generic[T]):
         ...
 
     @abstractmethod
-    def map_or(self, default: U, f: Callable[[T], U]) -> "U":
+    def map_or(self, default: U, f: Callable[[T], U]) -> U:
         """
         Applies a function to the contained value (if any), or returns the provided default (if not).
 
@@ -101,7 +101,7 @@ class OptionProtocol(Generic[T]):
         ...
 
     @abstractmethod
-    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> "U":
+    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> U:
         """
         Applies a function to the contained value (if any), or computes a default (if not).
 
@@ -254,10 +254,10 @@ class Some(Generic[T]):
     def map(self, f: Callable[[T], U]) -> "Option[U]":
         return Some(f(self.Value))
 
-    def map_or(self, default: U, f: Callable[[T], U]) -> "U":
+    def map_or(self, default: U, f: Callable[[T], U]) -> U:
         return f(self.Value)
 
-    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> "U":
+    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> U:
         return f(self.Value)
 
     def iter(self) -> Iterator[T]:
@@ -332,10 +332,10 @@ class Empty(OptionProtocol):
     def map(self, f: Callable[[T], U]) -> "Option[U]":
         return self
 
-    def map_or(self, default: U, f: Callable[[T], U]) -> "U":
+    def map_or(self, default: U, f: Callable[[T], U]) -> U:
         return default
 
-    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> "U":
+    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> U:
         return default()
 
     def iter(self) -> Iterator[T]:
