@@ -58,14 +58,13 @@ def test_some_map():
 
 def test_some_map_or():
     some, value = create_some()
-    assert some.map_or(default=20, f=lambda x: x+5) == Some(value + 5)
+    assert some.map_or(default=20, f=lambda x: x+5) == value + 5
 
 
 def test_some_map_or_else():
     some, value = create_some()
     ret = some.map_or_else(default=lambda x: 94, f=lambda x: x+5)
-    assert ret == Some(value + 5)
-    assert ret.Value == value + 5
+    assert ret == value + 5
 
 
 def test_some_iter():

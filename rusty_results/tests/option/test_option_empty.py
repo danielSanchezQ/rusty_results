@@ -38,11 +38,11 @@ def test_empty_map():
 
 
 def test_empty_map_or():
-    assert Empty().map_or(40, lambda x: x + 4) == Some(40)
+    assert Empty().map_or(40, lambda x: x + 4) == 40
 
 
 def test_empty_map_or_else():
-    assert Empty().map_or_else(lambda: 40, lambda x: x+3) == Some(40)
+    assert Empty().map_or_else(lambda: 40, lambda x: x+3) == 40
 
 
 def test_empty_iter():
