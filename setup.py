@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="rusty-results",
-    version="0.0.1b1",
+    version="0.0.1b2",
     author="Daniel Sanchez Quiros, Antonio Jose Checa Bustos",
     author_email="sanchez.quiros.daniel@gmail.com, antonio.checa.bustos@gmail.com",
     description="Rust inspired Result and Option types",
@@ -23,5 +23,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
+    extras_require={
+        'pydantic': ["pydantic"]
+    },
     python_requires='>=3.7'
 )

@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TypeVar, Union, Callable, Generic, Iterator, Tuple
+from typing import TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict
 from rusty_results.exceptions import UnwrapException
 
 # base inner type generic
@@ -223,6 +223,73 @@ class OptionProtocol(Generic[T]):
     def __iter__(self):
         return self.iter()
 
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.__validate
+
+    @classmethod
+    def __validate(cls, value: Union["Some", "Empty", Dict], field: "pydantic.ModelField"):
+        import pydantic
+
+        if isinstance(value, Some):
+            return cls.__validate_some(value, field)
+        elif isinstance(value, Empty):
+            return cls.__validate_empty(value, field)
+        elif isinstance(value, dict):
+            return cls.__validate_dict(value, field)
+
+        raise pydantic.ValidationError("Unable to validate Option", cls)
+
+    @classmethod
+    def __validate_some(cls, value: "Some", field: "pydantic.ModelField"):
+        import pydantic
+
+        if not field.sub_fields:
+            raise pydantic.ValidationError("No subfields found for Some")
+
+        field_value = field.sub_fields[0]
+        valid_value, error = field_value.validate(value.Value, {}, loc="")
+        if error:
+            raise pydantic.ValidantionError(error, cls)
+
+        return Some(valid_value)
+
+    @classmethod
+    def __validate_empty(cls, value: "Empty", field: "pydantic.ModelField"):
+        import pydantic
+
+        if field.sub_fields:
+            raise pydantic.ValidationError("Empty value cannot be bound to external types")
+
+        return Empty()
+
+    @classmethod
+    def __validate_dict(cls, value: Dict, field: "pydantic.ModelField"):
+        import pydantic
+
+        if value == {}:
+            return Empty()
+
+        if len(value) != 1:
+            raise pydantic.ValidationError(
+                "Extra object parameters found, Option can have strictly 0 (Empty) or 1 Value (Some)",
+                cls
+            )
+
+        inner_value = value.get("Value")
+        if inner_value is None:
+            raise pydantic.ValidationError("Non Empty Option do not have a proper Value")
+
+        if not field.sub_fields:
+            raise pydantic.ValidationError("Cannot check Option pydantic subfields validations", cls)
+
+        field_value = field.sub_fields[0]
+        valid_value, error = field_value.validate(value["Value"], {}, loc="")
+        if error:
+            raise pydantic.ValidantionError(error, cls)
+
+        return Some(valid_value)
+
 
 @dataclass(eq=True, frozen=True)
 class Some(Generic[T]):
@@ -303,6 +370,10 @@ class Some(Generic[T]):
     def __bool__(self) -> bool:
         return True
 
+    @classmethod
+    def __get_validators__(cls):
+        yield from OptionProtocol.__get_validators__()
+
 
 @dataclass(eq=True, frozen=True)
 class Empty(OptionProtocol):
@@ -373,6 +444,10 @@ class Empty(OptionProtocol):
 
     def __bool__(self) -> bool:
         return False
+
+    @classmethod
+    def __get_validators__(cls):
+        yield from OptionProtocol.__get_validators__()
 
 
 Option = Union[Some[T], Empty]
@@ -573,6 +648,78 @@ class ResultProtocol(Generic[T, E]):
     def __iter__(self) -> Iterator[T]:
         return self.iter()
 
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.__validate
+
+    @classmethod
+    def __validate(cls, value: Union["Ok", "Err", Dict], field: "pydantic.ModelField"):
+        import pydantic
+
+        if isinstance(value, Ok):
+            return cls.__validate_ok(value, field)
+        elif isinstance(value, Err):
+            return cls.__validate_err(value, field)
+        elif isinstance(value, dict):
+            return cls.__validate_dict(value, field)
+
+        raise pydantic.ValidationError("Unable to validate Result", cls)
+
+    @classmethod
+    def __validate_ok(cls, value: "Ok", field: "pydantic.ModelField"):
+        import pydantic
+
+        if len(field.sub_fields) != 2:
+            raise pydantic.ValidationError("Wrong subfields found for Ok", cls)
+
+        field_value = field.sub_fields[0]
+        valid_value, error = field_value.validate(value.Value, {}, loc="")
+        if error:
+            raise pydantic.ValidantionError(error, cls)
+
+        return Ok(valid_value)
+
+    @classmethod
+    def __validate_err(cls, value: "Err", field: "pydantic.ModelField"):
+        import pydantic
+
+        if len(field.sub_fields) != 2:
+            raise pydantic.ValidationError("Wrong subfields found for Err", cls)
+
+        field_value = field.sub_fields[1]
+        valid_value, error = field_value.validate(value.Error, {}, loc="")
+        if error:
+            raise pydantic.ValidantionError(error, cls)
+
+        return Err(valid_value)
+
+    @classmethod
+    def __validate_dict(cls, value: Dict, field: "pydantic.ModelField"):
+        import pydantic
+
+        if len(field.sub_fields) != 2:
+            raise pydantic.ValidationError("Wrong subfields found for Result", cls)
+
+        if len(value) != 1:
+            raise pydantic.ValidationError(
+                "Extra object parameters found, Results have strictly 1 value (either Value (Ok) or Error (Err))",
+                cls
+            )
+
+        if "Value" in value:
+            inner_value, return_class, subfield = value.get("Value"), Ok, 0
+        elif "Error" in value:
+            inner_value, return_class, subfield = value.get("Error"), Err, 1
+        else:
+            raise pydantic.ValidationError("Cannot find any Result correct value", cls)
+
+        field_value = field.sub_fields[subfield]
+        valid_value, error = field_value.validate(inner_value, {}, loc="")
+        if error:
+            raise pydantic.ValidantionError(error, cls)
+
+        return return_class(valid_value)
+
 
 @dataclass(eq=True, frozen=True)
 class Ok(ResultProtocol[T, E]):
@@ -649,6 +796,10 @@ class Ok(ResultProtocol[T, E]):
     def __bool__(self):
         return True
 
+    @classmethod
+    def __get_validators__(cls):
+        yield from ResultProtocol.__get_validators__()
+
 
 @dataclass(eq=True, frozen=True)
 class Err(ResultProtocol[T, E]):
@@ -720,6 +871,10 @@ class Err(ResultProtocol[T, E]):
 
     def __bool__(self):
         return False
+
+    @classmethod
+    def __get_validators__(cls):
+        yield from ResultProtocol.__get_validators__()
 
 
 Result = Union[Ok[T, E], Err[T, E]]

@@ -70,6 +70,37 @@ if __name__ == "__main__":
 
 You can find more examples in the `/examples` folder.
 
+## Pydantic
+Option and Result are fully compatible with [pydantic](https://pydantic-docs.helpmanual.io/) models
+
+```python
+import pydantic
+from rusty_results import Option, Some, Empty
+
+
+class MyData(pydantic.BaseModel):
+    name: Option[str]
+    phone: Option[int]
+
+    
+if __name__ == "__main__":
+    import json
+    # serialize to json
+    json_data = MyData(name=Some("Link"), phone=Empty()).json()
+    print(json_data)
+    # deserialize json data
+    data = MyData(**json.loads(json_data))
+    print(data)
+
+```
+
+prints out:
+
+```shell
+{"name": {"Value": "Link"}, "phone": {}}
+name=Some(Value='Link') phone=Empty()
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
