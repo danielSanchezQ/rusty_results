@@ -1,7 +1,11 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict
+from typing import TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
 from rusty_results.exceptions import UnwrapException
+try:
+    from pydantic.fields import ModelField
+except ImportError:
+    ...
 
 # base inner type generic
 T = TypeVar('T')
@@ -228,9 +232,7 @@ class OptionProtocol(Generic[T]):
         yield cls.__validate
 
     @classmethod
-    def __validate(cls, value: Union["Some", "Empty", Dict], field: "pydantic.ModelField"):
-        import pydantic
-
+    def __validate(cls, value: Union["Some", "Empty", Dict], field: "ModelField"):
         if isinstance(value, Some):
             return cls.__validate_some(value, field)
         elif isinstance(value, Empty):
@@ -238,55 +240,56 @@ class OptionProtocol(Generic[T]):
         elif isinstance(value, dict):
             return cls.__validate_dict(value, field)
 
-        raise pydantic.ValidationError("Unable to validate Option", cls)
+        raise TypeError("Unable to validate Option")
 
     @classmethod
-    def __validate_some(cls, value: "Some", field: "pydantic.ModelField"):
+    def __validate_some(cls, value: "Some", field: "ModelField"):
         import pydantic
 
         if not field.sub_fields:
-            raise pydantic.ValidationError("No subfields found for Some")
+            raise TypeError("No subfields found for Some")
 
         field_value = field.sub_fields[0]
         valid_value, error = field_value.validate(value.Value, {}, loc="")
         if error:
-            raise pydantic.ValidantionError(error, cls)
+            # ignore type since it do not come from a base model
+            raise pydantic.ValidationError((error, ), Some)  # type: ignore
 
         return Some(valid_value)
 
     @classmethod
-    def __validate_empty(cls, value: "Empty", field: "pydantic.ModelField"):
+    def __validate_empty(cls, _: "Empty", field: "ModelField"):
         import pydantic
 
         if field.sub_fields:
-            raise pydantic.ValidationError("Empty value cannot be bound to external types")
+            raise TypeError("Empty value cannot be bound to external types")
 
         return Empty()
 
     @classmethod
-    def __validate_dict(cls, value: Dict, field: "pydantic.ModelField"):
+    def __validate_dict(cls, value: Dict, field: "ModelField"):
         import pydantic
 
         if value == {}:
             return Empty()
 
         if len(value) != 1:
-            raise pydantic.ValidationError(
+            raise TypeError(
                 "Extra object parameters found, Option can have strictly 0 (Empty) or 1 Value (Some)",
-                cls
             )
 
         inner_value = value.get("Value")
         if inner_value is None:
-            raise pydantic.ValidationError("Non Empty Option do not have a proper Value")
+            raise TypeError("Non Empty Option do not have a proper Value")
 
         if not field.sub_fields:
-            raise pydantic.ValidationError("Cannot check Option pydantic subfields validations", cls)
+            raise TypeError("Cannot check Option pydantic subfields validations")
 
         field_value = field.sub_fields[0]
         valid_value, error = field_value.validate(value["Value"], {}, loc="")
         if error:
-            raise pydantic.ValidantionError(error, cls)
+            # ignore type since it do not come from a base model
+            raise pydantic.ValidationError(error, Option)  # type: ignore
 
         return Some(valid_value)
 
@@ -653,7 +656,7 @@ class ResultProtocol(Generic[T, E]):
         yield cls.__validate
 
     @classmethod
-    def __validate(cls, value: Union["Ok", "Err", Dict], field: "pydantic.ModelField"):
+    def __validate(cls, value: Union["Ok", "Err", Dict], field: "ModelField"):
         import pydantic
 
         if isinstance(value, Ok):
@@ -663,60 +666,64 @@ class ResultProtocol(Generic[T, E]):
         elif isinstance(value, dict):
             return cls.__validate_dict(value, field)
 
-        raise pydantic.ValidationError("Unable to validate Result", cls)
+        raise TypeError("Unable to validate Result")
 
     @classmethod
-    def __validate_ok(cls, value: "Ok", field: "pydantic.ModelField"):
+    def __validate_ok(cls, value: "Ok", field: "ModelField"):
         import pydantic
 
-        if len(field.sub_fields) != 2:
-            raise pydantic.ValidationError("Wrong subfields found for Ok", cls)
+        if not field.sub_fields or len(field.sub_fields) != 2:
+            raise TypeError("Wrong subfields found for Ok")
 
         field_value = field.sub_fields[0]
         valid_value, error = field_value.validate(value.Value, {}, loc="")
         if error:
-            raise pydantic.ValidantionError(error, cls)
+            # ignore type since it do not come from a base model
+            raise pydantic.ValidationError(error, Result)  # type: ignore
 
         return Ok(valid_value)
 
     @classmethod
-    def __validate_err(cls, value: "Err", field: "pydantic.ModelField"):
+    def __validate_err(cls, value: "Err", field: "ModelField"):
         import pydantic
 
-        if len(field.sub_fields) != 2:
-            raise pydantic.ValidationError("Wrong subfields found for Err", cls)
+        if not field.sub_fields or len(field.sub_fields) != 2:
+            raise TypeError("Wrong subfields found for Ok")
 
         field_value = field.sub_fields[1]
         valid_value, error = field_value.validate(value.Error, {}, loc="")
         if error:
-            raise pydantic.ValidantionError(error, cls)
+            # ignore type since it do not come from a base model
+            raise pydantic.ValidationError(error, Result)  # type: ignore
 
         return Err(valid_value)
 
     @classmethod
-    def __validate_dict(cls, value: Dict, field: "pydantic.ModelField"):
+    def __validate_dict(cls, value: Dict, field: "ModelField"):  # mypy: ignore
         import pydantic
 
-        if len(field.sub_fields) != 2:
-            raise pydantic.ValidationError("Wrong subfields found for Result", cls)
+        if not field.sub_fields or len(field.sub_fields) != 2:
+            raise TypeError("Wrong subfields found for Ok")
 
         if len(value) != 1:
-            raise pydantic.ValidationError(
-                "Extra object parameters found, Results have strictly 1 value (either Value (Ok) or Error (Err))",
-                cls
+            raise TypeError(
+                "Extra object parameters found, Results have strictly 1 value (either Value (Ok) or Error (Err))"
             )
 
+        return_class: Callable[[Any], Any]
+        inner_value: Any
         if "Value" in value:
             inner_value, return_class, subfield = value.get("Value"), Ok, 0
         elif "Error" in value:
             inner_value, return_class, subfield = value.get("Error"), Err, 1
         else:
-            raise pydantic.ValidationError("Cannot find any Result correct value", cls)
+            raise TypeError("Cannot find any Result correct value")
 
         field_value = field.sub_fields[subfield]
         valid_value, error = field_value.validate(inner_value, {}, loc="")
         if error:
-            raise pydantic.ValidantionError(error, cls)
+            # ignore type since it do not come from a base model
+            raise pydantic.ValidationError(error, Result)  # type: ignore
 
         return return_class(valid_value)
 
