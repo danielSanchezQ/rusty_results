@@ -1,2 +1,3 @@
 pytest==6.2.2
 mypy==0.812
+pydantic==1.8.1
