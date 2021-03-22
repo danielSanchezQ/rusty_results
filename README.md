@@ -97,8 +97,8 @@ if __name__ == "__main__":
 prints out:
 
 ```shell
-{"name": {"Value": "Link"}, "phone": {}}
-name=Some(Value='Link') phone=Empty()
+{"name": {"Some": "Link"}, "phone": {}}
+name=Some(Some='Link') phone=Empty()
 ```
 
 ## Contributing
