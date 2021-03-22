@@ -5,7 +5,7 @@ from rusty_results.prelude import *
 def test_ok_builds():
     value: int = 10
     ok: Result[int, str] = Ok(value)
-    assert ok.Value == value
+    assert ok.Ok == value
     assert ok.is_ok
     assert not ok.is_err
 

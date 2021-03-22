@@ -11,7 +11,7 @@ def create_some(value: int = 10) -> Tuple[Some[int], int]:
 
 def test_some_builds():
     some, value = create_some()
-    assert some.Value == value
+    assert some.Some == value
 
 
 def test_some_is_some():
@@ -75,7 +75,7 @@ def test_some_iter():
 def test_some_filter():
     some, value = create_some()
     assert some.filter(predicate=lambda x: True) == some
-    assert some.filter(predicate=lambda x: True).Value == value
+    assert some.filter(predicate=lambda x: True).Some == value
     assert some.filter(predicate=lambda x: False) == Empty()
 
 
@@ -91,7 +91,7 @@ def test_some_ok_or_else():
 
 def test_some_and_then():
     some, value = create_some()
-    assert some.and_then(lambda x: Some(x + 5)).Value == value + 5
+    assert some.and_then(lambda x: Some(x + 5)).Some == value + 5
     assert some.and_then(lambda x: Some(x + 5)) == Some(value + 5)
 
 

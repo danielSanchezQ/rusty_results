@@ -9,7 +9,7 @@ class Model(pydantic.BaseModel):
     optional_value: Option[str]
 
 
-TEST_MODEL_SERIALIZED = '{"optional_value": {"Value": "foo bar"}}'
+TEST_MODEL_SERIALIZED = '{"optional_value": {"Some": "foo bar"}}'
 
 
 def test_serialize():

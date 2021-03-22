@@ -250,7 +250,7 @@ class OptionProtocol(Generic[T]):
             raise TypeError("No subfields found for Some")
 
         field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value.Value, {}, loc="")
+        valid_value, error = field_value.validate(value.Some, {}, loc="")
         if error:
             # ignore type since it do not come from a base model
             raise pydantic.ValidationError((error, ), Some)  # type: ignore
@@ -259,8 +259,6 @@ class OptionProtocol(Generic[T]):
 
     @classmethod
     def __validate_empty(cls, _: "Empty", field: "ModelField"):
-        import pydantic
-
         if field.sub_fields:
             raise TypeError("Empty value cannot be bound to external types")
 
@@ -278,7 +276,7 @@ class OptionProtocol(Generic[T]):
                 "Extra object parameters found, Option can have strictly 0 (Empty) or 1 Value (Some)",
             )
 
-        inner_value = value.get("Value")
+        inner_value = value.get("Some")
         if inner_value is None:
             raise TypeError("Non Empty Option do not have a proper Value")
 
@@ -286,7 +284,7 @@ class OptionProtocol(Generic[T]):
             raise TypeError("Cannot check Option pydantic subfields validations")
 
         field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value["Value"], {}, loc="")
+        valid_value, error = field_value.validate(value["Some"], {}, loc="")
         if error:
             # ignore type since it do not come from a base model
             raise pydantic.ValidationError(error, Option)  # type: ignore
@@ -296,7 +294,7 @@ class OptionProtocol(Generic[T]):
 
 @dataclass(eq=True, frozen=True)
 class Some(Generic[T]):
-    Value: T
+    Some: T
 
     @property
     def is_some(self) -> bool:
@@ -307,45 +305,45 @@ class Some(Generic[T]):
         return False
 
     def contains(self, item: T) -> bool:
-        return item == self.Value
+        return item == self.Some
 
     def expects(self, msg: str) -> T:
-        return self.Value
+        return self.Some
 
     def unwrap(self) -> T:
-        return self.Value
+        return self.Some
 
     def unwrap_or(self, default: T) -> T:
-        return self.Value
+        return self.Some
 
     def unwrap_or_else(self, f: Callable[[], T]) -> T:
-        return self.Value
+        return self.Some
 
     def map(self, f: Callable[[T], U]) -> "Option[U]":
-        return Some(f(self.Value))
+        return Some(f(self.Some))
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
-        return f(self.Value)
+        return f(self.Some)
 
     def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> U:
-        return f(self.Value)
+        return f(self.Some)
 
     def iter(self) -> Iterator[T]:
         def _iter():
-            yield self.Value
+            yield self.Some
         return iter(_iter())
 
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
-        return self if predicate(self.Value) else Empty()
+        return self if predicate(self.Some) else Empty()
 
     def ok_or(self, err: E) -> "Result[T, E]":
-        return Ok(self.Value)
+        return Ok(self.Some)
 
     def ok_or_else(self, err: Callable[[], E]) -> "Result[T, E]":
-        return Ok(self.Value)
+        return Ok(self.Some)
 
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
-        return f(self.Value)
+        return f(self.Some)
 
     def or_else(self, f: Callable[[], "Option[T]"]) -> "Option[T]":
         return self
@@ -357,7 +355,7 @@ class Some(Generic[T]):
         if other.is_some:
             # function typing is correct, we really return an Option[Tuple] but mypy complains that
             # other may not have a Value attribute because it do not understand the previous line check.
-            return Some((self.Value, other.Value))  # type: ignore
+            return Some((self.Some, other.Some))  # type: ignore
 
         return Empty()
 
@@ -657,8 +655,6 @@ class ResultProtocol(Generic[T, E]):
 
     @classmethod
     def __validate(cls, value: Union["Ok", "Err", Dict], field: "ModelField"):
-        import pydantic
-
         if isinstance(value, Ok):
             return cls.__validate_ok(value, field)
         elif isinstance(value, Err):
@@ -676,7 +672,7 @@ class ResultProtocol(Generic[T, E]):
             raise TypeError("Wrong subfields found for Ok")
 
         field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value.Value, {}, loc="")
+        valid_value, error = field_value.validate(value.Ok, {}, loc="")
         if error:
             # ignore type since it do not come from a base model
             raise pydantic.ValidationError(error, Result)  # type: ignore
@@ -712,8 +708,8 @@ class ResultProtocol(Generic[T, E]):
 
         return_class: Callable[[Any], Any]
         inner_value: Any
-        if "Value" in value:
-            inner_value, return_class, subfield = value.get("Value"), Ok, 0
+        if "Ok" in value:
+            inner_value, return_class, subfield = value.get("Ok"), Ok, 0
         elif "Error" in value:
             inner_value, return_class, subfield = value.get("Error"), Err, 1
         else:
@@ -730,7 +726,7 @@ class ResultProtocol(Generic[T, E]):
 
 @dataclass(eq=True, frozen=True)
 class Ok(ResultProtocol[T, E]):
-    Value: T
+    Ok: T
 
     @property
     def is_ok(self) -> bool:
@@ -741,25 +737,25 @@ class Ok(ResultProtocol[T, E]):
         return False
 
     def contains(self, value: T) -> bool:
-        return self.Value == value
+        return self.Ok == value
 
     def contains_err(self, err: E) -> bool:
         return False
 
     def ok(self) -> Option[T]:
-        return Some(self.Value)
+        return Some(self.Ok)
 
     def err(self) -> Option[E]:
         return Empty()
 
     def map(self, f: Callable[[T], U]) -> "Result[U, E]":
-        return Ok(f(self.Value))
+        return Ok(f(self.Ok))
 
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
-        return f(self.Value)
+        return f(self.Ok)
 
     def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -> U:
-        return f(self.Value)
+        return f(self.Ok)
 
     def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
         # Type ignored here. It complains that we do not transform error to U (E -> U)
@@ -768,11 +764,11 @@ class Ok(ResultProtocol[T, E]):
 
     def iter(self) -> Iterator[T]:
         def _iter():
-            yield self.Value
+            yield self.Ok
         return iter(_iter())
 
     def and_then(self, op: Callable[[T], "Result[U, E]"]) -> "Result[U, E]":
-        return op(self.Value)
+        return op(self.Ok)
 
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
         # Type ignored here. It complains that we do not transform error to U (E -> U)
@@ -780,25 +776,25 @@ class Ok(ResultProtocol[T, E]):
         return self  # type: ignore
 
     def unwrap(self) -> T:
-        return self.Value
+        return self.Ok
 
     def unwrap_or(self, default: T) -> T:
-        return self.Value
+        return self.Ok
 
     def unwrap_or_else(self, default: Callable[[], T]) -> T:
-        return self.Value
+        return self.Ok
 
     def expect(self, msg: str) -> T:
-        return self.Value
+        return self.Ok
 
     def unwrap_err(self) -> E:
-        raise UnwrapException(f"{self.Value}")
+        raise UnwrapException(f"{self.Ok}")
 
     def expect_err(self, msg: str) -> E:
         raise UnwrapException(msg)
 
     def __repr__(self):
-        return f"Ok({self.Value})"
+        return f"Ok({self.Ok})"
 
     def __bool__(self):
         return True

@@ -8,7 +8,7 @@ class Model(pydantic.BaseModel):
     result_value: Result[int, str]
 
 
-TEST_MODEL_SERIALIZED = '{"result_value": {"Value": 10}}'
+TEST_MODEL_SERIALIZED = '{"result_value": {"Ok": 10}}'
 
 
 def test_serialize():
