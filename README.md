@@ -1,7 +1,7 @@
 # Rusty results
 
 [![Run Python Tests](https://github.com/danielSanchezQ/rusty_results/actions/workflows/ci.yml/badge.svg)](https://github.com/danielSanchezQ/rusty_results/actions/workflows/ci.yml)
-[![Downloads](https://static.pepy.tech/personalized-badge/rusty-results?period=month&units=international_system&left_color=blue&right_color=grey&left_text=Downloads)](https://pepy.tech/project/rusty-results)
+[![Downloads](https://pepy.tech/badge/rusty-results)](https://pepy.tech/project/rusty-results)
 
 
 Rusty results is a Python library for dealing with result and optional types inspired by rust standard library.
