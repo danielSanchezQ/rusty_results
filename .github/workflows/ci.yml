@@ -31,6 +31,6 @@ jobs:
       - name: Run mypy on result.py
         run: mypy rusty_results/prelude.py
       - name: Build coverage file
-        run: pytest --cache-clear --cov=app ./rusty_results > pytest-coverage.txt
+        run: pytest --cache-clear --cov=rusty_results ./rusty_results > pytest-coverage.txt
       - name: Comment coverage
         uses: coroo/pytest-coverage-commentator@v1.0.2
