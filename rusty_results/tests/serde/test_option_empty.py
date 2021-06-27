@@ -29,3 +29,13 @@ def test_deserialize_fails():
     with pytest.raises(pydantic.ValidationError):
         for value in wrong_values:
             Model(foo=value)
+
+
+def test_deserialize_wrong_number_of_values():
+    with pytest.raises(pydantic.ValidationError):
+        Model(optional_value={"Empty": "foo", "Bar": "Baz"})
+
+
+def test_deserialize_inner_is_none():
+    with pytest.raises(pydantic.ValidationError):
+        Model(optional_value={"Empty": None})

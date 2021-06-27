@@ -27,12 +27,12 @@ def test_err_ok():
 
 def test_err_err():
     err: Result[int, int] = Err(0)
-    assert  err.err() == Some(0)
+    assert err.err() == Some(0)
 
 
 def test_err_map():
     def function(i: int) -> int:
-        return i + 10
+        return i + 10  # pragma: no cover
 
     lambda_function: Callable[[int], int] = lambda x: x+100
 
@@ -44,7 +44,7 @@ def test_err_map():
 
 def test_err_map_or():
     def function(i: int) -> int:
-        return i + 10
+        return i + 10  # pragma: no cover
 
     lambda_function: Callable[[int], int] = lambda x: x+100
 
@@ -87,7 +87,7 @@ def test_err_and_then():
     err: Result[int, int] = Err(0)
 
     def op(x: int) -> Result[int, int]:
-        return Ok(x+10)
+        return Ok(x+10)  # pragma: no cover
 
     assert err.and_then(op) == err
 

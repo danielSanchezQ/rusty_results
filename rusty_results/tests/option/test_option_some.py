@@ -118,7 +118,7 @@ def test_some_zip_with():
     assert some.zip_with(Some(5), lambda x: sum(x)) == Some(value + 5)
 
 
-def test_some_expect_none():
+def test_some_expect_empty():
     some, value = create_some()
     with pytest.raises(Exception):
         some.expect_empty("")
@@ -127,4 +127,4 @@ def test_some_expect_none():
 def test_some_unwrap_empty():
     some, value = create_some()
     with pytest.raises(Exception):
-        some.expect_empty("")
+        some.unwrap_empty()

@@ -30,3 +30,12 @@ jobs:
         run: pytest
       - name: Run mypy on result.py
         run: mypy rusty_results/prelude.py
+      - name: Build coverage file
+        run: pytest --cache-clear --cov=rusty_results ./rusty_results > pytest-coverage.txt
+      - name: Comment coverage
+        uses: coroo/pytest-coverage-commentator@v1.0.2
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          files: pytest-coverage.txt
+          fail_ci_if_error: true

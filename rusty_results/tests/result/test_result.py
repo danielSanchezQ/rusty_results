@@ -32,3 +32,10 @@ def test_result_or():
     assert (Ok(0) or Err(0)) == Ok(0)
     assert (Err(0) or Err(1)) == Err(1)
     assert (Err(0) or Ok(1)) == Ok(1)
+
+
+def test_result_contains():
+    assert 0 in Ok(0)
+    assert 1 not in Ok(0)
+    assert 1 not in Err(0)
+    assert 0 not in Err(0)

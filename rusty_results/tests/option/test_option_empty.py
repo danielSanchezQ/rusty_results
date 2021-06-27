@@ -21,8 +21,8 @@ def test_empty_expects():
 
 
 def test_empty_unwrap():
-    with pytest.raises(Exception):
-        Empty().expects()
+    with pytest.raises(UnwrapException):
+        Empty().unwrap()
 
 
 def test_empty_unwrap_or():

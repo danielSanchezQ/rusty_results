@@ -1,6 +1,7 @@
 # Rusty results
 
 [![Run Python Tests](https://github.com/danielSanchezQ/rusty_results/actions/workflows/ci.yml/badge.svg)](https://github.com/danielSanchezQ/rusty_results/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/danielSanchezQ/rusty_results/branch/main/graph/badge.svg?token=6A8TEB63V0)](https://codecov.io/gh/danielSanchezQ/rusty_results)
 [![Downloads](https://pepy.tech/badge/rusty-results)](https://pepy.tech/project/rusty-results)
 
 

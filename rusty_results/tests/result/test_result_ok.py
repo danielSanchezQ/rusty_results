@@ -67,8 +67,9 @@ def test_ok_map_or_else():
 
 
 def test_ok_map_err():
+    @pytest.mark.no_cover
     def function(i: int) -> int:
-        return i + 10
+        return i + 10  # pragma: no cover
 
     lambda_function: Callable[[int], int] = lambda x: x+100
 
@@ -95,8 +96,9 @@ def test_ok_and_then():
 def test_ok_or_else():
     ok: Result[int, int] = Ok(0)
 
+    @pytest.mark.no_cover
     def op(e: int) -> int:
-        return e+10
+        return e+10  # pragma: no cover
 
     assert ok.or_else(op) == ok
 

@@ -4,7 +4,7 @@ from typing import TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
 from rusty_results.exceptions import UnwrapException
 try:
     from pydantic.fields import ModelField
-except ImportError:
+except ImportError:  # pragma: no cover
     ...
 
 # base inner type generic
@@ -23,7 +23,7 @@ class OptionProtocol(Generic[T]):
         """
         :return: True if the option is `Some`.
         """
-        ...
+        ...  # pragma: no cover
 
     @property
     @abstractmethod
@@ -31,7 +31,7 @@ class OptionProtocol(Generic[T]):
         """
         :return: True if the option is `Empty`.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def contains(self, item: T) -> bool:
@@ -39,7 +39,7 @@ class OptionProtocol(Generic[T]):
         :param item: The value to check.
         :return: True if the option is `Some` containing the given value.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def expects(self, msg: str) -> T:
@@ -48,7 +48,7 @@ class OptionProtocol(Generic[T]):
         :return: The contained `Some` value
         :raises: `UnwrapException` if option is Empty.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap(self) -> T:
@@ -60,7 +60,7 @@ class OptionProtocol(Generic[T]):
         :return: The contained Some value, consuming the self value.
         :raises: `UnwrapException` if option is `Empty`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap_or(self, default: T) -> T:
@@ -71,7 +71,7 @@ class OptionProtocol(Generic[T]):
         :param default: default value.
         :return: The contained `Some` value or a provided default.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap_or_else(self, f: Callable[[], T]) -> T:
@@ -79,7 +79,7 @@ class OptionProtocol(Generic[T]):
         :param f: Compute function in case option is `Empty`.
         :return: The contained `Some` value or computed value from the closure.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def map(self, f: Callable[[T], U]) -> "Option[U]":
@@ -88,7 +88,7 @@ class OptionProtocol(Generic[T]):
         :param f: Function to apply.
         :return: `Some(f(value))` if option is `Some(value)` else `Empty`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
@@ -102,7 +102,7 @@ class OptionProtocol(Generic[T]):
         :param f: function to apply
         :return: `Some(f(value))` if option is `Some(value)` else `default`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -> U:
@@ -113,14 +113,14 @@ class OptionProtocol(Generic[T]):
         :param f: Function to apply to the map
         :return: `Some(f(value))` if option is `Some(value)` else `default()`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def iter(self) -> Iterator[T]:
         """
         :return: An iterator over the contained value if option is `Some(T)` or an empty iterator if not.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def filter(self, predicate: Callable[[T], bool]) -> "Option[T]":
@@ -128,7 +128,7 @@ class OptionProtocol(Generic[T]):
         :param predicate:
         :return: `Some(T)` if predicate returns `True` (where T is the wrapped value), `Empty` if predicate returns `False`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def ok_or(self, err: E) -> "Result[T, E]":
@@ -141,7 +141,7 @@ class OptionProtocol(Generic[T]):
         :param err: `Err` value
         :return: `Ok(T)` if option is `Some(T)` else `Err(err)`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def ok_or_else(self, err: Callable[[], E]) -> "Result[T, E]":
@@ -150,7 +150,7 @@ class OptionProtocol(Generic[T]):
         :param err: Callable that return the `Err` value
         :return: `Ok(T)` if option is `Some(T)` else `Err(err())`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def and_then(self, f: Callable[[T], "Option[T]"]) -> "Option[T]":
@@ -160,7 +160,7 @@ class OptionProtocol(Generic[T]):
         :param f: The function to call.
         :return: `Empty` if the option is `Empty`, otherwise calls f with the wrapped value and returns the result.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def or_else(self, f: Callable[[], "Option[T]"]) -> "Option[T]":
@@ -169,7 +169,7 @@ class OptionProtocol(Generic[T]):
         :param f: The function to call.
         :return: The option if it contains a value, otherwise calls f and returns the result.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def xor(self, optb: "Option[T]") -> "Option[T]":
@@ -178,7 +178,7 @@ class OptionProtocol(Generic[T]):
         :param optb: `Option` to compare with.
         :return: `Some` if exactly one of self or optb is `Some`, otherwise returns `Empty`.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def zip(self, value: "Option[U]") -> "Option[Tuple[T, U]]":
@@ -188,7 +188,7 @@ class OptionProtocol(Generic[T]):
         :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[[s], [o]]`.
         Otherwise, `Empty` is returned.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def zip_with(self, other: "Option[U]", f: Callable[[Tuple[T, U]], R]) -> "Option[R]":
@@ -200,7 +200,7 @@ class OptionProtocol(Generic[T]):
         :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[f(s, o)]`.
         Otherwise, `Empty` is returned.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def expect_empty(self, msg: str):
@@ -208,18 +208,18 @@ class OptionProtocol(Generic[T]):
         :param msg: Message to be wrapped by `UnwrapException` if raised
         :raises: `UnwrapException` if option is `Some`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap_empty(self):
         """
         :raises: `UnwrapException` if option is `Some`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def __bool__(self) -> bool:
-        ...
+        ...  # pragma: no cover
 
     def __contains__(self, item: T) -> bool:
         return self.contains(item)
@@ -240,7 +240,7 @@ class OptionProtocol(Generic[T]):
         elif isinstance(value, dict):
             return cls.__validate_dict(value, field)
 
-        raise TypeError("Unable to validate Option")
+        raise TypeError("Unable to validate Option")  # pragma: no cover
 
     @classmethod
     def __validate_some(cls, value: "Some", field: "ModelField"):
@@ -281,19 +281,19 @@ class OptionProtocol(Generic[T]):
             raise TypeError("Non Empty Option do not have a proper Value")
 
         if not field.sub_fields:
-            raise TypeError("Cannot check Option pydantic subfields validations")
+            raise TypeError("Cannot check Option pydantic subfields validations") # pragma: no cover
 
         field_value = field.sub_fields[0]
         valid_value, error = field_value.validate(value["Some"], {}, loc="")
         if error:
             # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Option)  # type: ignore
+            raise pydantic.ValidationError(error, Option)  # type: ignore  # pragma: no cover
 
         return Some(valid_value)
 
 
 @dataclass(eq=True, frozen=True)
-class Some(Generic[T]):
+class Some(OptionProtocol[T]):
     Some: T
 
     @property
@@ -461,7 +461,7 @@ class ResultProtocol(Generic[T, E]):
         """
         :return: True if the result is Ok
         """
-        ...
+        ...  # pragma: no cover
 
     @property
     @abstractmethod
@@ -469,7 +469,7 @@ class ResultProtocol(Generic[T, E]):
         """
         :return: True if the result is Err
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def contains(self, value: T) -> bool:
@@ -477,7 +477,7 @@ class ResultProtocol(Generic[T, E]):
         :param value: Value to be checked
         :return: True if the result is an Ok value containing the given value
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def contains_err(self, err: E) -> bool:
@@ -485,7 +485,7 @@ class ResultProtocol(Generic[T, E]):
         :param err: Value to be checked
         :return: True if the result is an Err containing the given err value
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def ok(self) -> Option[T]:
@@ -493,7 +493,7 @@ class ResultProtocol(Generic[T, E]):
         Converts from `Result[T, E]` to `Option[T]`
         :return: `Some(T)` if result is `Ok(T)` otherwise `Empty` discarding the error, if any.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def err(self) -> Option[E]:
@@ -501,7 +501,7 @@ class ResultProtocol(Generic[T, E]):
         Converts from `Result[T, E]` to `Option[E]`
         :return: `Some(E)` if result is `Err(E)` otherwise `Empty` discarding the success value, if any.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def map(self, f: Callable[[T], U]) -> "Result[U, E]":
@@ -512,7 +512,7 @@ class ResultProtocol(Generic[T, E]):
         :param f: Function to apply to the `Ok(T)`
         :return: A new result wrapping the new value, if applied.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def map_or(self, default: U, f: Callable[[T], U]) -> U:
@@ -525,7 +525,7 @@ class ResultProtocol(Generic[T, E]):
         :param f: Function to apply to the `Ok(T)`
         :return: A new value with the result of applying the function to the Ok(value) or the default value.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -> U:
@@ -538,7 +538,7 @@ class ResultProtocol(Generic[T, E]):
         :param f: Function to apply to the `Ok(T)`
         :return: A new value with the result of applying the function to the Ok(value) or the default value loaded from the default function call.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def map_err(self, f: Callable[[E], U]) -> "Result[T, U]":
@@ -550,14 +550,14 @@ class ResultProtocol(Generic[T, E]):
         :param f: Function to apply to the `E`
         :return: A new result with the modified `Err` value if applies.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def iter(self) -> Iterator[T]:
         """
         :return: An iterator with a value if the result is `Ok` otherwise an empty iterator.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def and_then(self, op: Callable[[T], "Result[T, E]"]) -> "Result[T, E]":
@@ -568,7 +568,7 @@ class ResultProtocol(Generic[T, E]):
         :param op: Callable to apply if result value if is `Ok`
         :return: A result from applying op if `Ok`, original `Err` if not
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def or_else(self, op: Callable[[E], U]) -> "Result[T, U]":
@@ -579,7 +579,7 @@ class ResultProtocol(Generic[T, E]):
         :param op: Callable to apply if result value if is `Err`
         :return: A result from applying op if `Err`, original `Ok` if not
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap(self) -> T:
@@ -591,7 +591,7 @@ class ResultProtocol(Generic[T, E]):
         :return: Contained `Ok` value
         :raises: `UnwrapException` if resutl is `Err`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap_or(self, default: T) -> T:
@@ -603,7 +603,7 @@ class ResultProtocol(Generic[T, E]):
         :param default: Value to be returned if result is `Err`
         :return: `Ok` value or `default`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap_or_else(self, default: Callable[[], T]) -> T:
@@ -611,7 +611,7 @@ class ResultProtocol(Generic[T, E]):
         :param default: Function to call for the default value
         :return: The contained `Ok` value or computes it from a closure.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def expect(self, msg: str) -> T:
@@ -620,7 +620,7 @@ class ResultProtocol(Generic[T, E]):
         :return: The contained `Ok` value
         :raises: `UnwrapException`
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def unwrap_err(self) -> E:
@@ -628,7 +628,7 @@ class ResultProtocol(Generic[T, E]):
         :return: The contained `Err` value.
         :raises: `UnwrapException` if result is `Ok`.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def expect_err(self, msg: str) -> E:
@@ -637,11 +637,11 @@ class ResultProtocol(Generic[T, E]):
         :return: The contained `Err` value.
         :raises: `UnwrapException` if result is `Ok`.
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def __bool__(self) -> bool:
-        ...
+        ...  # pragma: no cover
 
     def __contains__(self, item: T) -> bool:
         return self.contains(item)
@@ -662,14 +662,14 @@ class ResultProtocol(Generic[T, E]):
         elif isinstance(value, dict):
             return cls.__validate_dict(value, field)
 
-        raise TypeError("Unable to validate Result")
+        raise TypeError("Unable to validate Result")  # pragma: no cover
 
     @classmethod
     def __validate_ok(cls, value: "Ok", field: "ModelField"):
         import pydantic
 
         if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError("Wrong subfields found for Ok")
+            raise TypeError("Wrong subfields found for Ok") # pragma: no cover
 
         field_value = field.sub_fields[0]
         valid_value, error = field_value.validate(value.Ok, {}, loc="")
@@ -684,7 +684,7 @@ class ResultProtocol(Generic[T, E]):
         import pydantic
 
         if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError("Wrong subfields found for Ok")
+            raise TypeError("Wrong subfields found for Ok") # pragma: no cover
 
         field_value = field.sub_fields[1]
         valid_value, error = field_value.validate(value.Error, {}, loc="")
@@ -699,12 +699,12 @@ class ResultProtocol(Generic[T, E]):
         import pydantic
 
         if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError("Wrong subfields found for Ok")
+            raise TypeError("Wrong subfields found for Ok") # pragma: no cover
 
         if len(value) != 1:
             raise TypeError(
                 "Extra object parameters found, Results have strictly 1 value (either Value (Ok) or Error (Err))"
-            )
+            )  # pragma: no cover
 
         return_class: Callable[[Any], Any]
         inner_value: Any
@@ -713,13 +713,14 @@ class ResultProtocol(Generic[T, E]):
         elif "Error" in value:
             inner_value, return_class, subfield = value.get("Error"), Err, 1
         else:
-            raise TypeError("Cannot find any Result correct value")
+            # should never be able to reach here
+            raise TypeError("Cannot find any Result correct value")  # pragma: no cover
 
         field_value = field.sub_fields[subfield]
         valid_value, error = field_value.validate(inner_value, {}, loc="")
         if error:
             # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Result)  # type: ignore
+            raise pydantic.ValidationError(error, Result)  # type: ignore  # pragma: no cover
 
         return return_class(valid_value)
 
