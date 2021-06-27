@@ -21,3 +21,14 @@ def test_option_hash():
     assert len({Empty(), Empty()}) == 1
     assert len({Some(0), Some(0)}) == 1
     assert len({Empty(), Empty()}) == 1
+
+
+def test_option_contains():
+    assert 0 in Some(0)
+    assert 0 not in Empty()
+    assert 1 not in Some(0)
+
+
+def test_option_iter():
+    assert list(iter(Empty())) == []
+    assert list(iter(Some(1))) == [1]

@@ -240,7 +240,7 @@ class OptionProtocol(Generic[T]):
         elif isinstance(value, dict):
             return cls.__validate_dict(value, field)
 
-        raise TypeError("Unable to validate Option")
+        raise TypeError("Unable to validate Option")  # pragma: no cover
 
     @classmethod
     def __validate_some(cls, value: "Some", field: "ModelField"):
@@ -281,19 +281,19 @@ class OptionProtocol(Generic[T]):
             raise TypeError("Non Empty Option do not have a proper Value")
 
         if not field.sub_fields:
-            raise TypeError("Cannot check Option pydantic subfields validations")
+            raise TypeError("Cannot check Option pydantic subfields validations") # pragma: no cover
 
         field_value = field.sub_fields[0]
         valid_value, error = field_value.validate(value["Some"], {}, loc="")
         if error:
             # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Option)  # type: ignore
+            raise pydantic.ValidationError(error, Option)  # type: ignore  # pragma: no cover
 
         return Some(valid_value)
 
 
 @dataclass(eq=True, frozen=True)
-class Some(Generic[T]):
+class Some(OptionProtocol[T]):
     Some: T
 
     @property
@@ -669,7 +669,7 @@ class ResultProtocol(Generic[T, E]):
         import pydantic
 
         if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError("Wrong subfields found for Ok")
+            raise TypeError("Wrong subfields found for Ok") # pragma: no cover
 
         field_value = field.sub_fields[0]
         valid_value, error = field_value.validate(value.Ok, {}, loc="")
@@ -684,7 +684,7 @@ class ResultProtocol(Generic[T, E]):
         import pydantic
 
         if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError("Wrong subfields found for Ok")
+            raise TypeError("Wrong subfields found for Ok") # pragma: no cover
 
         field_value = field.sub_fields[1]
         valid_value, error = field_value.validate(value.Error, {}, loc="")
@@ -699,12 +699,12 @@ class ResultProtocol(Generic[T, E]):
         import pydantic
 
         if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError("Wrong subfields found for Ok")
+            raise TypeError("Wrong subfields found for Ok") # pragma: no cover
 
         if len(value) != 1:
             raise TypeError(
                 "Extra object parameters found, Results have strictly 1 value (either Value (Ok) or Error (Err))"
-            )
+            )  # pragma: no cover
 
         return_class: Callable[[Any], Any]
         inner_value: Any
