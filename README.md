@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/danielSanchezQ/rusty_results/branch/main/graph/badge.svg?token=6A8TEB63V0)](https://codecov.io/gh/danielSanchezQ/rusty_results)
 [![Downloads](https://pepy.tech/badge/rusty-results)](https://pepy.tech/project/rusty-results)
 [![GitHub release](https://img.shields.io/badge/github-repository-blue)](https://github.com/danielsanchezq/rusty_results)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/danielsanchezq/rusty_results)
 
 
 Rusty results is a Python library for dealing with result and optional types inspired by rust standard library.
