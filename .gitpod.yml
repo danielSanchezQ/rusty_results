@@ -1,0 +1,4 @@
+image: python:rc-buster
+
+tasks:
+  - init: pip3 install -r requirements_dev.txt
