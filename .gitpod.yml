@@ -1,8 +1,7 @@
+image: python:rc-buster
+
 tasks:
-  - init: |
-      pyenv install 3.10-dev
-      pyenv global 3.10-dev
-      pip3 install -r requirements_dev.txt
+  - init: pip3 install -r requirements_dev.txt
 
 vscode:
   extensions:
