@@ -1,7 +1,9 @@
 image: python:rc-buster
 
 tasks:
-  - init: pip3 install -r requirements_dev.txt
+  - init: |
+      pip3 install -r requirements_dev.txt
+      pip3 install -e ./rusty_results
 
 vscode:
   extensions:
