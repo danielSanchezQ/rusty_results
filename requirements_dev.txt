@@ -1,4 +1,0 @@
-pytest==6.2.2
-pytest-cov==2.12.1
-mypy==0.812
-pydantic==1.8.1
