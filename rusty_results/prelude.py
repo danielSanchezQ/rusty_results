@@ -401,7 +401,7 @@ class Some(OptionProtocol[T]):
         this: Union[T, "Option[T]"] = self
         inner: Union[T, "Option[T]"] = self.flatten_one()
         while inner != this:
-            this, inner = (inner, this.flatten_one())  # type: ignore[union-attr]
+            this, inner = (inner, inner.flatten_one())  # type: ignore[union-attr]
         return this  # type: ignore[return-value]
 
     def __bool__(self) -> bool:
