@@ -128,3 +128,31 @@ def test_some_unwrap_empty():
     some, value = create_some()
     with pytest.raises(Exception):
         some.unwrap_empty()
+
+
+@pytest.mark.parametrize(
+    "option, expected_flatten",
+    [
+        (Some(1), Some(1)),
+        (Some(Some(2)), Some(2)),
+        (Some(Some(Some(3))), Some(Some(3))),
+        (Some(Empty()), Empty()),
+        (Some(Some(Some(Some(Some(Some(Empty())))))), Some(Some(Some(Some(Some(Empty())))))),
+    ]
+)
+def test_flatten_one(option: Option, expected_flatten: Option):
+    assert option.flatten_one() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    "option, expected_flatten",
+    [
+        (Some(1), Some(1)),
+        (Some(Some(2)), Some(2)),
+        (Some(Some(Some(3))), Some(3)),
+        (Some(Empty()), Empty()),
+        (Some(Some(Some(Some(Some(Some(Empty())))))), Empty()),
+    ]
+)
+def test_flatten(option: Option, expected_flatten: Option):
+    assert option.flatten() == expected_flatten

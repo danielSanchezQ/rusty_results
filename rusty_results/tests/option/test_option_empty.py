@@ -90,3 +90,13 @@ def test_empty_expect_none():
 
 def test_empty_unwrap_empty():
     Empty().unwrap_empty()
+
+
+def test_flatten():
+    this: Empty = Empty()
+    assert this.flatten_one() == this
+
+
+def test_flatten_all():
+    this: Empty = Empty()
+    assert this.flatten() == this

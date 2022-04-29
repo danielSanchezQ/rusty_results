@@ -218,6 +218,29 @@ class OptionProtocol(Generic[T]):
         ...  # pragma: no cover
 
     @abstractmethod
+    def flatten_one(self) -> "Option[T]":
+        """
+        Removes one level from a nested `Option` structure.
+        E.g.:
+        * `Some(Some(1))` becomes `Some(1)`.
+        * `Some(Some(Some(1)))` becomes `Some(Some(1))`.
+        :return: `Option[T]` if self is `Option[Option[T]]`, otherwise `self`
+        """
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def flatten(self):
+        """
+        Removes all levels of nesting from a nested `Option` structure.
+        E.g.:
+        * `Some(Some(1))` becomes `Some(1)`.
+        * `Some(Some(Some(1)))` becomes `Some(1)`.
+        * `Some(Some(Some(Empty())))` becomes `Empty()`.
+        :return: `Option[T]` if self is `Option[ ... Option[T] ...]`, otherwise `self`
+        """
+        ...  # pragma: no cover
+
+    @abstractmethod
     def __bool__(self) -> bool:
         ...  # pragma: no cover
 
@@ -368,6 +391,20 @@ class Some(OptionProtocol[T]):
     def unwrap_empty(self):
         self.expect_empty("")
 
+    def flatten_one(self) -> "Option[T]":
+        inner: T = self.unwrap()
+        if isinstance(inner, OptionProtocol):
+            return inner
+        return self
+
+    def flatten(self) -> "Option[T]":
+        this: Some = self
+        inner: Option[T] = this.flatten_one()
+        while inner != this:
+            this = inner
+            inner = this.flatten_one()
+        return this
+
     def __bool__(self) -> bool:
         return True
 
@@ -442,6 +479,12 @@ class Empty(OptionProtocol):
 
     def unwrap_empty(self):
         ...
+
+    def flatten_one(self) -> "Option[T]":
+        return self
+
+    def flatten(self) -> "Option[T]":
+        return self
 
     def __bool__(self) -> bool:
         return False
