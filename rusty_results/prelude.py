@@ -218,7 +218,7 @@ class OptionProtocol(Generic[T]):
         ...  # pragma: no cover
 
     @abstractmethod
-    def flatten_one(self) -> Union[T, "Option[T]"]:
+    def flatten_one(self) -> "Option[T]":
         """
         Removes one level from a nested `Option` structure.
         E.g.:
@@ -229,7 +229,7 @@ class OptionProtocol(Generic[T]):
         ...  # pragma: no cover
 
     @abstractmethod
-    def flatten(self):
+    def flatten(self) -> "Option[T]":
         """
         Removes all levels of nesting from a nested `Option` structure.
         E.g.:
@@ -391,18 +391,18 @@ class Some(OptionProtocol[T]):
     def unwrap_empty(self):
         self.expect_empty("")
 
-    def flatten_one(self) -> Union[T, "Option[T]"]:
+    def flatten_one(self) -> "Option[T]":
         inner: T = self.unwrap()
         if isinstance(inner, OptionProtocol):
             return inner  # type: ignore[return-value]
         return self
 
-    def flatten(self) -> OptionProtocol[U]:
-        this: Union[T, "Option[T]"] = self
-        inner: Union[T, "Option[T]"] = self.flatten_one()
-        while inner != this:
-            this, inner = (inner, inner.flatten_one())  # type: ignore[union-attr]
-        return this  # type: ignore[return-value]
+    def flatten(self) -> "Option[T]":
+        this: Option[T] = self
+        inner: Option[T] = self.flatten_one()
+        while isinstance(inner, OptionProtocol):
+            this, inner = (inner, inner.flatten_one())
+        return this
 
     def __bool__(self) -> bool:
         return True
@@ -479,7 +479,7 @@ class Empty(OptionProtocol):
     def unwrap_empty(self):
         ...
 
-    def flatten_one(self) -> Union[T, "Option[T]"]:
+    def flatten_one(self) -> "Option[T]":
         return self
 
     def flatten(self) -> "Option[T]":
