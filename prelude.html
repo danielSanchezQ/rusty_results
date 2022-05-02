@@ -246,6 +246,29 @@ class OptionProtocol(Generic[T]):
         ...  # pragma: no cover
 
     @abstractmethod
+    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
+        &#34;&#34;&#34;
+        Removes one level from a nested `Option` structure.
+        E.g.:
+        * `Some(Some(1))` becomes `Some(1)`.
+        * `Some(Some(Some(1)))` becomes `Some(Some(1))`.
+        :return: `Option[T]` if self is `Option[Option[T]]`, otherwise `self`
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def flatten(self) -&gt; &#34;Option[T]&#34;:
+        &#34;&#34;&#34;
+        Removes all levels of nesting from a nested `Option` structure.
+        E.g.:
+        * `Some(Some(1))` becomes `Some(1)`.
+        * `Some(Some(Some(1)))` becomes `Some(1)`.
+        * `Some(Some(Some(Empty())))` becomes `Empty()`.
+        :return: `Option[T]` if self is `Option[ ... Option[T] ...]`, otherwise `self`
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
+
+    @abstractmethod
     def __bool__(self) -&gt; bool:
         ...  # pragma: no cover
 
@@ -396,6 +419,19 @@ class Some(OptionProtocol[T]):
     def unwrap_empty(self):
         self.expect_empty(&#34;&#34;)
 
+    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
+        inner: T = self.unwrap()
+        if isinstance(inner, OptionProtocol):
+            return inner  # type: ignore[return-value]
+        return self
+
+    def flatten(self) -&gt; &#34;Option[T]&#34;:
+        this: Option[T] = self
+        inner: Option[T] = self.flatten_one()
+        while inner is not this:
+            this, inner = (inner, inner.flatten_one())
+        return this
+
     def __bool__(self) -&gt; bool:
         return True
 
@@ -470,6 +506,12 @@ class Empty(OptionProtocol):
 
     def unwrap_empty(self):
         ...
+
+    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
+        return self
+
+    def flatten(self) -&gt; &#34;Option[T]&#34;:
+        return self
 
     def __bool__(self) -&gt; bool:
         return False
@@ -997,6 +1039,12 @@ class Empty(OptionProtocol):
     def unwrap_empty(self):
         ...
 
+    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
+        return self
+
+    def flatten(self) -&gt; &#34;Option[T]&#34;:
+        return self
+
     def __bool__(self) -&gt; bool:
         return False
 
@@ -1018,6 +1066,8 @@ class Empty(OptionProtocol):
 <li><code><a title="rusty_results.prelude.OptionProtocol.expect_empty" href="#rusty_results.prelude.OptionProtocol.expect_empty">expect_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expects" href="#rusty_results.prelude.OptionProtocol.expects">expects</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.filter" href="#rusty_results.prelude.OptionProtocol.filter">filter</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.flatten" href="#rusty_results.prelude.OptionProtocol.flatten">flatten</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.flatten_one" href="#rusty_results.prelude.OptionProtocol.flatten_one">flatten_one</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.is_empty" href="#rusty_results.prelude.OptionProtocol.is_empty">is_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.is_some" href="#rusty_results.prelude.OptionProtocol.is_some">is_some</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.iter" href="#rusty_results.prelude.OptionProtocol.iter">iter</a></code></li>
@@ -1514,6 +1564,29 @@ return default</p></div>
         ...  # pragma: no cover
 
     @abstractmethod
+    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
+        &#34;&#34;&#34;
+        Removes one level from a nested `Option` structure.
+        E.g.:
+        * `Some(Some(1))` becomes `Some(1)`.
+        * `Some(Some(Some(1)))` becomes `Some(Some(1))`.
+        :return: `Option[T]` if self is `Option[Option[T]]`, otherwise `self`
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def flatten(self) -&gt; &#34;Option[T]&#34;:
+        &#34;&#34;&#34;
+        Removes all levels of nesting from a nested `Option` structure.
+        E.g.:
+        * `Some(Some(1))` becomes `Some(1)`.
+        * `Some(Some(Some(1)))` becomes `Some(1)`.
+        * `Some(Some(Some(Empty())))` becomes `Empty()`.
+        :return: `Option[T]` if self is `Option[ ... Option[T] ...]`, otherwise `self`
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
+
+    @abstractmethod
     def __bool__(self) -&gt; bool:
         ...  # pragma: no cover
 
@@ -1729,6 +1802,58 @@ def filter(self, predicate: Callable[[T], bool]) -&gt; &#34;Option[T]&#34;:
     &#34;&#34;&#34;
     :param predicate:
     :return: `Some(T)` if predicate returns `True` (where T is the wrapped value), `Empty` if predicate returns `False`
+    &#34;&#34;&#34;
+    ...  # pragma: no cover</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.prelude.OptionProtocol.flatten"><code class="name flex">
+<span>def <span class="ident">flatten</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes all levels of nesting from a nested <code>Option</code> structure.
+E.g.:
+* <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1))</code> becomes <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)</code>.
+* <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)))</code> becomes <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)</code>.
+* <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>)))</code> becomes <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code>.
+:return: <code>Option[T]</code> if self is <code>Option[ &hellip; Option[T] &hellip;]</code>, otherwise <code>self</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def flatten(self) -&gt; &#34;Option[T]&#34;:
+    &#34;&#34;&#34;
+    Removes all levels of nesting from a nested `Option` structure.
+    E.g.:
+    * `Some(Some(1))` becomes `Some(1)`.
+    * `Some(Some(Some(1)))` becomes `Some(1)`.
+    * `Some(Some(Some(Empty())))` becomes `Empty()`.
+    :return: `Option[T]` if self is `Option[ ... Option[T] ...]`, otherwise `self`
+    &#34;&#34;&#34;
+    ...  # pragma: no cover</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.prelude.OptionProtocol.flatten_one"><code class="name flex">
+<span>def <span class="ident">flatten_one</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes one level from a nested <code>Option</code> structure.
+E.g.:
+* <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1))</code> becomes <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)</code>.
+* <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)))</code> becomes <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1))</code>.
+:return: <code>Option[T]</code> if self is <code>Option[Option[T]]</code>, otherwise <code>self</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def flatten_one(self) -&gt; &#34;Option[T]&#34;:
+    &#34;&#34;&#34;
+    Removes one level from a nested `Option` structure.
+    E.g.:
+    * `Some(Some(1))` becomes `Some(1)`.
+    * `Some(Some(Some(1)))` becomes `Some(Some(1))`.
+    :return: `Option[T]` if self is `Option[Option[T]]`, otherwise `self`
     &#34;&#34;&#34;
     ...  # pragma: no cover</code></pre>
 </details>
@@ -2854,6 +2979,19 @@ class Some(OptionProtocol[T]):
     def unwrap_empty(self):
         self.expect_empty(&#34;&#34;)
 
+    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
+        inner: T = self.unwrap()
+        if isinstance(inner, OptionProtocol):
+            return inner  # type: ignore[return-value]
+        return self
+
+    def flatten(self) -&gt; &#34;Option[T]&#34;:
+        this: Option[T] = self
+        inner: Option[T] = self.flatten_one()
+        while inner is not this:
+            this, inner = (inner, inner.flatten_one())
+        return this
+
     def __bool__(self) -&gt; bool:
         return True
 
@@ -2882,6 +3020,8 @@ class Some(OptionProtocol[T]):
 <li><code><a title="rusty_results.prelude.OptionProtocol.expect_empty" href="#rusty_results.prelude.OptionProtocol.expect_empty">expect_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expects" href="#rusty_results.prelude.OptionProtocol.expects">expects</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.filter" href="#rusty_results.prelude.OptionProtocol.filter">filter</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.flatten" href="#rusty_results.prelude.OptionProtocol.flatten">flatten</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.flatten_one" href="#rusty_results.prelude.OptionProtocol.flatten_one">flatten_one</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.is_empty" href="#rusty_results.prelude.OptionProtocol.is_empty">is_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.is_some" href="#rusty_results.prelude.OptionProtocol.is_some">is_some</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.iter" href="#rusty_results.prelude.OptionProtocol.iter">iter</a></code></li>
@@ -2941,6 +3081,8 @@ class Some(OptionProtocol[T]):
 <li><code><a title="rusty_results.prelude.OptionProtocol.expect_empty" href="#rusty_results.prelude.OptionProtocol.expect_empty">expect_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expects" href="#rusty_results.prelude.OptionProtocol.expects">expects</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.filter" href="#rusty_results.prelude.OptionProtocol.filter">filter</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.flatten" href="#rusty_results.prelude.OptionProtocol.flatten">flatten</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.flatten_one" href="#rusty_results.prelude.OptionProtocol.flatten_one">flatten_one</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.is_empty" href="#rusty_results.prelude.OptionProtocol.is_empty">is_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.is_some" href="#rusty_results.prelude.OptionProtocol.is_some">is_some</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.iter" href="#rusty_results.prelude.OptionProtocol.iter">iter</a></code></li>

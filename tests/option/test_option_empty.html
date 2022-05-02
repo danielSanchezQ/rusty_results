@@ -117,7 +117,17 @@ def test_empty_expect_none():
 
 
 def test_empty_unwrap_empty():
-    Empty().unwrap_empty()</code></pre>
+    Empty().unwrap_empty()
+
+
+def test_flatten():
+    this: Empty = Empty()
+    assert this.flatten_one() == this
+
+
+def test_flatten_all():
+    this: Empty = Empty()
+    assert this.flatten() == this</code></pre>
 </details>
 </section>
 <section>
@@ -405,6 +415,34 @@ def test_empty_unwrap_empty():
     assert Empty().zip_with(Some(4), lambda x, y: x + y) == Empty()</code></pre>
 </details>
 </dd>
+<dt id="rusty_results.tests.option.test_option_empty.test_flatten"><code class="name flex">
+<span>def <span class="ident">test_flatten</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_flatten():
+    this: Empty = Empty()
+    assert this.flatten_one() == this</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.option.test_option_empty.test_flatten_all"><code class="name flex">
+<span>def <span class="ident">test_flatten_all</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_flatten_all():
+    this: Empty = Empty()
+    assert this.flatten() == this</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -444,6 +482,8 @@ def test_empty_unwrap_empty():
 <li><code><a title="rusty_results.tests.option.test_option_empty.test_empty_xor" href="#rusty_results.tests.option.test_option_empty.test_empty_xor">test_empty_xor</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_empty.test_empty_zip" href="#rusty_results.tests.option.test_option_empty.test_empty_zip">test_empty_zip</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_empty.test_empty_zip_with" href="#rusty_results.tests.option.test_option_empty.test_empty_zip_with">test_empty_zip_with</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_empty.test_flatten" href="#rusty_results.tests.option.test_option_empty.test_flatten">test_flatten</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_empty.test_flatten_all" href="#rusty_results.tests.option.test_option_empty.test_flatten_all">test_flatten_all</a></code></li>
 </ul>
 </li>
 </ul>

@@ -155,7 +155,35 @@ def test_some_expect_empty():
 def test_some_unwrap_empty():
     some, value = create_some()
     with pytest.raises(Exception):
-        some.unwrap_empty()</code></pre>
+        some.unwrap_empty()
+
+
+@pytest.mark.parametrize(
+    &#34;option, expected_flatten&#34;,
+    [
+        (Some(1), Some(1)),
+        (Some(Some(2)), Some(2)),
+        (Some(Some(Some(3))), Some(Some(3))),
+        (Some(Empty()), Empty()),
+        (Some(Some(Some(Some(Some(Some(Empty())))))), Some(Some(Some(Some(Some(Empty())))))),
+    ]
+)
+def test_flatten_one(option: Option, expected_flatten: Option):
+    assert option.flatten_one() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    &#34;option, expected_flatten&#34;,
+    [
+        (Some(1), Some(1)),
+        (Some(Some(2)), Some(2)),
+        (Some(Some(Some(3))), Some(3)),
+        (Some(Empty()), Empty()),
+        (Some(Some(Some(Some(Some(Some(Empty())))))), Empty()),
+    ]
+)
+def test_flatten(option: Option, expected_flatten: Option):
+    assert option.flatten() == expected_flatten</code></pre>
 </details>
 </section>
 <section>
@@ -176,6 +204,52 @@ def test_some_unwrap_empty():
 </summary>
 <pre><code class="python">def create_some(value: int = 10) -&gt; Tuple[Some[int], int]:
     return Some(value), value</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.option.test_option_some.test_flatten"><code class="name flex">
+<span>def <span class="ident">test_flatten</span></span>(<span>option: Union[<a title="rusty_results.prelude.Some" href="../../prelude.html#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="../../prelude.html#rusty_results.prelude.Empty">Empty</a>], expected_flatten: Union[<a title="rusty_results.prelude.Some" href="../../prelude.html#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="../../prelude.html#rusty_results.prelude.Empty">Empty</a>])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@pytest.mark.parametrize(
+    &#34;option, expected_flatten&#34;,
+    [
+        (Some(1), Some(1)),
+        (Some(Some(2)), Some(2)),
+        (Some(Some(Some(3))), Some(3)),
+        (Some(Empty()), Empty()),
+        (Some(Some(Some(Some(Some(Some(Empty())))))), Empty()),
+    ]
+)
+def test_flatten(option: Option, expected_flatten: Option):
+    assert option.flatten() == expected_flatten</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.option.test_option_some.test_flatten_one"><code class="name flex">
+<span>def <span class="ident">test_flatten_one</span></span>(<span>option: Union[<a title="rusty_results.prelude.Some" href="../../prelude.html#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="../../prelude.html#rusty_results.prelude.Empty">Empty</a>], expected_flatten: Union[<a title="rusty_results.prelude.Some" href="../../prelude.html#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="../../prelude.html#rusty_results.prelude.Empty">Empty</a>])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@pytest.mark.parametrize(
+    &#34;option, expected_flatten&#34;,
+    [
+        (Some(1), Some(1)),
+        (Some(Some(2)), Some(2)),
+        (Some(Some(Some(3))), Some(Some(3))),
+        (Some(Empty()), Empty()),
+        (Some(Some(Some(Some(Some(Some(Empty())))))), Some(Some(Some(Some(Some(Empty())))))),
+    ]
+)
+def test_flatten_one(option: Option, expected_flatten: Option):
+    assert option.flatten_one() == expected_flatten</code></pre>
 </details>
 </dd>
 <dt id="rusty_results.tests.option.test_option_some.test_some_and_then"><code class="name flex">
@@ -516,6 +590,8 @@ def test_some_unwrap_empty():
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="rusty_results.tests.option.test_option_some.create_some" href="#rusty_results.tests.option.test_option_some.create_some">create_some</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_some.test_flatten" href="#rusty_results.tests.option.test_option_some.test_flatten">test_flatten</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_some.test_flatten_one" href="#rusty_results.tests.option.test_option_some.test_flatten_one">test_flatten_one</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_some_and_then" href="#rusty_results.tests.option.test_option_some.test_some_and_then">test_some_and_then</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_some_builds" href="#rusty_results.tests.option.test_option_some.test_some_builds">test_some_builds</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_some_contains" href="#rusty_results.tests.option.test_option_some.test_some_contains">test_some_contains</a></code></li>
