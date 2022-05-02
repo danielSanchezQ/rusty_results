@@ -400,7 +400,7 @@ class Some(OptionProtocol[T]):
     def flatten(self) -> "Option[T]":
         this: Option[T] = self
         inner: Option[T] = self.flatten_one()
-        while isinstance(inner, OptionProtocol):
+        while inner is not this:
             this, inner = (inner, inner.flatten_one())
         return this
 
