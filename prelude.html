@@ -128,7 +128,7 @@ class OptionProtocol(Generic[T]):
 
         :param default: default value
         :param f: function to apply
-        :return: `Some(f(value))` if option is `Some(value)` else `default`
+        :return: f(value)` if option is `Some(value)` else `default`
         &#34;&#34;&#34;
         ...  # pragma: no cover
 
@@ -1446,7 +1446,7 @@ return default</p></div>
 
         :param default: default value
         :param f: function to apply
-        :return: `Some(f(value))` if option is `Some(value)` else `default`
+        :return: f(value)` if option is `Some(value)` else `default`
         &#34;&#34;&#34;
         ...  # pragma: no cover
 
@@ -1905,7 +1905,7 @@ def map(self, f: Callable[[T], U]) -&gt; &#34;Option[U]&#34;:
 it is recommended to use map_or_else, which is lazily evaluated.</p>
 <p>:param default: default value
 :param f: function to apply
-:return: <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(f(value))</code> if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(value)</code> else <code>default</code></p></div>
+:return: f(value)<code> if option is </code>Some(value)<code> else </code>default`</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1920,7 +1920,7 @@ def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
 
     :param default: default value
     :param f: function to apply
-    :return: `Some(f(value))` if option is `Some(value)` else `default`
+    :return: f(value)` if option is `Some(value)` else `default`
     &#34;&#34;&#34;
     ...  # pragma: no cover</code></pre>
 </details>
