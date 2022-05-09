@@ -100,7 +100,7 @@ class OptionProtocol(Generic[T]):
 
         :param default: default value
         :param f: function to apply
-        :return: `Some(f(value))` if option is `Some(value)` else `default`
+        :return: f(value)` if option is `Some(value)` else `default`
         """
         ...  # pragma: no cover
 
