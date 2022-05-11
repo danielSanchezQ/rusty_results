@@ -135,3 +135,47 @@ def test_ok_expect_err():
     with pytest.raises(UnwrapException) as e:
         ok.expect_err(exception_msg)
     assert str(e.value) == exception_msg
+
+
+@pytest.mark.parametrize(
+    "result, expected_flatten",
+    [
+        (Ok(1), Ok(1)),
+        (Ok(Ok(2)), Ok(2)),
+        (Ok(Ok(Ok(3))), Ok(Ok(3))),
+        (Ok(Err(None)), Err(None)),
+        (Ok(Ok(Ok(Ok(Ok(Ok(Err(None))))))), Ok(Ok(Ok(Ok(Ok(Err(None))))))),
+    ]
+)
+def test_flatten_one(result: Result, expected_flatten: Result):
+    assert result.flatten_one() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    "result, expected_flatten",
+    [
+        (Ok(1), Ok(1)),
+        (Ok(Ok(2)), Ok(2)),
+        (Ok(Ok(Ok(3))), Ok(3)),
+        (Ok(Err(None)), Err(None)),
+        (Ok(Ok(Ok(Ok(Ok(Ok(Err(None))))))), Err(None)),
+    ]
+)
+def test_flatten(result: Result, expected_flatten: Result):
+    assert result.flatten() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    "result, expected_transpose",
+    [
+        (Ok(Some(1)), Some(Ok(1))),
+        (Ok(Empty()), Empty()),
+    ]
+)
+def test_transpose(result, expected_transpose):
+    assert result.transpose() == expected_transpose
+
+
+def test_transpose_type_error():
+    with pytest.raises(TypeError):
+        Ok(10).transpose()

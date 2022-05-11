@@ -133,3 +133,18 @@ def test_err_unwrap_err():
 def test_err_expect_err():
     err: Result[int, int] = Err(0)
     assert err.expect_err("foo") == 0
+
+
+def test_flatten_one():
+    this: Result = Err(None)
+    assert this.flatten_one() == this
+
+
+def test_flatten():
+    this: Result = Err(None)
+    assert this.flatten() == this
+
+
+def test_transpose():
+    this: Result = Err(None)
+    assert this.transpose() == Some(Err(None))

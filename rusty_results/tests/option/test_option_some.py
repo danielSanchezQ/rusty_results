@@ -156,3 +156,19 @@ def test_flatten_one(option: Option, expected_flatten: Option):
 )
 def test_flatten(option: Option, expected_flatten: Option):
     assert option.flatten() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    "option, expected_transpose",
+    [
+        (Some(Ok(1)), Ok(Some(1))),
+        (Some(Err(2)), Err(2)),
+    ]
+)
+def test_transpose(option, expected_transpose):
+    assert option.transpose() == expected_transpose
+
+
+def test_transpose_type_error():
+    with pytest.raises(TypeError):
+        Some(10).transpose()
