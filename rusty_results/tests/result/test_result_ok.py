@@ -165,6 +165,17 @@ def test_flatten(result: Result, expected_flatten: Result):
     assert result.flatten() == expected_flatten
 
 
+@pytest.mark.parametrize(
+    "result, expected_transpose",
+    [
+        (Ok(Some(1)), Some(Ok(1))),
+        (Ok(Empty()), Empty()),
+    ]
+)
+def test_transpose(result, expected_transpose):
+    assert result.transpose() == expected_transpose
+
+
 def test_transpose_type_error():
     with pytest.raises(TypeError):
         Ok(10).transpose()

@@ -143,3 +143,8 @@ def test_flatten_one():
 def test_flatten():
     this: Result = Err(None)
     assert this.flatten() == this
+
+
+def test_transpose():
+    this: Result = Err(None)
+    assert this.transpose() == Some(Err(None))

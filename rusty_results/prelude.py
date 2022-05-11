@@ -726,7 +726,6 @@ class ResultProtocol(Generic[T, E]):
         """
         ...
 
-
     @abstractmethod
     def __bool__(self) -> bool:
         ...  # pragma: no cover
