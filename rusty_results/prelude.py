@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
+from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
 from rusty_results.exceptions import UnwrapException
 try:
     from pydantic.fields import ModelField
@@ -388,7 +388,7 @@ class Some(OptionProtocol[T]):
         if other.is_some:
             # function typing is correct, we really return an Option[Tuple] but mypy complains that
             # other may not have a Value attribute because it do not understand the previous line check.
-            return Some((self.Some, other.Some))  # type: ignore
+            return Some((self.Some, other.Some))  # type: ignore[union-attr]
 
         return Empty()
 
@@ -404,7 +404,7 @@ class Some(OptionProtocol[T]):
     def flatten_one(self) -> "Option[T]":
         inner: T = self.unwrap()
         if isinstance(inner, OptionProtocol):
-            return inner  # type: ignore[return-value]
+            return cast(Option, inner)
         return self
 
     def flatten(self) -> "Option[T]":
@@ -417,7 +417,7 @@ class Some(OptionProtocol[T]):
     def transpose(self) -> "Result[Option[T], E]":
         if not isinstance(self.Some, ResultProtocol):
             raise TypeError("Inner value is not a Result")
-        value: Option[T] = self.unwrap()
+        value: "ResultProtocol[T, E]" = self.Some
         return value.map(Some)
 
     def __bool__(self) -> bool:
@@ -884,7 +884,7 @@ class Ok(ResultProtocol[T, E]):
 
     def flatten_one(self) -> "Result[T, E]":
         if isinstance(self.Ok, ResultProtocol):
-            return self.unwrap()
+            return cast(Result, self.unwrap())
         return self
 
     def flatten(self) -> "Result[T, E]":
@@ -897,7 +897,7 @@ class Ok(ResultProtocol[T, E]):
     def transpose(self) -> Option["Result[T, E]"]:
         if not isinstance(self.Ok, OptionProtocol):
             raise TypeError("Inner value is not of type Option")
-        return self.unwrap().map(Ok)
+        return cast(Option, self.unwrap()).map(Ok)
 
     def __repr__(self):
         return f"Ok({self.Ok})"
