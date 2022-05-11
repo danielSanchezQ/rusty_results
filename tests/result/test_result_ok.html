@@ -162,7 +162,51 @@ def test_ok_expect_err():
     ok: Result[int, int] = Ok(0)
     with pytest.raises(UnwrapException) as e:
         ok.expect_err(exception_msg)
-    assert str(e.value) == exception_msg</code></pre>
+    assert str(e.value) == exception_msg
+
+
+@pytest.mark.parametrize(
+    &#34;result, expected_flatten&#34;,
+    [
+        (Ok(1), Ok(1)),
+        (Ok(Ok(2)), Ok(2)),
+        (Ok(Ok(Ok(3))), Ok(Ok(3))),
+        (Ok(Err(None)), Err(None)),
+        (Ok(Ok(Ok(Ok(Ok(Ok(Err(None))))))), Ok(Ok(Ok(Ok(Ok(Err(None))))))),
+    ]
+)
+def test_flatten_one(result: Result, expected_flatten: Result):
+    assert result.flatten_one() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    &#34;result, expected_flatten&#34;,
+    [
+        (Ok(1), Ok(1)),
+        (Ok(Ok(2)), Ok(2)),
+        (Ok(Ok(Ok(3))), Ok(3)),
+        (Ok(Err(None)), Err(None)),
+        (Ok(Ok(Ok(Ok(Ok(Ok(Err(None))))))), Err(None)),
+    ]
+)
+def test_flatten(result: Result, expected_flatten: Result):
+    assert result.flatten() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    &#34;result, expected_transpose&#34;,
+    [
+        (Ok(Some(1)), Some(Ok(1))),
+        (Ok(Empty()), Empty()),
+    ]
+)
+def test_transpose(result, expected_transpose):
+    assert result.transpose() == expected_transpose
+
+
+def test_transpose_type_error():
+    with pytest.raises(TypeError):
+        Ok(10).transpose()</code></pre>
 </details>
 </section>
 <section>
@@ -172,6 +216,52 @@ def test_ok_expect_err():
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="rusty_results.tests.result.test_result_ok.test_flatten"><code class="name flex">
+<span>def <span class="ident">test_flatten</span></span>(<span>result: Union[<a title="rusty_results.prelude.Ok" href="../../prelude.html#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="../../prelude.html#rusty_results.prelude.Err">Err</a>[~T, ~E]], expected_flatten: Union[<a title="rusty_results.prelude.Ok" href="../../prelude.html#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="../../prelude.html#rusty_results.prelude.Err">Err</a>[~T, ~E]])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@pytest.mark.parametrize(
+    &#34;result, expected_flatten&#34;,
+    [
+        (Ok(1), Ok(1)),
+        (Ok(Ok(2)), Ok(2)),
+        (Ok(Ok(Ok(3))), Ok(3)),
+        (Ok(Err(None)), Err(None)),
+        (Ok(Ok(Ok(Ok(Ok(Ok(Err(None))))))), Err(None)),
+    ]
+)
+def test_flatten(result: Result, expected_flatten: Result):
+    assert result.flatten() == expected_flatten</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.result.test_result_ok.test_flatten_one"><code class="name flex">
+<span>def <span class="ident">test_flatten_one</span></span>(<span>result: Union[<a title="rusty_results.prelude.Ok" href="../../prelude.html#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="../../prelude.html#rusty_results.prelude.Err">Err</a>[~T, ~E]], expected_flatten: Union[<a title="rusty_results.prelude.Ok" href="../../prelude.html#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="../../prelude.html#rusty_results.prelude.Err">Err</a>[~T, ~E]])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@pytest.mark.parametrize(
+    &#34;result, expected_flatten&#34;,
+    [
+        (Ok(1), Ok(1)),
+        (Ok(Ok(2)), Ok(2)),
+        (Ok(Ok(Ok(3))), Ok(Ok(3))),
+        (Ok(Err(None)), Err(None)),
+        (Ok(Ok(Ok(Ok(Ok(Ok(Err(None))))))), Ok(Ok(Ok(Ok(Ok(Err(None))))))),
+    ]
+)
+def test_flatten_one(result: Result, expected_flatten: Result):
+    assert result.flatten_one() == expected_flatten</code></pre>
+</details>
+</dd>
 <dt id="rusty_results.tests.result.test_result_ok.test_ok_and_then"><code class="name flex">
 <span>def <span class="ident">test_ok_and_then</span></span>(<span>)</span>
 </code></dt>
@@ -469,6 +559,40 @@ def test_ok_expect_err():
     assert ok.unwrap_or_else(lambda: 1) == 0</code></pre>
 </details>
 </dd>
+<dt id="rusty_results.tests.result.test_result_ok.test_transpose"><code class="name flex">
+<span>def <span class="ident">test_transpose</span></span>(<span>result, expected_transpose)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@pytest.mark.parametrize(
+    &#34;result, expected_transpose&#34;,
+    [
+        (Ok(Some(1)), Some(Ok(1))),
+        (Ok(Empty()), Empty()),
+    ]
+)
+def test_transpose(result, expected_transpose):
+    assert result.transpose() == expected_transpose</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.result.test_result_ok.test_transpose_type_error"><code class="name flex">
+<span>def <span class="ident">test_transpose_type_error</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_transpose_type_error():
+    with pytest.raises(TypeError):
+        Ok(10).transpose()</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -487,6 +611,8 @@ def test_ok_expect_err():
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="rusty_results.tests.result.test_result_ok.test_flatten" href="#rusty_results.tests.result.test_result_ok.test_flatten">test_flatten</a></code></li>
+<li><code><a title="rusty_results.tests.result.test_result_ok.test_flatten_one" href="#rusty_results.tests.result.test_result_ok.test_flatten_one">test_flatten_one</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_ok.test_ok_and_then" href="#rusty_results.tests.result.test_result_ok.test_ok_and_then">test_ok_and_then</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_ok.test_ok_builds" href="#rusty_results.tests.result.test_result_ok.test_ok_builds">test_ok_builds</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_ok.test_ok_contains" href="#rusty_results.tests.result.test_result_ok.test_ok_contains">test_ok_contains</a></code></li>
@@ -505,6 +631,8 @@ def test_ok_expect_err():
 <li><code><a title="rusty_results.tests.result.test_result_ok.test_ok_unwrap_err" href="#rusty_results.tests.result.test_result_ok.test_ok_unwrap_err">test_ok_unwrap_err</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_ok.test_ok_unwrap_or" href="#rusty_results.tests.result.test_result_ok.test_ok_unwrap_or">test_ok_unwrap_or</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_ok.test_ok_unwrap_or_else" href="#rusty_results.tests.result.test_result_ok.test_ok_unwrap_or_else">test_ok_unwrap_or_else</a></code></li>
+<li><code><a title="rusty_results.tests.result.test_result_ok.test_transpose" href="#rusty_results.tests.result.test_result_ok.test_transpose">test_transpose</a></code></li>
+<li><code><a title="rusty_results.tests.result.test_result_ok.test_transpose_type_error" href="#rusty_results.tests.result.test_result_ok.test_transpose_type_error">test_transpose_type_error</a></code></li>
 </ul>
 </li>
 </ul>

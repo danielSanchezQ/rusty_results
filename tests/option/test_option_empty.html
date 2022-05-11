@@ -120,14 +120,19 @@ def test_empty_unwrap_empty():
     Empty().unwrap_empty()
 
 
-def test_flatten():
+def test_flatten_one():
     this: Empty = Empty()
     assert this.flatten_one() == this
 
 
-def test_flatten_all():
+def test_flatten():
     this: Empty = Empty()
-    assert this.flatten() == this</code></pre>
+    assert this.flatten() == this
+
+
+def test_transpose():
+    this: Empty = Empty()
+    assert this.transpose() == Ok(Empty())</code></pre>
 </details>
 </section>
 <section>
@@ -426,11 +431,11 @@ def test_flatten_all():
 </summary>
 <pre><code class="python">def test_flatten():
     this: Empty = Empty()
-    assert this.flatten_one() == this</code></pre>
+    assert this.flatten() == this</code></pre>
 </details>
 </dd>
-<dt id="rusty_results.tests.option.test_option_empty.test_flatten_all"><code class="name flex">
-<span>def <span class="ident">test_flatten_all</span></span>(<span>)</span>
+<dt id="rusty_results.tests.option.test_option_empty.test_flatten_one"><code class="name flex">
+<span>def <span class="ident">test_flatten_one</span></span>(<span>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -438,9 +443,23 @@ def test_flatten_all():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def test_flatten_all():
+<pre><code class="python">def test_flatten_one():
     this: Empty = Empty()
-    assert this.flatten() == this</code></pre>
+    assert this.flatten_one() == this</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.option.test_option_empty.test_transpose"><code class="name flex">
+<span>def <span class="ident">test_transpose</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_transpose():
+    this: Empty = Empty()
+    assert this.transpose() == Ok(Empty())</code></pre>
 </details>
 </dd>
 </dl>
@@ -483,7 +502,8 @@ def test_flatten_all():
 <li><code><a title="rusty_results.tests.option.test_option_empty.test_empty_zip" href="#rusty_results.tests.option.test_option_empty.test_empty_zip">test_empty_zip</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_empty.test_empty_zip_with" href="#rusty_results.tests.option.test_option_empty.test_empty_zip_with">test_empty_zip_with</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_empty.test_flatten" href="#rusty_results.tests.option.test_option_empty.test_flatten">test_flatten</a></code></li>
-<li><code><a title="rusty_results.tests.option.test_option_empty.test_flatten_all" href="#rusty_results.tests.option.test_option_empty.test_flatten_all">test_flatten_all</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_empty.test_flatten_one" href="#rusty_results.tests.option.test_option_empty.test_flatten_one">test_flatten_one</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_empty.test_transpose" href="#rusty_results.tests.option.test_option_empty.test_transpose">test_transpose</a></code></li>
 </ul>
 </li>
 </ul>

@@ -183,7 +183,23 @@ def test_flatten_one(option: Option, expected_flatten: Option):
     ]
 )
 def test_flatten(option: Option, expected_flatten: Option):
-    assert option.flatten() == expected_flatten</code></pre>
+    assert option.flatten() == expected_flatten
+
+
+@pytest.mark.parametrize(
+    &#34;option, expected_transpose&#34;,
+    [
+        (Some(Ok(1)), Ok(Some(1))),
+        (Some(Err(2)), Err(2)),
+    ]
+)
+def test_transpose(option, expected_transpose):
+    assert option.transpose() == expected_transpose
+
+
+def test_transpose_type_error():
+    with pytest.raises(TypeError):
+        Some(10).transpose()</code></pre>
 </details>
 </section>
 <section>
@@ -571,6 +587,40 @@ def test_flatten_one(option: Option, expected_flatten: Option):
     assert some.zip_with(Some(5), lambda x: sum(x)) == Some(value + 5)</code></pre>
 </details>
 </dd>
+<dt id="rusty_results.tests.option.test_option_some.test_transpose"><code class="name flex">
+<span>def <span class="ident">test_transpose</span></span>(<span>option, expected_transpose)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@pytest.mark.parametrize(
+    &#34;option, expected_transpose&#34;,
+    [
+        (Some(Ok(1)), Ok(Some(1))),
+        (Some(Err(2)), Err(2)),
+    ]
+)
+def test_transpose(option, expected_transpose):
+    assert option.transpose() == expected_transpose</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.option.test_option_some.test_transpose_type_error"><code class="name flex">
+<span>def <span class="ident">test_transpose_type_error</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_transpose_type_error():
+    with pytest.raises(TypeError):
+        Some(10).transpose()</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -614,6 +664,8 @@ def test_flatten_one(option: Option, expected_flatten: Option):
 <li><code><a title="rusty_results.tests.option.test_option_some.test_some_xor" href="#rusty_results.tests.option.test_option_some.test_some_xor">test_some_xor</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_some_zip" href="#rusty_results.tests.option.test_option_some.test_some_zip">test_some_zip</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_some_zip_with" href="#rusty_results.tests.option.test_option_some.test_some_zip_with">test_some_zip_with</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_some.test_transpose" href="#rusty_results.tests.option.test_option_some.test_transpose">test_transpose</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_some.test_transpose_type_error" href="#rusty_results.tests.option.test_option_some.test_transpose_type_error">test_transpose_type_error</a></code></li>
 </ul>
 </li>
 </ul>

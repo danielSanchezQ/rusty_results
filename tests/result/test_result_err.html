@@ -160,7 +160,22 @@ def test_err_unwrap_err():
 
 def test_err_expect_err():
     err: Result[int, int] = Err(0)
-    assert err.expect_err(&#34;foo&#34;) == 0</code></pre>
+    assert err.expect_err(&#34;foo&#34;) == 0
+
+
+def test_flatten_one():
+    this: Result = Err(None)
+    assert this.flatten_one() == this
+
+
+def test_flatten():
+    this: Result = Err(None)
+    assert this.flatten() == this
+
+
+def test_transpose():
+    this: Result = Err(None)
+    assert this.transpose() == Some(Err(None))</code></pre>
 </details>
 </section>
 <section>
@@ -465,6 +480,48 @@ def test_err_expect_err():
     assert err.unwrap_or_else(lambda: 1) == 1</code></pre>
 </details>
 </dd>
+<dt id="rusty_results.tests.result.test_result_err.test_flatten"><code class="name flex">
+<span>def <span class="ident">test_flatten</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_flatten():
+    this: Result = Err(None)
+    assert this.flatten() == this</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.result.test_result_err.test_flatten_one"><code class="name flex">
+<span>def <span class="ident">test_flatten_one</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_flatten_one():
+    this: Result = Err(None)
+    assert this.flatten_one() == this</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.result.test_result_err.test_transpose"><code class="name flex">
+<span>def <span class="ident">test_transpose</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_transpose():
+    this: Result = Err(None)
+    assert this.transpose() == Some(Err(None))</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -501,6 +558,9 @@ def test_err_expect_err():
 <li><code><a title="rusty_results.tests.result.test_result_err.test_err_unwrap_err" href="#rusty_results.tests.result.test_result_err.test_err_unwrap_err">test_err_unwrap_err</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_err.test_err_unwrap_or" href="#rusty_results.tests.result.test_result_err.test_err_unwrap_or">test_err_unwrap_or</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_err.test_err_unwrap_or_else" href="#rusty_results.tests.result.test_result_err.test_err_unwrap_or_else">test_err_unwrap_or_else</a></code></li>
+<li><code><a title="rusty_results.tests.result.test_result_err.test_flatten" href="#rusty_results.tests.result.test_result_err.test_flatten">test_flatten</a></code></li>
+<li><code><a title="rusty_results.tests.result.test_result_err.test_flatten_one" href="#rusty_results.tests.result.test_result_err.test_flatten_one">test_flatten_one</a></code></li>
+<li><code><a title="rusty_results.tests.result.test_result_err.test_transpose" href="#rusty_results.tests.result.test_result_err.test_transpose">test_transpose</a></code></li>
 </ul>
 </li>
 </ul>
