@@ -244,7 +244,7 @@ class OptionProtocol(Generic[T]):
     def transpose(self) -> "Result[Option[T], E]":
         """
         Transposes an Option of a Result into a Result of an Option.
-        None will be mapped to Ok(None). Some(Ok(_)) and Some(Err(_)) will be mapped to Ok(Some(_)) and Err(_).
+        Empty will be mapped to Ok(Empty). Some(Ok(_)) and Some(Err(_)) will be mapped to Ok(Some(_)) and Err(_).
         :return: `Result[Option[T], E]`
         :raises TypeError if inner value is not a `Result`
         """
@@ -417,7 +417,7 @@ class Some(OptionProtocol[T]):
     def transpose(self) -> "Result[Option[T], E]":
         if not isinstance(self.Some, ResultProtocol):
             raise TypeError("Inner value is not a Result")
-        value = self.unwrap()
+        value: Option[T] = self.unwrap()
         return value.map(Some)
 
     def __bool__(self) -> bool:
