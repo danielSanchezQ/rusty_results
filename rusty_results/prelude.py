@@ -241,6 +241,16 @@ class OptionProtocol(Generic[T]):
         ...  # pragma: no cover
 
     @abstractmethod
+    def transpose(self) -> "Result[Option[T], E]":
+        """
+        Transposes an Option of a Result into a Result of an Option.
+        None will be mapped to Ok(None). Some(Ok(_)) and Some(Err(_)) will be mapped to Ok(Some(_)) and Err(_).
+        :return: `Result[Option[T], E]`
+        :raises TypeError if inner value is not a `Result`
+        """
+        ...
+
+    @abstractmethod
     def __bool__(self) -> bool:
         ...  # pragma: no cover
 
@@ -404,6 +414,12 @@ class Some(OptionProtocol[T]):
             this, inner = (inner, inner.flatten_one())
         return this
 
+    def transpose(self) -> "Result[Option[T], E]":
+        if not isinstance(self.Some, ResultProtocol):
+            raise TypeError("Inner value is not a Result")
+        value = self.unwrap()
+        return value.map(Some)
+
     def __bool__(self) -> bool:
         return True
 
@@ -484,6 +500,9 @@ class Empty(OptionProtocol):
 
     def flatten(self) -> "Option[T]":
         return self
+
+    def transpose(self) -> "Result[Option[T], E]":
+        return Ok(self)
 
     def __bool__(self) -> bool:
         return False
@@ -682,6 +701,33 @@ class ResultProtocol(Generic[T, E]):
         ...  # pragma: no cover
 
     @abstractmethod
+    def flatten_one(self) -> "Result[T, E]":
+        """
+        Converts from Result[Result[T, E], E] to Result<T, E>, one nested level.
+        :return: Flattened Result[T, E]
+        """
+        ...
+
+    @abstractmethod
+    def flatten(self) -> "Result[T, E]":
+        """
+        Converts from Result[Result[T, E], E] to Result<T, E>, any nested level
+        :return: Flattened Result[T, E]
+        """
+        ...
+
+    @abstractmethod
+    def transpose(self) -> Option["Result[T, E]"]:
+        """
+        Transposes a Result of an Option into an Option of a Result.
+        Ok(None) will be mapped to None. Ok(Some(_)) and Err(_) will be mapped to Some(Ok(_)) and Some(Err(_))
+        :return: Option[Result[T, E]] as per the mapping above
+        :raises TypeError if inner value is not an `Option`
+        """
+        ...
+
+
+    @abstractmethod
     def __bool__(self) -> bool:
         ...  # pragma: no cover
 
@@ -836,6 +882,23 @@ class Ok(ResultProtocol[T, E]):
     def expect_err(self, msg: str) -> E:
         raise UnwrapException(msg)
 
+    def flatten_one(self) -> "Result[T, E]":
+        if isinstance(self.Ok, ResultProtocol):
+            return self.unwrap()
+        return self
+
+    def flatten(self) -> "Result[T, E]":
+        this: Result[T, E] = self
+        inner: Result[T, E] = self.flatten_one()
+        while inner is not this:
+            this, inner = (inner, inner.flatten_one())
+        return this
+
+    def transpose(self) -> Option["Result[T, E]"]:
+        if not isinstance(self.Ok, OptionProtocol):
+            raise TypeError("Inner value is not of type Option")
+        return self.unwrap().map(Ok)
+
     def __repr__(self):
         return f"Ok({self.Ok})"
 
@@ -911,6 +974,15 @@ class Err(ResultProtocol[T, E]):
 
     def expect_err(self, msg: str) -> E:
         return self.Error
+
+    def flatten_one(self) -> "Result[T, E]":
+        return self
+
+    def flatten(self) -> "Result[T, E]":
+        return self
+
+    def transpose(self) -> Option["Result[T, E]"]:
+        return Some(self)
 
     def __repr__(self):
         return f"Err({self.Error})"

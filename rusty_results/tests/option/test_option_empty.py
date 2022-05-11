@@ -92,11 +92,17 @@ def test_empty_unwrap_empty():
     Empty().unwrap_empty()
 
 
-def test_flatten():
+def test_flatten_one():
     this: Empty = Empty()
     assert this.flatten_one() == this
 
 
-def test_flatten_all():
+def test_flatten():
     this: Empty = Empty()
     assert this.flatten() == this
+
+
+def test_transpose():
+    this: Empty = Empty()
+    assert this.transpose() == Ok(Empty())
+
