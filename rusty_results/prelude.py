@@ -720,7 +720,7 @@ class ResultProtocol(Generic[T, E]):
     def transpose(self) -> Option["Result[T, E]"]:
         """
         Transposes a Result of an Option into an Option of a Result.
-        Ok(None) will be mapped to None. Ok(Some(_)) and Err(_) will be mapped to Some(Ok(_)) and Some(Err(_))
+        Ok(Empty) will be mapped to Empty. Ok(Some(_)) and Err(_) will be mapped to Some(Ok(_)) and Some(Err(_))
         :return: Option[Result[T, E]] as per the mapping above
         :raises TypeError if inner value is not an `Option`
         """
