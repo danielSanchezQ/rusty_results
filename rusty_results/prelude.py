@@ -248,7 +248,7 @@ class OptionProtocol(Generic[T]):
         :return: `Result[Option[T], E]`
         :raises TypeError if inner value is not a `Result`
         """
-        ...
+        ... # pragma: no cover
 
     @abstractmethod
     def __bool__(self) -> bool:
@@ -706,7 +706,7 @@ class ResultProtocol(Generic[T, E]):
         Converts from Result[Result[T, E], E] to Result<T, E>, one nested level.
         :return: Flattened Result[T, E]
         """
-        ...
+        ... # pragma: no cover
 
     @abstractmethod
     def flatten(self) -> "Result[T, E]":
@@ -714,7 +714,7 @@ class ResultProtocol(Generic[T, E]):
         Converts from Result[Result[T, E], E] to Result<T, E>, any nested level
         :return: Flattened Result[T, E]
         """
-        ...
+        ... # pragma: no cover
 
     @abstractmethod
     def transpose(self) -> Option["Result[T, E]"]:
@@ -724,7 +724,7 @@ class ResultProtocol(Generic[T, E]):
         :return: Option[Result[T, E]] as per the mapping above
         :raises TypeError if inner value is not an `Option`
         """
-        ...
+        ... # pragma: no cover
 
     @abstractmethod
     def __bool__(self) -> bool:
