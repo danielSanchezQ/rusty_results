@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="rusty-results",
-    version="1.0.0",
+    version="1.1.0",
     author="Daniel Sanchez Quiros, Antonio Jose Checa Bustos",
     author_email="sanchez.quiros.daniel@gmail.com, antonio.checa.bustos@gmail.com",
     description="Rust inspired Result and Option types",
