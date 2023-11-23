@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
+from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any, Optional
 from rusty_results.exceptions import UnwrapException
 try:
     from pydantic.fields import ModelField
@@ -323,6 +323,13 @@ class OptionProtocol(Generic[T]):
             raise pydantic.ValidationError(error, Option)  # type: ignore  # pragma: no cover
 
         return Some(valid_value)
+
+    @staticmethod
+    def from_optional(value: Optional[T]) -> "Option[T]":
+        if value is None:
+            return Empty()
+
+        return Some(value)
 
 
 @dataclass(eq=True, frozen=True)

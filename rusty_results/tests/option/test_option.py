@@ -32,3 +32,11 @@ def test_option_contains():
 def test_option_iter():
     assert list(iter(Empty())) == []
     assert list(iter(Some(1))) == [1]
+
+
+def test_from_optional():
+    assert Some(0) == OptionProtocol.from_optional(0)
+    assert Empty() == OptionProtocol.from_optional(None)
+    example_dictionary = {"data": 5}
+    assert Empty() == OptionProtocol.from_optional(example_dictionary.get("key_not_found"))
+    assert Some(5) == OptionProtocol.from_optional(example_dictionary.get("data"))
