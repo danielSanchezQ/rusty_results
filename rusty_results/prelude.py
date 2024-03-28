@@ -527,7 +527,6 @@ class Empty(OptionProtocol):
         return Ok(self)
 
     def early_return(self) -> T:
-        # it is safe to unwrap here as we know we are some
         raise EarlyReturnException(self)
 
     def __bool__(self) -> bool:
@@ -942,6 +941,7 @@ class Ok(ResultProtocol[T, E]):
         return cast(Option, self.unwrap()).map(Ok)
 
     def early_return(self) -> T:
+        # safe to unwrap here as we know it is Ok
         return self.unwrap()
 
     def __repr__(self):
