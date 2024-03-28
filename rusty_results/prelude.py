@@ -1,7 +1,8 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
-from rusty_results.exceptions import UnwrapException
+from rusty_results.exceptions import UnwrapException, EarlyReturnException
+
 try:
     from pydantic.fields import ModelField
 except ImportError:  # pragma: no cover
@@ -251,6 +252,15 @@ class OptionProtocol(Generic[T]):
         ... # pragma: no cover
 
     @abstractmethod
+    def early_return(self) -> T:
+        """
+        Access hook for `early_return` wrapper style.
+        :return: Self if self is Some(T) otherwise
+        :raises: EarlyReturnException(Empty)
+        """
+        ...
+
+    @abstractmethod
     def __bool__(self) -> bool:
         ...  # pragma: no cover
 
@@ -259,6 +269,14 @@ class OptionProtocol(Generic[T]):
 
     def __iter__(self):
         return self.iter()
+
+    def __invert__(self) -> T:
+        """
+        Access hook for `early_return` wrapper style.
+        :return: Self if self is Some(T) otherwise
+        :raises: EarlyReturnException(Empty)
+        """
+        return self.early_return()
 
     @classmethod
     def __get_validators__(cls):
@@ -420,6 +438,10 @@ class Some(OptionProtocol[T]):
         value: "ResultProtocol[T, E]" = self.Some
         return value.map(Some)
 
+    def early_return(self) -> T:
+        # it is safe to unwrap here as we know we are Some
+        return self.unwrap()
+
     def __bool__(self) -> bool:
         return True
 
@@ -503,6 +525,10 @@ class Empty(OptionProtocol):
 
     def transpose(self) -> "Result[Option[T], E]":
         return Ok(self)
+
+    def early_return(self) -> T:
+        # it is safe to unwrap here as we know we are some
+        raise EarlyReturnException(self)
 
     def __bool__(self) -> bool:
         return False
@@ -727,6 +753,23 @@ class ResultProtocol(Generic[T, E]):
         ... # pragma: no cover
 
     @abstractmethod
+    def early_return(self) -> T:
+        """
+        Access hook for `early_return` wrapper style.
+        :return: T if self is Ok(T) otherwise
+        :raises: EarlyReturnException(Err(e))
+        """
+        ...
+
+    def __invert__(self) -> T:
+        """
+        Access hook for `early_return` wrapper style.
+        :return: T if self is Ok(T) otherwise
+        :raises: EarlyReturnException(Err(e))
+        """
+        return self.early_return()
+
+    @abstractmethod
     def __bool__(self) -> bool:
         ...  # pragma: no cover
 
@@ -898,6 +941,9 @@ class Ok(ResultProtocol[T, E]):
             raise TypeError("Inner value is not of type Option")
         return cast(Option, self.unwrap()).map(Ok)
 
+    def early_return(self) -> T:
+        return self.unwrap()
+
     def __repr__(self):
         return f"Ok({self.Ok})"
 
@@ -982,6 +1028,9 @@ class Err(ResultProtocol[T, E]):
 
     def transpose(self) -> Option["Result[T, E]"]:
         return Some(self)
+
+    def early_return(self) -> T:
+        raise EarlyReturnException(self)
 
     def __repr__(self):
         return f"Err({self.Error})"
