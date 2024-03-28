@@ -106,3 +106,8 @@ def test_transpose():
     this: Empty = Empty()
     assert this.transpose() == Ok(Empty())
 
+
+def test_early_return():
+    with pytest.raises(EarlyReturnException):
+        this: Empty = Empty()
+        _ = ~this
