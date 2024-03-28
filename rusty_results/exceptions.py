@@ -1,11 +1,15 @@
 from functools import wraps
+from typing import TypeVar
 
 
 class UnwrapException(Exception):
     ...
 
 
-class EarlyReturnException[T](ValueError):
+T = TypeVar("T")
+
+
+class EarlyReturnException(ValueError):
     def __init__(self, value: T):
         self.value = value
         super().__init__(self.value)
