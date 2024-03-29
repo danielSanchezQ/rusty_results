@@ -6,6 +6,6 @@ def test_early_return():
     def __test_it() -> Option[str]:
         foo: Option = Empty()
         _ = ~foo
-        return Some(10)
+        return Some(10)  # pragma: no cover
 
     assert __test_it() == Empty()
