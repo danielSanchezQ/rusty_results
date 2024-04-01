@@ -179,3 +179,8 @@ def test_transpose(result, expected_transpose):
 def test_transpose_type_error():
     with pytest.raises(TypeError):
         Ok(10).transpose()
+
+
+def test_early_return():
+    err: Result[int, int] = Ok(0)
+    assert ~err == 0
