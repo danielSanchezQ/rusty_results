@@ -175,7 +175,13 @@ def test_flatten():
 
 def test_transpose():
     this: Result = Err(None)
-    assert this.transpose() == Some(Err(None))</code></pre>
+    assert this.transpose() == Some(Err(None))
+
+
+def test_early_return():
+    err: Result[int, int] = Err(0)
+    with pytest.raises(EarlyReturnException):
+        _ = ~err</code></pre>
 </details>
 </section>
 <section>
@@ -185,6 +191,21 @@ def test_transpose():
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="rusty_results.tests.result.test_result_err.test_early_return"><code class="name flex">
+<span>def <span class="ident">test_early_return</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_early_return():
+    err: Result[int, int] = Err(0)
+    with pytest.raises(EarlyReturnException):
+        _ = ~err</code></pre>
+</details>
+</dd>
 <dt id="rusty_results.tests.result.test_result_err.test_err_and_then"><code class="name flex">
 <span>def <span class="ident">test_err_and_then</span></span>(<span>)</span>
 </code></dt>
@@ -540,6 +561,7 @@ def test_transpose():
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="rusty_results.tests.result.test_result_err.test_early_return" href="#rusty_results.tests.result.test_result_err.test_early_return">test_early_return</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_err.test_err_and_then" href="#rusty_results.tests.result.test_result_err.test_err_and_then">test_err_and_then</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_err.test_err_builds" href="#rusty_results.tests.result.test_result_err.test_err_builds">test_err_builds</a></code></li>
 <li><code><a title="rusty_results.tests.result.test_result_err.test_err_contains" href="#rusty_results.tests.result.test_result_err.test_err_contains">test_err_contains</a></code></li>

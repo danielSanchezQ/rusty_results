@@ -199,7 +199,12 @@ def test_transpose(option, expected_transpose):
 
 def test_transpose_type_error():
     with pytest.raises(TypeError):
-        Some(10).transpose()</code></pre>
+        Some(10).transpose()
+
+
+def test_early_return():
+    value = ~Some(10)
+    assert value == 10</code></pre>
 </details>
 </section>
 <section>
@@ -220,6 +225,20 @@ def test_transpose_type_error():
 </summary>
 <pre><code class="python">def create_some(value: int = 10) -&gt; Tuple[Some[int], int]:
     return Some(value), value</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.tests.option.test_option_some.test_early_return"><code class="name flex">
+<span>def <span class="ident">test_early_return</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_early_return():
+    value = ~Some(10)
+    assert value == 10</code></pre>
 </details>
 </dd>
 <dt id="rusty_results.tests.option.test_option_some.test_flatten"><code class="name flex">
@@ -640,6 +659,7 @@ def test_transpose(option, expected_transpose):
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="rusty_results.tests.option.test_option_some.create_some" href="#rusty_results.tests.option.test_option_some.create_some">create_some</a></code></li>
+<li><code><a title="rusty_results.tests.option.test_option_some.test_early_return" href="#rusty_results.tests.option.test_option_some.test_early_return">test_early_return</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_flatten" href="#rusty_results.tests.option.test_option_some.test_flatten">test_flatten</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_flatten_one" href="#rusty_results.tests.option.test_option_some.test_flatten_one">test_flatten_one</a></code></li>
 <li><code><a title="rusty_results.tests.option.test_option_some.test_some_and_then" href="#rusty_results.tests.option.test_option_some.test_some_and_then">test_some_and_then</a></code></li>

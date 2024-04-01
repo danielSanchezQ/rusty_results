@@ -29,7 +29,8 @@
 <pre><code class="python">from abc import abstractmethod
 from dataclasses import dataclass
 from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
-from rusty_results.exceptions import UnwrapException
+from rusty_results.exceptions import UnwrapException, EarlyReturnException
+
 try:
     from pydantic.fields import ModelField
 except ImportError:  # pragma: no cover
@@ -276,7 +277,16 @@ class OptionProtocol(Generic[T]):
         :return: `Result[Option[T], E]`
         :raises TypeError if inner value is not a `Result`
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def early_return(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: Self if self is Some(T) otherwise
+        :raises: EarlyReturnException(Empty)
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
 
     @abstractmethod
     def __bool__(self) -&gt; bool:
@@ -287,6 +297,14 @@ class OptionProtocol(Generic[T]):
 
     def __iter__(self):
         return self.iter()
+
+    def __invert__(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: Self if self is Some(T) otherwise
+        :raises: EarlyReturnException(Empty)
+        &#34;&#34;&#34;
+        return self.early_return()
 
     @classmethod
     def __get_validators__(cls):
@@ -448,6 +466,10 @@ class Some(OptionProtocol[T]):
         value: &#34;ResultProtocol[T, E]&#34; = self.Some
         return value.map(Some)
 
+    def early_return(self) -&gt; T:
+        # it is safe to unwrap here as we know we are Some
+        return self.unwrap()
+
     def __bool__(self) -&gt; bool:
         return True
 
@@ -531,6 +553,9 @@ class Empty(OptionProtocol):
 
     def transpose(self) -&gt; &#34;Result[Option[T], E]&#34;:
         return Ok(self)
+
+    def early_return(self) -&gt; T:
+        raise EarlyReturnException(self)
 
     def __bool__(self) -&gt; bool:
         return False
@@ -734,7 +759,7 @@ class ResultProtocol(Generic[T, E]):
         Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, one nested level.
         :return: Flattened Result[T, E]
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
 
     @abstractmethod
     def flatten(self) -&gt; &#34;Result[T, E]&#34;:
@@ -742,7 +767,7 @@ class ResultProtocol(Generic[T, E]):
         Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, any nested level
         :return: Flattened Result[T, E]
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
 
     @abstractmethod
     def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
@@ -752,7 +777,24 @@ class ResultProtocol(Generic[T, E]):
         :return: Option[Result[T, E]] as per the mapping above
         :raises TypeError if inner value is not an `Option`
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def early_return(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: T if self is Ok(T) otherwise
+        :raises: EarlyReturnException(Err(e))
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
+
+    def __invert__(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: T if self is Ok(T) otherwise
+        :raises: EarlyReturnException(Err(e))
+        &#34;&#34;&#34;
+        return self.early_return()
 
     @abstractmethod
     def __bool__(self) -&gt; bool:
@@ -926,6 +968,10 @@ class Ok(ResultProtocol[T, E]):
             raise TypeError(&#34;Inner value is not of type Option&#34;)
         return cast(Option, self.unwrap()).map(Ok)
 
+    def early_return(self) -&gt; T:
+        # safe to unwrap here as we know it is Ok
+        return self.unwrap()
+
     def __repr__(self):
         return f&#34;Ok({self.Ok})&#34;
 
@@ -1010,6 +1056,9 @@ class Err(ResultProtocol[T, E]):
 
     def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
         return Some(self)
+
+    def early_return(self) -&gt; T:
+        raise EarlyReturnException(self)
 
     def __repr__(self):
         return f&#34;Err({self.Error})&#34;
@@ -1119,6 +1168,9 @@ class Empty(OptionProtocol):
     def transpose(self) -&gt; &#34;Result[Option[T], E]&#34;:
         return Ok(self)
 
+    def early_return(self) -&gt; T:
+        raise EarlyReturnException(self)
+
     def __bool__(self) -&gt; bool:
         return False
 
@@ -1137,6 +1189,7 @@ class Empty(OptionProtocol):
 <ul class="hlist">
 <li><code><a title="rusty_results.prelude.OptionProtocol.and_then" href="#rusty_results.prelude.OptionProtocol.and_then">and_then</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.contains" href="#rusty_results.prelude.OptionProtocol.contains">contains</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.early_return" href="#rusty_results.prelude.OptionProtocol.early_return">early_return</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expect_empty" href="#rusty_results.prelude.OptionProtocol.expect_empty">expect_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expects" href="#rusty_results.prelude.OptionProtocol.expects">expects</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.filter" href="#rusty_results.prelude.OptionProtocol.filter">filter</a></code></li>
@@ -1247,6 +1300,9 @@ class Err(ResultProtocol[T, E]):
     def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
         return Some(self)
 
+    def early_return(self) -&gt; T:
+        raise EarlyReturnException(self)
+
     def __repr__(self):
         return f&#34;Err({self.Error})&#34;
 
@@ -1276,6 +1332,7 @@ class Err(ResultProtocol[T, E]):
 <li><code><a title="rusty_results.prelude.ResultProtocol.and_then" href="#rusty_results.prelude.ResultProtocol.and_then">and_then</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.contains" href="#rusty_results.prelude.ResultProtocol.contains">contains</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.contains_err" href="#rusty_results.prelude.ResultProtocol.contains_err">contains_err</a></code></li>
+<li><code><a title="rusty_results.prelude.ResultProtocol.early_return" href="#rusty_results.prelude.ResultProtocol.early_return">early_return</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.err" href="#rusty_results.prelude.ResultProtocol.err">err</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.expect" href="#rusty_results.prelude.ResultProtocol.expect">expect</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.expect_err" href="#rusty_results.prelude.ResultProtocol.expect_err">expect_err</a></code></li>
@@ -1395,6 +1452,10 @@ class Ok(ResultProtocol[T, E]):
             raise TypeError(&#34;Inner value is not of type Option&#34;)
         return cast(Option, self.unwrap()).map(Ok)
 
+    def early_return(self) -&gt; T:
+        # safe to unwrap here as we know it is Ok
+        return self.unwrap()
+
     def __repr__(self):
         return f&#34;Ok({self.Ok})&#34;
 
@@ -1424,6 +1485,7 @@ class Ok(ResultProtocol[T, E]):
 <li><code><a title="rusty_results.prelude.ResultProtocol.and_then" href="#rusty_results.prelude.ResultProtocol.and_then">and_then</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.contains" href="#rusty_results.prelude.ResultProtocol.contains">contains</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.contains_err" href="#rusty_results.prelude.ResultProtocol.contains_err">contains_err</a></code></li>
+<li><code><a title="rusty_results.prelude.ResultProtocol.early_return" href="#rusty_results.prelude.ResultProtocol.early_return">early_return</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.err" href="#rusty_results.prelude.ResultProtocol.err">err</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.expect" href="#rusty_results.prelude.ResultProtocol.expect">expect</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.expect_err" href="#rusty_results.prelude.ResultProtocol.expect_err">expect_err</a></code></li>
@@ -1701,7 +1763,16 @@ return default</p></div>
         :return: `Result[Option[T], E]`
         :raises TypeError if inner value is not a `Result`
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def early_return(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: Self if self is Some(T) otherwise
+        :raises: EarlyReturnException(Empty)
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
 
     @abstractmethod
     def __bool__(self) -&gt; bool:
@@ -1712,6 +1783,14 @@ return default</p></div>
 
     def __iter__(self):
         return self.iter()
+
+    def __invert__(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: Self if self is Some(T) otherwise
+        :raises: EarlyReturnException(Empty)
+        &#34;&#34;&#34;
+        return self.early_return()
 
     @classmethod
     def __get_validators__(cls):
@@ -1860,6 +1939,27 @@ def contains(self, item: T) -&gt; bool:
     &#34;&#34;&#34;
     :param item: The value to check.
     :return: True if the option is `Some` containing the given value.
+    &#34;&#34;&#34;
+    ...  # pragma: no cover</code></pre>
+</details>
+</dd>
+<dt id="rusty_results.prelude.OptionProtocol.early_return"><code class="name flex">
+<span>def <span class="ident">early_return</span></span>(<span>self) ‑> ~T</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Access hook for <code>early_return</code> wrapper style.
+:return: Self if self is Some(T) otherwise
+:raises: EarlyReturnException(Empty)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def early_return(self) -&gt; T:
+    &#34;&#34;&#34;
+    Access hook for `early_return` wrapper style.
+    :return: Self if self is Some(T) otherwise
+    :raises: EarlyReturnException(Empty)
     &#34;&#34;&#34;
     ...  # pragma: no cover</code></pre>
 </details>
@@ -2154,7 +2254,7 @@ def transpose(self) -&gt; &#34;Result[Option[T], E]&#34;:
     :return: `Result[Option[T], E]`
     :raises TypeError if inner value is not a `Result`
     &#34;&#34;&#34;
-    ... # pragma: no cover</code></pre>
+    ...  # pragma: no cover</code></pre>
 </details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.unwrap"><code class="name flex">
@@ -2527,7 +2627,7 @@ return default</p></div>
         Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, one nested level.
         :return: Flattened Result[T, E]
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
 
     @abstractmethod
     def flatten(self) -&gt; &#34;Result[T, E]&#34;:
@@ -2535,7 +2635,7 @@ return default</p></div>
         Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, any nested level
         :return: Flattened Result[T, E]
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
 
     @abstractmethod
     def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
@@ -2545,7 +2645,24 @@ return default</p></div>
         :return: Option[Result[T, E]] as per the mapping above
         :raises TypeError if inner value is not an `Option`
         &#34;&#34;&#34;
-        ... # pragma: no cover
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def early_return(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: T if self is Ok(T) otherwise
+        :raises: EarlyReturnException(Err(e))
+        &#34;&#34;&#34;
+        ...  # pragma: no cover
+
+    def __invert__(self) -&gt; T:
+        &#34;&#34;&#34;
+        Access hook for `early_return` wrapper style.
+        :return: T if self is Ok(T) otherwise
+        :raises: EarlyReturnException(Err(e))
+        &#34;&#34;&#34;
+        return self.early_return()
 
     @abstractmethod
     def __bool__(self) -&gt; bool:
@@ -2740,6 +2857,27 @@ def contains_err(self, err: E) -&gt; bool:
     ...  # pragma: no cover</code></pre>
 </details>
 </dd>
+<dt id="rusty_results.prelude.ResultProtocol.early_return"><code class="name flex">
+<span>def <span class="ident">early_return</span></span>(<span>self) ‑> ~T</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Access hook for <code>early_return</code> wrapper style.
+:return: T if self is Ok(T) otherwise
+:raises: EarlyReturnException(Err(e))</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def early_return(self) -&gt; T:
+    &#34;&#34;&#34;
+    Access hook for `early_return` wrapper style.
+    :return: T if self is Ok(T) otherwise
+    :raises: EarlyReturnException(Err(e))
+    &#34;&#34;&#34;
+    ...  # pragma: no cover</code></pre>
+</details>
+</dd>
 <dt id="rusty_results.prelude.ResultProtocol.err"><code class="name flex">
 <span>def <span class="ident">err</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~E], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
 </code></dt>
@@ -2817,7 +2955,7 @@ def flatten(self) -&gt; &#34;Result[T, E]&#34;:
     Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, any nested level
     :return: Flattened Result[T, E]
     &#34;&#34;&#34;
-    ... # pragma: no cover</code></pre>
+    ...  # pragma: no cover</code></pre>
 </details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.flatten_one"><code class="name flex">
@@ -2836,7 +2974,7 @@ def flatten_one(self) -&gt; &#34;Result[T, E]&#34;:
     Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, one nested level.
     :return: Flattened Result[T, E]
     &#34;&#34;&#34;
-    ... # pragma: no cover</code></pre>
+    ...  # pragma: no cover</code></pre>
 </details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.iter"><code class="name flex">
@@ -3025,7 +3163,7 @@ def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
     :return: Option[Result[T, E]] as per the mapping above
     :raises TypeError if inner value is not an `Option`
     &#34;&#34;&#34;
-    ... # pragma: no cover</code></pre>
+    ...  # pragma: no cover</code></pre>
 </details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.unwrap"><code class="name flex">
@@ -3225,6 +3363,10 @@ class Some(OptionProtocol[T]):
         value: &#34;ResultProtocol[T, E]&#34; = self.Some
         return value.map(Some)
 
+    def early_return(self) -&gt; T:
+        # it is safe to unwrap here as we know we are Some
+        return self.unwrap()
+
     def __bool__(self) -&gt; bool:
         return True
 
@@ -3250,6 +3392,7 @@ class Some(OptionProtocol[T]):
 <ul class="hlist">
 <li><code><a title="rusty_results.prelude.OptionProtocol.and_then" href="#rusty_results.prelude.OptionProtocol.and_then">and_then</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.contains" href="#rusty_results.prelude.OptionProtocol.contains">contains</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.early_return" href="#rusty_results.prelude.OptionProtocol.early_return">early_return</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expect_empty" href="#rusty_results.prelude.OptionProtocol.expect_empty">expect_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expects" href="#rusty_results.prelude.OptionProtocol.expects">expects</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.filter" href="#rusty_results.prelude.OptionProtocol.filter">filter</a></code></li>
@@ -3312,6 +3455,7 @@ class Some(OptionProtocol[T]):
 <ul class="two-column">
 <li><code><a title="rusty_results.prelude.OptionProtocol.and_then" href="#rusty_results.prelude.OptionProtocol.and_then">and_then</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.contains" href="#rusty_results.prelude.OptionProtocol.contains">contains</a></code></li>
+<li><code><a title="rusty_results.prelude.OptionProtocol.early_return" href="#rusty_results.prelude.OptionProtocol.early_return">early_return</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expect_empty" href="#rusty_results.prelude.OptionProtocol.expect_empty">expect_empty</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.expects" href="#rusty_results.prelude.OptionProtocol.expects">expects</a></code></li>
 <li><code><a title="rusty_results.prelude.OptionProtocol.filter" href="#rusty_results.prelude.OptionProtocol.filter">filter</a></code></li>
@@ -3342,6 +3486,7 @@ class Some(OptionProtocol[T]):
 <li><code><a title="rusty_results.prelude.ResultProtocol.and_then" href="#rusty_results.prelude.ResultProtocol.and_then">and_then</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.contains" href="#rusty_results.prelude.ResultProtocol.contains">contains</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.contains_err" href="#rusty_results.prelude.ResultProtocol.contains_err">contains_err</a></code></li>
+<li><code><a title="rusty_results.prelude.ResultProtocol.early_return" href="#rusty_results.prelude.ResultProtocol.early_return">early_return</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.err" href="#rusty_results.prelude.ResultProtocol.err">err</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.expect" href="#rusty_results.prelude.ResultProtocol.expect">expect</a></code></li>
 <li><code><a title="rusty_results.prelude.ResultProtocol.expect_err" href="#rusty_results.prelude.ResultProtocol.expect_err">expect_err</a></code></li>
