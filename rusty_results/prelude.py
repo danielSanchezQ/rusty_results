@@ -324,13 +324,6 @@ class OptionProtocol(Generic[T]):
 
         return Some(valid_value)
 
-    @staticmethod
-    def from_optional(value: Optional[T]) -> "Option[T]":
-        if value is None:
-            return Empty()
-
-        return Some(value)
-
 
 @dataclass(eq=True, frozen=True)
 class Some(OptionProtocol[T]):
@@ -520,6 +513,16 @@ class Empty(OptionProtocol):
 
 
 Option = Union[Some[T], Empty]
+
+
+def option_from[T](value: Optional[T]) -> Option[T]:
+    """
+    :param value: Value from any type to be converted to an Option
+    :return: The value wrapped in an Option or the original Option if it is already an Option
+    """
+    if value is None:
+        return Empty()
+    return Some(value).flatten_one()
 
 
 class ResultProtocol(Generic[T, E]):
