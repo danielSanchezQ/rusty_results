@@ -2,18 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
 <title>rusty_results.prelude API documentation</title>
-<meta name="description" content="" />
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
 </head>
 <body>
 <main>
@@ -22,1063 +25,22 @@
 <h1 class="title">Module <code>rusty_results.prelude</code></h1>
 </header>
 <section id="section-intro">
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">from abc import abstractmethod
-from dataclasses import dataclass
-from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
-from rusty_results.exceptions import UnwrapException, EarlyReturnException
-
-try:
-    from pydantic.fields import ModelField
-except ImportError:  # pragma: no cover
-    ...
-
-# base inner type generic
-T = TypeVar(&#39;T&#39;)
-# base error type generic
-E = TypeVar(&#39;E&#39;)
-# generic callable args for T -&gt; U, E -&gt; U
-U = TypeVar(&#39;U&#39;)
-R = TypeVar(&#39;R&#39;)
-
-
-class OptionProtocol(Generic[T]):
-    @property
-    @abstractmethod
-    def is_some(self) -&gt; bool:
-        &#34;&#34;&#34;
-        :return: True if the option is `Some`.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @property
-    @abstractmethod
-    def is_empty(self) -&gt; bool:
-        &#34;&#34;&#34;
-        :return: True if the option is `Empty`.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def contains(self, item: T) -&gt; bool:
-        &#34;&#34;&#34;
-        :param item: The value to check.
-        :return: True if the option is `Some` containing the given value.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def expects(self, msg: str) -&gt; T:
-        &#34;&#34;&#34;
-        :param msg: Attached message for `UnwrapException` if raised.
-        :return: The contained `Some` value
-        :raises: `UnwrapException` if option is Empty.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap(self) -&gt; T:
-        &#34;&#34;&#34;
-        Because this function may panic, its use is generally discouraged.
-        Instead, prefer to use pattern matching and handle the None case explicitly, or call unwrap_or, unwrap_or_else,
-        or unwrap_or_default
-
-        :return: The contained Some value, consuming the self value.
-        :raises: `UnwrapException` if option is `Empty`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap_or(self, default: T) -&gt; T:
-        &#34;&#34;&#34;
-        Arguments passed to unwrap_or are eagerly evaluated; if you are passing the result of a function call,
-        it is recommended to use unwrap_or_else, which is lazily evaluated.
-
-        :param default: default value.
-        :return: The contained `Some` value or a provided default.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap_or_else(self, f: Callable[[], T]) -&gt; T:
-        &#34;&#34;&#34;
-        :param f: Compute function in case option is `Empty`.
-        :return: The contained `Some` value or computed value from the closure.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def map(self, f: Callable[[T], U]) -&gt; &#34;Option[U]&#34;:
-        &#34;&#34;&#34;
-        Maps an `Option[T]` to `Option[U]` by applying a function to a contained value.
-        :param f: Function to apply.
-        :return: `Some(f(value))` if option is `Some(value)` else `Empty`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-        &#34;&#34;&#34;
-        Applies a function to the contained value (if any), or returns the provided default (if not).
-
-        Arguments passed to map_or are eagerly evaluated; if you are passing the result of a function call,
-        it is recommended to use map_or_else, which is lazily evaluated.
-
-        :param default: default value
-        :param f: function to apply
-        :return: f(value)` if option is `Some(value)` else `default`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -&gt; U:
-        &#34;&#34;&#34;
-        Applies a function to the contained value (if any), or computes a default (if not).
-
-        :param default: Default value.
-        :param f: Function to apply to the map
-        :return: `Some(f(value))` if option is `Some(value)` else `default()`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def iter(self) -&gt; Iterator[T]:
-        &#34;&#34;&#34;
-        :return: An iterator over the contained value if option is `Some(T)` or an empty iterator if not.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def filter(self, predicate: Callable[[T], bool]) -&gt; &#34;Option[T]&#34;:
-        &#34;&#34;&#34;
-        :param predicate:
-        :return: `Some(T)` if predicate returns `True` (where T is the wrapped value), `Empty` if predicate returns `False`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def ok_or(self, err: E) -&gt; &#34;Result[T, E]&#34;:
-        &#34;&#34;&#34;
-        Transforms the `Option[T]` into a `Result[T, E]`, mapping `Some(v)` to `Ok(v)` and `None` to `Err(err)`.
-
-        Arguments passed to ok_or are eagerly evaluated; if you are passing the result of a function call,
-        it is recommended to use ok_or_else, which is lazily evaluated.
-
-        :param err: `Err` value
-        :return: `Ok(T)` if option is `Some(T)` else `Err(err)`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def ok_or_else(self, err: Callable[[], E]) -&gt; &#34;Result[T, E]&#34;:
-        &#34;&#34;&#34;
-        Transforms the `Option[T]` into a `Result[T, E]`, mapping `Some(v)` to `Ok(v)` and `None` to `Err(err())`.
-        :param err: Callable that return the `Err` value
-        :return: `Ok(T)` if option is `Some(T)` else `Err(err())`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def and_then(self, f: Callable[[T], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-        &#34;&#34;&#34;
-        Some languages call this operation flatmap.
-
-        :param f: The function to call.
-        :return: `Empty` if the option is `Empty`, otherwise calls f with the wrapped value and returns the result.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def or_else(self, f: Callable[[], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-        &#34;&#34;&#34;
-
-        :param f: The function to call.
-        :return: The option if it contains a value, otherwise calls f and returns the result.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def xor(self, optb: &#34;Option[T]&#34;) -&gt; &#34;Option[T]&#34;:
-        &#34;&#34;&#34;
-
-        :param optb: `Option` to compare with.
-        :return: `Some` if exactly one of self or optb is `Some`, otherwise returns `Empty`.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def zip(self, value: &#34;Option[U]&#34;) -&gt; &#34;Option[Tuple[T, U]]&#34;:
-        &#34;&#34;&#34;
-        Zips self with another Option.
-        :param value: `Option` to zip with.
-        :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[[s], [o]]`.
-        Otherwise, `Empty` is returned.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def zip_with(self, other: &#34;Option[U]&#34;, f: Callable[[Tuple[T, U]], R]) -&gt; &#34;Option[R]&#34;:
-        &#34;&#34;&#34;
-        Zips self and another Option with function f.
-
-        :param other: `Option` to zip with.
-        :param f: Function to apply to the zipped options values.
-        :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[f(s, o)]`.
-        Otherwise, `Empty` is returned.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def expect_empty(self, msg: str):
-        &#34;&#34;&#34;
-        :param msg: Message to be wrapped by `UnwrapException` if raised
-        :raises: `UnwrapException` if option is `Some`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap_empty(self):
-        &#34;&#34;&#34;
-        :raises: `UnwrapException` if option is `Some`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
-        &#34;&#34;&#34;
-        Removes one level from a nested `Option` structure.
-        E.g.:
-        * `Some(Some(1))` becomes `Some(1)`.
-        * `Some(Some(Some(1)))` becomes `Some(Some(1))`.
-        :return: `Option[T]` if self is `Option[Option[T]]`, otherwise `self`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def flatten(self) -&gt; &#34;Option[T]&#34;:
-        &#34;&#34;&#34;
-        Removes all levels of nesting from a nested `Option` structure.
-        E.g.:
-        * `Some(Some(1))` becomes `Some(1)`.
-        * `Some(Some(Some(1)))` becomes `Some(1)`.
-        * `Some(Some(Some(Empty())))` becomes `Empty()`.
-        :return: `Option[T]` if self is `Option[ ... Option[T] ...]`, otherwise `self`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def transpose(self) -&gt; &#34;Result[Option[T], E]&#34;:
-        &#34;&#34;&#34;
-        Transposes an Option of a Result into a Result of an Option.
-        Empty will be mapped to Ok(Empty). Some(Ok(_)) and Some(Err(_)) will be mapped to Ok(Some(_)) and Err(_).
-        :return: `Result[Option[T], E]`
-        :raises TypeError if inner value is not a `Result`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def early_return(self) -&gt; T:
-        &#34;&#34;&#34;
-        Access hook for `early_return` wrapper style.
-        :return: Self if self is Some(T) otherwise
-        :raises: EarlyReturnException(Empty)
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def __bool__(self) -&gt; bool:
-        ...  # pragma: no cover
-
-    def __contains__(self, item: T) -&gt; bool:
-        return self.contains(item)
-
-    def __iter__(self):
-        return self.iter()
-
-    def __invert__(self) -&gt; T:
-        &#34;&#34;&#34;
-        Access hook for `early_return` wrapper style.
-        :return: Self if self is Some(T) otherwise
-        :raises: EarlyReturnException(Empty)
-        &#34;&#34;&#34;
-        return self.early_return()
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.__validate
-
-    @classmethod
-    def __validate(cls, value: Union[&#34;Some&#34;, &#34;Empty&#34;, Dict], field: &#34;ModelField&#34;):
-        if isinstance(value, Some):
-            return cls.__validate_some(value, field)
-        elif isinstance(value, Empty):
-            return cls.__validate_empty(value, field)
-        elif isinstance(value, dict):
-            return cls.__validate_dict(value, field)
-
-        raise TypeError(&#34;Unable to validate Option&#34;)  # pragma: no cover
-
-    @classmethod
-    def __validate_some(cls, value: &#34;Some&#34;, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if not field.sub_fields:
-            raise TypeError(&#34;No subfields found for Some&#34;)
-
-        field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value.Some, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError((error, ), Some)  # type: ignore
-
-        return Some(valid_value)
-
-    @classmethod
-    def __validate_empty(cls, _: &#34;Empty&#34;, field: &#34;ModelField&#34;):
-        if field.sub_fields:
-            raise TypeError(&#34;Empty value cannot be bound to external types&#34;)
-
-        return Empty()
-
-    @classmethod
-    def __validate_dict(cls, value: Dict, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if value == {}:
-            return Empty()
-
-        if len(value) != 1:
-            raise TypeError(
-                &#34;Extra object parameters found, Option can have strictly 0 (Empty) or 1 Value (Some)&#34;,
-            )
-
-        inner_value = value.get(&#34;Some&#34;)
-        if inner_value is None:
-            raise TypeError(&#34;Non Empty Option do not have a proper Value&#34;)
-
-        if not field.sub_fields:
-            raise TypeError(&#34;Cannot check Option pydantic subfields validations&#34;) # pragma: no cover
-
-        field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value[&#34;Some&#34;], {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Option)  # type: ignore  # pragma: no cover
-
-        return Some(valid_value)
-
-
-@dataclass(eq=True, frozen=True)
-class Some(OptionProtocol[T]):
-    Some: T
-
-    @property
-    def is_some(self) -&gt; bool:
-        return True
-
-    @property
-    def is_empty(self) -&gt; bool:
-        return False
-
-    def contains(self, item: T) -&gt; bool:
-        return item == self.Some
-
-    def expects(self, msg: str) -&gt; T:
-        return self.Some
-
-    def unwrap(self) -&gt; T:
-        return self.Some
-
-    def unwrap_or(self, default: T) -&gt; T:
-        return self.Some
-
-    def unwrap_or_else(self, f: Callable[[], T]) -&gt; T:
-        return self.Some
-
-    def map(self, f: Callable[[T], U]) -&gt; &#34;Option[U]&#34;:
-        return Some(f(self.Some))
-
-    def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-        return f(self.Some)
-
-    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -&gt; U:
-        return f(self.Some)
-
-    def iter(self) -&gt; Iterator[T]:
-        def _iter():
-            yield self.Some
-        return iter(_iter())
-
-    def filter(self, predicate: Callable[[T], bool]) -&gt; &#34;Option[T]&#34;:
-        return self if predicate(self.Some) else Empty()
-
-    def ok_or(self, err: E) -&gt; &#34;Result[T, E]&#34;:
-        return Ok(self.Some)
-
-    def ok_or_else(self, err: Callable[[], E]) -&gt; &#34;Result[T, E]&#34;:
-        return Ok(self.Some)
-
-    def and_then(self, f: Callable[[T], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-        return f(self.Some)
-
-    def or_else(self, f: Callable[[], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-        return self
-
-    def xor(self, optb: &#34;Option[T]&#34;) -&gt; &#34;Option[T]&#34;:
-        return self if optb.is_empty else Empty()
-
-    def zip(self, other: &#34;Option[U]&#34;) -&gt; &#34;Option[Tuple[T, U]]&#34;:
-        if other.is_some:
-            # function typing is correct, we really return an Option[Tuple] but mypy complains that
-            # other may not have a Value attribute because it do not understand the previous line check.
-            return Some((self.Some, other.Some))  # type: ignore[union-attr]
-
-        return Empty()
-
-    def zip_with(self, other: &#34;Option[U]&#34;, f: Callable[[Tuple[T, U]], R]) -&gt; &#34;Option[R]&#34;:
-        return self.zip(other).map(f)
-
-    def expect_empty(self, msg: str):
-        raise UnwrapException(msg)
-
-    def unwrap_empty(self):
-        self.expect_empty(&#34;&#34;)
-
-    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
-        inner: T = self.unwrap()
-        if isinstance(inner, OptionProtocol):
-            return cast(Option, inner)
-        return self
-
-    def flatten(self) -&gt; &#34;Option[T]&#34;:
-        this: Option[T] = self
-        inner: Option[T] = self.flatten_one()
-        while inner is not this:
-            this, inner = (inner, inner.flatten_one())
-        return this
-
-    def transpose(self) -&gt; &#34;Result[Option[T], E]&#34;:
-        if not isinstance(self.Some, ResultProtocol):
-            raise TypeError(&#34;Inner value is not a Result&#34;)
-        value: &#34;ResultProtocol[T, E]&#34; = self.Some
-        return value.map(Some)
-
-    def early_return(self) -&gt; T:
-        # it is safe to unwrap here as we know we are Some
-        return self.unwrap()
-
-    def __bool__(self) -&gt; bool:
-        return True
-
-    @classmethod
-    def __get_validators__(cls):
-        yield from OptionProtocol.__get_validators__()
-
-
-@dataclass(eq=True, frozen=True)
-class Empty(OptionProtocol):
-    @property
-    def is_some(self) -&gt; bool:
-        return False
-
-    @property
-    def is_empty(self) -&gt; bool:
-        return True
-
-    def contains(self, item: T) -&gt; bool:
-        return False
-
-    def expects(self, msg: str) -&gt; T:
-        raise UnwrapException(msg)
-
-    def unwrap(self) -&gt; T:
-        raise UnwrapException(&#34;Tried to unwrap on an Empty value&#34;)
-
-    def unwrap_or(self, default: T) -&gt; T:
-        return default
-
-    def unwrap_or_else(self, f: Callable[[], T]) -&gt; T:
-        return f()
-
-    def map(self, f: Callable[[T], U]) -&gt; &#34;Option[U]&#34;:
-        return self
-
-    def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-        return default
-
-    def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -&gt; U:
-        return default()
-
-    def iter(self) -&gt; Iterator[T]:
-        return iter([])
-
-    def filter(self, predicate: Callable[[T], bool]) -&gt; &#34;Option[T]&#34;:
-        return self
-
-    def ok_or(self, err: E) -&gt; &#34;Result[T, E]&#34;:
-        return Err(err)
-
-    def ok_or_else(self, err: Callable[[], E]) -&gt; &#34;Result[T, E]&#34;:
-        return Err(err())
-
-    def and_then(self, f: Callable[[T], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-        return self
-
-    def or_else(self, f: Callable[[], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-        return f()
-
-    def xor(self, optb: &#34;Option[T]&#34;) -&gt; &#34;Option[T]&#34;:
-        return optb if optb.is_some else Empty()
-
-    def zip(self, value: &#34;Option[U]&#34;) -&gt; &#34;Option[Tuple[T, U]]&#34;:
-        return Empty()
-
-    def zip_with(self, other: &#34;Option[U]&#34;, f: Callable[[Tuple[T, U]], R]) -&gt; &#34;Option[R]&#34;:
-        return Empty()
-
-    def expect_empty(self, msg: str):
-        ...
-
-    def unwrap_empty(self):
-        ...
-
-    def flatten_one(self) -&gt; &#34;Option[T]&#34;:
-        return self
-
-    def flatten(self) -&gt; &#34;Option[T]&#34;:
-        return self
-
-    def transpose(self) -&gt; &#34;Result[Option[T], E]&#34;:
-        return Ok(self)
-
-    def early_return(self) -&gt; T:
-        raise EarlyReturnException(self)
-
-    def __bool__(self) -&gt; bool:
-        return False
-
-    @classmethod
-    def __get_validators__(cls):
-        yield from OptionProtocol.__get_validators__()
-
-
-Option = Union[Some[T], Empty]
-
-
-class ResultProtocol(Generic[T, E]):
-    @property
-    @abstractmethod
-    def is_ok(self) -&gt; bool:
-        &#34;&#34;&#34;
-        :return: True if the result is Ok
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @property
-    @abstractmethod
-    def is_err(self) -&gt; bool:
-        &#34;&#34;&#34;
-        :return: True if the result is Err
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def contains(self, value: T) -&gt; bool:
-        &#34;&#34;&#34;
-        :param value: Value to be checked
-        :return: True if the result is an Ok value containing the given value
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def contains_err(self, err: E) -&gt; bool:
-        &#34;&#34;&#34;
-        :param err: Value to be checked
-        :return: True if the result is an Err containing the given err value
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def ok(self) -&gt; Option[T]:
-        &#34;&#34;&#34;
-        Converts from `Result[T, E]` to `Option[T]`
-        :return: `Some(T)` if result is `Ok(T)` otherwise `Empty` discarding the error, if any.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def err(self) -&gt; Option[E]:
-        &#34;&#34;&#34;
-        Converts from `Result[T, E]` to `Option[E]`
-        :return: `Some(E)` if result is `Err(E)` otherwise `Empty` discarding the success value, if any.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def map(self, f: Callable[[T], U]) -&gt; &#34;Result[U, E]&#34;:
-        &#34;&#34;&#34;
-        Maps a `Result[T, E]` to `Result[U, E]` by applying a function to a contained Ok value, leaving an Err value untouched.
-
-        This function can be used to compose the results of two functions.
-        :param f: Function to apply to the `Ok(T)`
-        :return: A new result wrapping the new value, if applied.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-        &#34;&#34;&#34;
-        Applies a function to the contained value (if Ok), or returns the provided default (if Err).
-
-        Arguments passed to map_or are eagerly evaluated; if you are passing the result of a function call,
-        it is recommended to use map_or_else, which is lazily evaluated.
-        :param default: Default value to be returned if result ir Err
-        :param f: Function to apply to the `Ok(T)`
-        :return: A new value with the result of applying the function to the Ok(value) or the default value.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -&gt; U:
-        &#34;&#34;&#34;
-        Maps a `Result[T, E]` to `U` by applying a function to a contained Ok value,
-        or a fallback function to a contained Err value.
-
-        This function can be used to unpack a successful result while handling an error.
-        :param default: Callable to lazy load the default return value
-        :param f: Function to apply to the `Ok(T)`
-        :return: A new value with the result of applying the function to the Ok(value) or the default value loaded from the default function call.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def map_err(self, f: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-        &#34;&#34;&#34;
-        Maps a `Result[T, E]` to `Result[T, F]` by applying a function to a contained `Err` value,
-        leaving an Ok value untouched.
-
-        This function can be used to pass through a successful result while handling an error.
-        :param f: Function to apply to the `E`
-        :return: A new result with the modified `Err` value if applies.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def iter(self) -&gt; Iterator[T]:
-        &#34;&#34;&#34;
-        :return: An iterator with a value if the result is `Ok` otherwise an empty iterator.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def and_then(self, op: Callable[[T], &#34;Result[T, E]&#34;]) -&gt; &#34;Result[T, E]&#34;:
-        &#34;&#34;&#34;
-        Calls op if the result is `Ok`, otherwise returns the `Err` value of self.
-
-        This function can be used for control flow based on Result values.
-        :param op: Callable to apply if result value if is `Ok`
-        :return: A result from applying op if `Ok`, original `Err` if not
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def or_else(self, op: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-        &#34;&#34;&#34;
-        Calls op if the result is `Err`, otherwise returns the `Ok` value of self.
-
-        This function can be used for control flow based on Result values.
-        :param op: Callable to apply if result value if is `Err`
-        :return: A result from applying op if `Err`, original `Ok` if not
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap(self) -&gt; T:
-        &#34;&#34;&#34;
-        Returns the contained `Ok` value.
-
-        Because this function may raise an exception, its use is generally discouraged. Instead, prefer to use
-        pattern matching and handle the `Err` case explicitly, or call unwrap_or, unwrap_or_else, or unwrap_or_default.
-        :return: Contained `Ok` value
-        :raises: `UnwrapException` if resutl is `Err`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap_or(self, default: T) -&gt; T:
-        &#34;&#34;&#34;
-        Returns the contained `Ok` value or a provided default.
-
-        Arguments passed to unwrap_or are eagerly evaluated; if you are passing the result of a function call,
-        it is recommended to use unwrap_or_else, which is lazily evaluated.
-        :param default: Value to be returned if result is `Err`
-        :return: `Ok` value or `default`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap_or_else(self, default: Callable[[], T]) -&gt; T:
-        &#34;&#34;&#34;
-        :param default: Function to call for the default value
-        :return: The contained `Ok` value or computes it from a closure.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def expect(self, msg: str) -&gt; T:
-        &#34;&#34;&#34;
-        :param msg: Attached message in case result is `Err` and `UnwrapException` is raised
-        :return: The contained `Ok` value
-        :raises: `UnwrapException`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def unwrap_err(self) -&gt; E:
-        &#34;&#34;&#34;
-        :return: The contained `Err` value.
-        :raises: `UnwrapException` if result is `Ok`.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def expect_err(self, msg: str) -&gt; E:
-        &#34;&#34;&#34;
-        :param msg: Attached message in case result is `Ok` and `UnwrapException` is raised
-        :return: The contained `Err` value.
-        :raises: `UnwrapException` if result is `Ok`.
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def flatten_one(self) -&gt; &#34;Result[T, E]&#34;:
-        &#34;&#34;&#34;
-        Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, one nested level.
-        :return: Flattened Result[T, E]
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def flatten(self) -&gt; &#34;Result[T, E]&#34;:
-        &#34;&#34;&#34;
-        Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, any nested level
-        :return: Flattened Result[T, E]
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
-        &#34;&#34;&#34;
-        Transposes a Result of an Option into an Option of a Result.
-        Ok(Empty) will be mapped to Empty. Ok(Some(_)) and Err(_) will be mapped to Some(Ok(_)) and Some(Err(_))
-        :return: Option[Result[T, E]] as per the mapping above
-        :raises TypeError if inner value is not an `Option`
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    @abstractmethod
-    def early_return(self) -&gt; T:
-        &#34;&#34;&#34;
-        Access hook for `early_return` wrapper style.
-        :return: T if self is Ok(T) otherwise
-        :raises: EarlyReturnException(Err(e))
-        &#34;&#34;&#34;
-        ...  # pragma: no cover
-
-    def __invert__(self) -&gt; T:
-        &#34;&#34;&#34;
-        Access hook for `early_return` wrapper style.
-        :return: T if self is Ok(T) otherwise
-        :raises: EarlyReturnException(Err(e))
-        &#34;&#34;&#34;
-        return self.early_return()
-
-    @abstractmethod
-    def __bool__(self) -&gt; bool:
-        ...  # pragma: no cover
-
-    def __contains__(self, item: T) -&gt; bool:
-        return self.contains(item)
-
-    def __iter__(self) -&gt; Iterator[T]:
-        return self.iter()
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.__validate
-
-    @classmethod
-    def __validate(cls, value: Union[&#34;Ok&#34;, &#34;Err&#34;, Dict], field: &#34;ModelField&#34;):
-        if isinstance(value, Ok):
-            return cls.__validate_ok(value, field)
-        elif isinstance(value, Err):
-            return cls.__validate_err(value, field)
-        elif isinstance(value, dict):
-            return cls.__validate_dict(value, field)
-
-        raise TypeError(&#34;Unable to validate Result&#34;)  # pragma: no cover
-
-    @classmethod
-    def __validate_ok(cls, value: &#34;Ok&#34;, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError(&#34;Wrong subfields found for Ok&#34;) # pragma: no cover
-
-        field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value.Ok, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Result)  # type: ignore
-
-        return Ok(valid_value)
-
-    @classmethod
-    def __validate_err(cls, value: &#34;Err&#34;, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError(&#34;Wrong subfields found for Ok&#34;) # pragma: no cover
-
-        field_value = field.sub_fields[1]
-        valid_value, error = field_value.validate(value.Error, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Result)  # type: ignore
-
-        return Err(valid_value)
-
-    @classmethod
-    def __validate_dict(cls, value: Dict, field: &#34;ModelField&#34;):  # mypy: ignore
-        import pydantic
-
-        if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError(&#34;Wrong subfields found for Ok&#34;) # pragma: no cover
-
-        if len(value) != 1:
-            raise TypeError(
-                &#34;Extra object parameters found, Results have strictly 1 value (either Value (Ok) or Error (Err))&#34;
-            )  # pragma: no cover
-
-        return_class: Callable[[Any], Any]
-        inner_value: Any
-        if &#34;Ok&#34; in value:
-            inner_value, return_class, subfield = value.get(&#34;Ok&#34;), Ok, 0
-        elif &#34;Error&#34; in value:
-            inner_value, return_class, subfield = value.get(&#34;Error&#34;), Err, 1
-        else:
-            # should never be able to reach here
-            raise TypeError(&#34;Cannot find any Result correct value&#34;)  # pragma: no cover
-
-        field_value = field.sub_fields[subfield]
-        valid_value, error = field_value.validate(inner_value, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Result)  # type: ignore  # pragma: no cover
-
-        return return_class(valid_value)
-
-
-@dataclass(eq=True, frozen=True)
-class Ok(ResultProtocol[T, E]):
-    Ok: T
-
-    @property
-    def is_ok(self) -&gt; bool:
-        return True
-
-    @property
-    def is_err(self) -&gt; bool:
-        return False
-
-    def contains(self, value: T) -&gt; bool:
-        return self.Ok == value
-
-    def contains_err(self, err: E) -&gt; bool:
-        return False
-
-    def ok(self) -&gt; Option[T]:
-        return Some(self.Ok)
-
-    def err(self) -&gt; Option[E]:
-        return Empty()
-
-    def map(self, f: Callable[[T], U]) -&gt; &#34;Result[U, E]&#34;:
-        return Ok(f(self.Ok))
-
-    def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-        return f(self.Ok)
-
-    def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -&gt; U:
-        return f(self.Ok)
-
-    def map_err(self, f: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-        # Type ignored here. It complains that we do not transform error to U (E -&gt; U)
-        # since we do not really have an error, generic type remains the same.
-        return self  # type: ignore
-
-    def iter(self) -&gt; Iterator[T]:
-        def _iter():
-            yield self.Ok
-        return iter(_iter())
-
-    def and_then(self, op: Callable[[T], &#34;Result[U, E]&#34;]) -&gt; &#34;Result[U, E]&#34;:
-        return op(self.Ok)
-
-    def or_else(self, op: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-        # Type ignored here. It complains that we do not transform error to U (E -&gt; U)
-        # since we do not really have an error, generic type remains the same.
-        return self  # type: ignore
-
-    def unwrap(self) -&gt; T:
-        return self.Ok
-
-    def unwrap_or(self, default: T) -&gt; T:
-        return self.Ok
-
-    def unwrap_or_else(self, default: Callable[[], T]) -&gt; T:
-        return self.Ok
-
-    def expect(self, msg: str) -&gt; T:
-        return self.Ok
-
-    def unwrap_err(self) -&gt; E:
-        raise UnwrapException(f&#34;{self.Ok}&#34;)
-
-    def expect_err(self, msg: str) -&gt; E:
-        raise UnwrapException(msg)
-
-    def flatten_one(self) -&gt; &#34;Result[T, E]&#34;:
-        if isinstance(self.Ok, ResultProtocol):
-            return cast(Result, self.unwrap())
-        return self
-
-    def flatten(self) -&gt; &#34;Result[T, E]&#34;:
-        this: Result[T, E] = self
-        inner: Result[T, E] = self.flatten_one()
-        while inner is not this:
-            this, inner = (inner, inner.flatten_one())
-        return this
-
-    def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
-        if not isinstance(self.Ok, OptionProtocol):
-            raise TypeError(&#34;Inner value is not of type Option&#34;)
-        return cast(Option, self.unwrap()).map(Ok)
-
-    def early_return(self) -&gt; T:
-        # safe to unwrap here as we know it is Ok
-        return self.unwrap()
-
-    def __repr__(self):
-        return f&#34;Ok({self.Ok})&#34;
-
-    def __bool__(self):
-        return True
-
-    @classmethod
-    def __get_validators__(cls):
-        yield from ResultProtocol.__get_validators__()
-
-
-@dataclass(eq=True, frozen=True)
-class Err(ResultProtocol[T, E]):
-    Error: E
-
-    @property
-    def is_ok(self) -&gt; bool:
-        return False
-
-    @property
-    def is_err(self) -&gt; bool:
-        return True
-
-    def contains(self, value: T) -&gt; bool:
-        return False
-
-    def contains_err(self, err: E) -&gt; bool:
-        return self.Error == err
-
-    def ok(self) -&gt; Option:
-        return Empty()
-
-    def err(self) -&gt; Option:
-        return Some(self.Error)
-
-    def map(self, f: Callable[[T], U]) -&gt; &#34;Result[U, E]&#34;:
-        # Type ignored here. In this case U is the same type as T, but mypy cannot understand that match.
-        return self  # type: ignore
-
-    def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-        return default
-
-    def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -&gt; U:
-        return default(self.Error)
-
-    def map_err(self, f: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-        return Err(f(self.Error))
-
-    def iter(self) -&gt; Iterator[T]:
-        return iter(tuple())
-
-    def and_then(self, op: Callable[[T], &#34;Result[U, E]&#34;]) -&gt; &#34;Result[U, E]&#34;:
-        # Type ignored here. In this case U is the same type as T, but mypy cannot understand that match.
-        return self  # type: ignore
-
-    def or_else(self, op: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-        return Err(op(self.Error))
-
-    def unwrap(self) -&gt; T:
-        raise UnwrapException(self.Error)
-
-    def unwrap_or(self, default: T) -&gt; T:
-        return default
-
-    def unwrap_or_else(self, default: Callable[[], T]) -&gt; T:
-        return default()
-
-    def expect(self, msg: str) -&gt; T:
-        raise UnwrapException(msg)
-
-    def unwrap_err(self) -&gt; E:
-        return self.Error
-
-    def expect_err(self, msg: str) -&gt; E:
-        return self.Error
-
-    def flatten_one(self) -&gt; &#34;Result[T, E]&#34;:
-        return self
-
-    def flatten(self) -&gt; &#34;Result[T, E]&#34;:
-        return self
-
-    def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
-        return Some(self)
-
-    def early_return(self) -&gt; T:
-        raise EarlyReturnException(self)
-
-    def __repr__(self):
-        return f&#34;Err({self.Error})&#34;
-
-    def __bool__(self):
-        return False
-
-    @classmethod
-    def __get_validators__(cls):
-        yield from ResultProtocol.__get_validators__()
-
-
-Result = Union[Ok[T, E], Err[T, E]]</code></pre>
-</details>
 </section>
 <section>
 </section>
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="rusty_results.prelude.option_from"><code class="name flex">
+<span>def <span class="ident">option_from</span></span>(<span>value: Optional[~T]) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>:param value: Value from any type to be converted to an Option
+:return: The value wrapped in an Option or the original Option if it is already an Option</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -1867,7 +829,7 @@ return default</p></div>
 </ul>
 <h3>Instance variables</h3>
 <dl>
-<dt id="rusty_results.prelude.OptionProtocol.is_empty"><code class="name">var <span class="ident">is_empty</span> : bool</code></dt>
+<dt id="rusty_results.prelude.OptionProtocol.is_empty"><code class="name">prop <span class="ident">is_empty</span> : bool</code></dt>
 <dd>
 <div class="desc"><p>:return: True if the option is <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code>.</p></div>
 <details class="source">
@@ -1883,7 +845,7 @@ def is_empty(self) -&gt; bool:
     ...  # pragma: no cover</code></pre>
 </details>
 </dd>
-<dt id="rusty_results.prelude.OptionProtocol.is_some"><code class="name">var <span class="ident">is_some</span> : bool</code></dt>
+<dt id="rusty_results.prelude.OptionProtocol.is_some"><code class="name">prop <span class="ident">is_some</span> : bool</code></dt>
 <dd>
 <div class="desc"><p>:return: True if the option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code>.</p></div>
 <details class="source">
@@ -1909,20 +871,6 @@ def is_some(self) -&gt; bool:
 <div class="desc"><p>Some languages call this operation flatmap.</p>
 <p>:param f: The function to call.
 :return: <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code> if the option is <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code>, otherwise calls f with the wrapped value and returns the result.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def and_then(self, f: Callable[[T], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-    &#34;&#34;&#34;
-    Some languages call this operation flatmap.
-
-    :param f: The function to call.
-    :return: `Empty` if the option is `Empty`, otherwise calls f with the wrapped value and returns the result.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.contains"><code class="name flex">
 <span>def <span class="ident">contains</span></span>(<span>self, item: ~T) ‑> bool</span>
@@ -1930,18 +878,6 @@ def and_then(self, f: Callable[[T], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#
 <dd>
 <div class="desc"><p>:param item: The value to check.
 :return: True if the option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code> containing the given value.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def contains(self, item: T) -&gt; bool:
-    &#34;&#34;&#34;
-    :param item: The value to check.
-    :return: True if the option is `Some` containing the given value.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.early_return"><code class="name flex">
 <span>def <span class="ident">early_return</span></span>(<span>self) ‑> ~T</span>
@@ -1950,19 +886,6 @@ def contains(self, item: T) -&gt; bool:
 <div class="desc"><p>Access hook for <code>early_return</code> wrapper style.
 :return: Self if self is Some(T) otherwise
 :raises: EarlyReturnException(Empty)</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def early_return(self) -&gt; T:
-    &#34;&#34;&#34;
-    Access hook for `early_return` wrapper style.
-    :return: Self if self is Some(T) otherwise
-    :raises: EarlyReturnException(Empty)
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.expect_empty"><code class="name flex">
 <span>def <span class="ident">expect_empty</span></span>(<span>self, msg: str)</span>
@@ -1970,18 +893,6 @@ def early_return(self) -&gt; T:
 <dd>
 <div class="desc"><p>:param msg: Message to be wrapped by <code>UnwrapException</code> if raised
 :raises: <code>UnwrapException</code> if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def expect_empty(self, msg: str):
-    &#34;&#34;&#34;
-    :param msg: Message to be wrapped by `UnwrapException` if raised
-    :raises: `UnwrapException` if option is `Some`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.expects"><code class="name flex">
 <span>def <span class="ident">expects</span></span>(<span>self, msg: str) ‑> ~T</span>
@@ -1990,19 +901,6 @@ def expect_empty(self, msg: str):
 <div class="desc"><p>:param msg: Attached message for <code>UnwrapException</code> if raised.
 :return: The contained <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code> value
 :raises: <code>UnwrapException</code> if option is Empty.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def expects(self, msg: str) -&gt; T:
-    &#34;&#34;&#34;
-    :param msg: Attached message for `UnwrapException` if raised.
-    :return: The contained `Some` value
-    :raises: `UnwrapException` if option is Empty.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.filter"><code class="name flex">
 <span>def <span class="ident">filter</span></span>(<span>self, predicate: Callable[[~T], bool]) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2010,18 +908,6 @@ def expects(self, msg: str) -&gt; T:
 <dd>
 <div class="desc"><p>:param predicate:
 :return: <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(T)</code> if predicate returns <code>True</code> (where T is the wrapped value), <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code> if predicate returns <code>False</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def filter(self, predicate: Callable[[T], bool]) -&gt; &#34;Option[T]&#34;:
-    &#34;&#34;&#34;
-    :param predicate:
-    :return: `Some(T)` if predicate returns `True` (where T is the wrapped value), `Empty` if predicate returns `False`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.flatten"><code class="name flex">
 <span>def <span class="ident">flatten</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2033,22 +919,6 @@ E.g.:
 * <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)))</code> becomes <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)</code>.
 * <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>)))</code> becomes <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code>.
 :return: <code>Option[T]</code> if self is <code>Option[ &hellip; Option[T] &hellip;]</code>, otherwise <code>self</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def flatten(self) -&gt; &#34;Option[T]&#34;:
-    &#34;&#34;&#34;
-    Removes all levels of nesting from a nested `Option` structure.
-    E.g.:
-    * `Some(Some(1))` becomes `Some(1)`.
-    * `Some(Some(Some(1)))` becomes `Some(1)`.
-    * `Some(Some(Some(Empty())))` becomes `Empty()`.
-    :return: `Option[T]` if self is `Option[ ... Option[T] ...]`, otherwise `self`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.flatten_one"><code class="name flex">
 <span>def <span class="ident">flatten_one</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2059,38 +929,12 @@ E.g.:
 * <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1))</code> becomes <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)</code>.
 * <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1)))</code> becomes <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(1))</code>.
 :return: <code>Option[T]</code> if self is <code>Option[Option[T]]</code>, otherwise <code>self</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def flatten_one(self) -&gt; &#34;Option[T]&#34;:
-    &#34;&#34;&#34;
-    Removes one level from a nested `Option` structure.
-    E.g.:
-    * `Some(Some(1))` becomes `Some(1)`.
-    * `Some(Some(Some(1)))` becomes `Some(Some(1))`.
-    :return: `Option[T]` if self is `Option[Option[T]]`, otherwise `self`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.iter"><code class="name flex">
 <span>def <span class="ident">iter</span></span>(<span>self) ‑> Iterator[~T]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>:return: An iterator over the contained value if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(T)</code> or an empty iterator if not.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def iter(self) -&gt; Iterator[T]:
-    &#34;&#34;&#34;
-    :return: An iterator over the contained value if option is `Some(T)` or an empty iterator if not.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.map"><code class="name flex">
 <span>def <span class="ident">map</span></span>(<span>self, f: Callable[[~T], ~U]) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~U], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2099,19 +943,6 @@ def iter(self) -&gt; Iterator[T]:
 <div class="desc"><p>Maps an <code>Option[T]</code> to <code>Option[U]</code> by applying a function to a contained value.
 :param f: Function to apply.
 :return: <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(f(value))</code> if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(value)</code> else <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def map(self, f: Callable[[T], U]) -&gt; &#34;Option[U]&#34;:
-    &#34;&#34;&#34;
-    Maps an `Option[T]` to `Option[U]` by applying a function to a contained value.
-    :param f: Function to apply.
-    :return: `Some(f(value))` if option is `Some(value)` else `Empty`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.map_or"><code class="name flex">
 <span>def <span class="ident">map_or</span></span>(<span>self, default: ~U, f: Callable[[~T], ~U]) ‑> ~U</span>
@@ -2123,24 +954,6 @@ it is recommended to use map_or_else, which is lazily evaluated.</p>
 <p>:param default: default value
 :param f: function to apply
 :return: f(value)<code> if option is </code>Some(value)<code> else </code>default`</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-    &#34;&#34;&#34;
-    Applies a function to the contained value (if any), or returns the provided default (if not).
-
-    Arguments passed to map_or are eagerly evaluated; if you are passing the result of a function call,
-    it is recommended to use map_or_else, which is lazily evaluated.
-
-    :param default: default value
-    :param f: function to apply
-    :return: f(value)` if option is `Some(value)` else `default`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.map_or_else"><code class="name flex">
 <span>def <span class="ident">map_or_else</span></span>(<span>self, default: Callable[[], ~U], f: Callable[[~T], ~U]) ‑> ~U</span>
@@ -2150,21 +963,6 @@ def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
 <p>:param default: Default value.
 :param f: Function to apply to the map
 :return: <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(f(value))</code> if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(value)</code> else <code>default()</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -&gt; U:
-    &#34;&#34;&#34;
-    Applies a function to the contained value (if any), or computes a default (if not).
-
-    :param default: Default value.
-    :param f: Function to apply to the map
-    :return: `Some(f(value))` if option is `Some(value)` else `default()`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.ok_or"><code class="name flex">
 <span>def <span class="ident">ok_or</span></span>(<span>self, err: ~E) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~T, ~E]]</span>
@@ -2175,23 +973,6 @@ def map_or_else(self, default: Callable[[], U], f: Callable[[T], U]) -&gt; U:
 it is recommended to use ok_or_else, which is lazily evaluated.</p>
 <p>:param err: <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> value
 :return: <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>(T)</code> if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(T)</code> else <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>(err)</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def ok_or(self, err: E) -&gt; &#34;Result[T, E]&#34;:
-    &#34;&#34;&#34;
-    Transforms the `Option[T]` into a `Result[T, E]`, mapping `Some(v)` to `Ok(v)` and `None` to `Err(err)`.
-
-    Arguments passed to ok_or are eagerly evaluated; if you are passing the result of a function call,
-    it is recommended to use ok_or_else, which is lazily evaluated.
-
-    :param err: `Err` value
-    :return: `Ok(T)` if option is `Some(T)` else `Err(err)`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.ok_or_else"><code class="name flex">
 <span>def <span class="ident">ok_or_else</span></span>(<span>self, err: Callable[[], ~E]) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~T, ~E]]</span>
@@ -2200,19 +981,6 @@ def ok_or(self, err: E) -&gt; &#34;Result[T, E]&#34;:
 <div class="desc"><p>Transforms the <code>Option[T]</code> into a <code>Result[T, E]</code>, mapping <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(v)</code> to <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>(v)</code> and <code>None</code> to <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>(err())</code>.
 :param err: Callable that return the <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> value
 :return: <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>(T)</code> if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(T)</code> else <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>(err())</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def ok_or_else(self, err: Callable[[], E]) -&gt; &#34;Result[T, E]&#34;:
-    &#34;&#34;&#34;
-    Transforms the `Option[T]` into a `Result[T, E]`, mapping `Some(v)` to `Ok(v)` and `None` to `Err(err())`.
-    :param err: Callable that return the `Err` value
-    :return: `Ok(T)` if option is `Some(T)` else `Err(err())`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.or_else"><code class="name flex">
 <span>def <span class="ident">or_else</span></span>(<span>self, f: Callable[[], ForwardRef('Option[T]')]) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2220,19 +988,6 @@ def ok_or_else(self, err: Callable[[], E]) -&gt; &#34;Result[T, E]&#34;:
 <dd>
 <div class="desc"><p>:param f: The function to call.
 :return: The option if it contains a value, otherwise calls f and returns the result.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def or_else(self, f: Callable[[], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34;:
-    &#34;&#34;&#34;
-
-    :param f: The function to call.
-    :return: The option if it contains a value, otherwise calls f and returns the result.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.transpose"><code class="name flex">
 <span>def <span class="ident">transpose</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>], ~E], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>], ~E]]</span>
@@ -2242,20 +997,6 @@ def or_else(self, f: Callable[[], &#34;Option[T]&#34;]) -&gt; &#34;Option[T]&#34
 Empty will be mapped to Ok(Empty). Some(Ok(<em>)) and Some(Err(</em>)) will be mapped to Ok(Some(<em>)) and Err(</em>).
 :return: <code>Result[Option[T], E]</code>
 :raises TypeError if inner value is not a <code>Result</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def transpose(self) -&gt; &#34;Result[Option[T], E]&#34;:
-    &#34;&#34;&#34;
-    Transposes an Option of a Result into a Result of an Option.
-    Empty will be mapped to Ok(Empty). Some(Ok(_)) and Some(Err(_)) will be mapped to Ok(Some(_)) and Err(_).
-    :return: `Result[Option[T], E]`
-    :raises TypeError if inner value is not a `Result`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.unwrap"><code class="name flex">
 <span>def <span class="ident">unwrap</span></span>(<span>self) ‑> ~T</span>
@@ -2266,39 +1007,12 @@ Instead, prefer to use pattern matching and handle the None case explicitly, or 
 or unwrap_or_default</p>
 <p>:return: The contained Some value, consuming the self value.
 :raises: <code>UnwrapException</code> if option is <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap(self) -&gt; T:
-    &#34;&#34;&#34;
-    Because this function may panic, its use is generally discouraged.
-    Instead, prefer to use pattern matching and handle the None case explicitly, or call unwrap_or, unwrap_or_else,
-    or unwrap_or_default
-
-    :return: The contained Some value, consuming the self value.
-    :raises: `UnwrapException` if option is `Empty`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.unwrap_empty"><code class="name flex">
 <span>def <span class="ident">unwrap_empty</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>:raises: <code>UnwrapException</code> if option is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap_empty(self):
-    &#34;&#34;&#34;
-    :raises: `UnwrapException` if option is `Some`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.unwrap_or"><code class="name flex">
 <span>def <span class="ident">unwrap_or</span></span>(<span>self, default: ~T) ‑> ~T</span>
@@ -2308,21 +1022,6 @@ def unwrap_empty(self):
 it is recommended to use unwrap_or_else, which is lazily evaluated.</p>
 <p>:param default: default value.
 :return: The contained <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code> value or a provided default.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap_or(self, default: T) -&gt; T:
-    &#34;&#34;&#34;
-    Arguments passed to unwrap_or are eagerly evaluated; if you are passing the result of a function call,
-    it is recommended to use unwrap_or_else, which is lazily evaluated.
-
-    :param default: default value.
-    :return: The contained `Some` value or a provided default.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.unwrap_or_else"><code class="name flex">
 <span>def <span class="ident">unwrap_or_else</span></span>(<span>self, f: Callable[[], ~T]) ‑> ~T</span>
@@ -2330,18 +1029,6 @@ def unwrap_or(self, default: T) -&gt; T:
 <dd>
 <div class="desc"><p>:param f: Compute function in case option is <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code>.
 :return: The contained <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code> value or computed value from the closure.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap_or_else(self, f: Callable[[], T]) -&gt; T:
-    &#34;&#34;&#34;
-    :param f: Compute function in case option is `Empty`.
-    :return: The contained `Some` value or computed value from the closure.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.xor"><code class="name flex">
 <span>def <span class="ident">xor</span></span>(<span>self, optb: Option[T]) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2349,19 +1036,6 @@ def unwrap_or_else(self, f: Callable[[], T]) -&gt; T:
 <dd>
 <div class="desc"><p>:param optb: <code>Option</code> to compare with.
 :return: <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code> if exactly one of self or optb is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a></code>, otherwise returns <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code>.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def xor(self, optb: &#34;Option[T]&#34;) -&gt; &#34;Option[T]&#34;:
-    &#34;&#34;&#34;
-
-    :param optb: `Option` to compare with.
-    :return: `Some` if exactly one of self or optb is `Some`, otherwise returns `Empty`.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.zip"><code class="name flex">
 <span>def <span class="ident">zip</span></span>(<span>self, value: Option[U]) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[Tuple[~T, ~U]], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2371,20 +1045,6 @@ def xor(self, optb: &#34;Option[T]&#34;) -&gt; &#34;Option[T]&#34;:
 :param value: <code>Option</code> to zip with.
 :return: If self is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[s]</code> and other is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[o]</code>, this method returns <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[[s], [o]]</code>.
 Otherwise, <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code> is returned.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def zip(self, value: &#34;Option[U]&#34;) -&gt; &#34;Option[Tuple[T, U]]&#34;:
-    &#34;&#34;&#34;
-    Zips self with another Option.
-    :param value: `Option` to zip with.
-    :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[[s], [o]]`.
-    Otherwise, `Empty` is returned.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.OptionProtocol.zip_with"><code class="name flex">
 <span>def <span class="ident">zip_with</span></span>(<span>self, other: Option[U], f: Callable[[Tuple[~T, ~U]], ~R]) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~R], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2395,22 +1055,6 @@ def zip(self, value: &#34;Option[U]&#34;) -&gt; &#34;Option[Tuple[T, U]]&#34;:
 :param f: Function to apply to the zipped options values.
 :return: If self is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[s]</code> and other is <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[o]</code>, this method returns <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[f(s, o)]</code>.
 Otherwise, <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code> is returned.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def zip_with(self, other: &#34;Option[U]&#34;, f: Callable[[Tuple[T, U]], R]) -&gt; &#34;Option[R]&#34;:
-    &#34;&#34;&#34;
-    Zips self and another Option with function f.
-
-    :param other: `Option` to zip with.
-    :param f: Function to apply to the zipped options values.
-    :return: If self is `Some[s]` and other is `Some[o]`, this method returns `Some[f(s, o)]`.
-    Otherwise, `Empty` is returned.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
@@ -2760,7 +1404,7 @@ return default</p></div>
 </ul>
 <h3>Instance variables</h3>
 <dl>
-<dt id="rusty_results.prelude.ResultProtocol.is_err"><code class="name">var <span class="ident">is_err</span> : bool</code></dt>
+<dt id="rusty_results.prelude.ResultProtocol.is_err"><code class="name">prop <span class="ident">is_err</span> : bool</code></dt>
 <dd>
 <div class="desc"><p>:return: True if the result is Err</p></div>
 <details class="source">
@@ -2776,7 +1420,7 @@ def is_err(self) -&gt; bool:
     ...  # pragma: no cover</code></pre>
 </details>
 </dd>
-<dt id="rusty_results.prelude.ResultProtocol.is_ok"><code class="name">var <span class="ident">is_ok</span> : bool</code></dt>
+<dt id="rusty_results.prelude.ResultProtocol.is_ok"><code class="name">prop <span class="ident">is_ok</span> : bool</code></dt>
 <dd>
 <div class="desc"><p>:return: True if the result is Ok</p></div>
 <details class="source">
@@ -2803,21 +1447,6 @@ def is_ok(self) -&gt; bool:
 <p>This function can be used for control flow based on Result values.
 :param op: Callable to apply if result value if is <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code>
 :return: A result from applying op if <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code>, original <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> if not</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def and_then(self, op: Callable[[T], &#34;Result[T, E]&#34;]) -&gt; &#34;Result[T, E]&#34;:
-    &#34;&#34;&#34;
-    Calls op if the result is `Ok`, otherwise returns the `Err` value of self.
-
-    This function can be used for control flow based on Result values.
-    :param op: Callable to apply if result value if is `Ok`
-    :return: A result from applying op if `Ok`, original `Err` if not
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.contains"><code class="name flex">
 <span>def <span class="ident">contains</span></span>(<span>self, value: ~T) ‑> bool</span>
@@ -2825,18 +1454,6 @@ def and_then(self, op: Callable[[T], &#34;Result[T, E]&#34;]) -&gt; &#34;Result[
 <dd>
 <div class="desc"><p>:param value: Value to be checked
 :return: True if the result is an Ok value containing the given value</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def contains(self, value: T) -&gt; bool:
-    &#34;&#34;&#34;
-    :param value: Value to be checked
-    :return: True if the result is an Ok value containing the given value
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.contains_err"><code class="name flex">
 <span>def <span class="ident">contains_err</span></span>(<span>self, err: ~E) ‑> bool</span>
@@ -2844,18 +1461,6 @@ def contains(self, value: T) -&gt; bool:
 <dd>
 <div class="desc"><p>:param err: Value to be checked
 :return: True if the result is an Err containing the given err value</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def contains_err(self, err: E) -&gt; bool:
-    &#34;&#34;&#34;
-    :param err: Value to be checked
-    :return: True if the result is an Err containing the given err value
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.early_return"><code class="name flex">
 <span>def <span class="ident">early_return</span></span>(<span>self) ‑> ~T</span>
@@ -2864,19 +1469,6 @@ def contains_err(self, err: E) -&gt; bool:
 <div class="desc"><p>Access hook for <code>early_return</code> wrapper style.
 :return: T if self is Ok(T) otherwise
 :raises: EarlyReturnException(Err(e))</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def early_return(self) -&gt; T:
-    &#34;&#34;&#34;
-    Access hook for `early_return` wrapper style.
-    :return: T if self is Ok(T) otherwise
-    :raises: EarlyReturnException(Err(e))
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.err"><code class="name flex">
 <span>def <span class="ident">err</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~E], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -2884,18 +1476,6 @@ def early_return(self) -&gt; T:
 <dd>
 <div class="desc"><p>Converts from <code>Result[T, E]</code> to <code>Option[E]</code>
 :return: <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(E)</code> if result is <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>(E)</code> otherwise <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code> discarding the success value, if any.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def err(self) -&gt; Option[E]:
-    &#34;&#34;&#34;
-    Converts from `Result[T, E]` to `Option[E]`
-    :return: `Some(E)` if result is `Err(E)` otherwise `Empty` discarding the success value, if any.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.expect"><code class="name flex">
 <span>def <span class="ident">expect</span></span>(<span>self, msg: str) ‑> ~T</span>
@@ -2904,19 +1484,6 @@ def err(self) -&gt; Option[E]:
 <div class="desc"><p>:param msg: Attached message in case result is <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> and <code>UnwrapException</code> is raised
 :return: The contained <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code> value
 :raises: <code>UnwrapException</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def expect(self, msg: str) -&gt; T:
-    &#34;&#34;&#34;
-    :param msg: Attached message in case result is `Err` and `UnwrapException` is raised
-    :return: The contained `Ok` value
-    :raises: `UnwrapException`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.expect_err"><code class="name flex">
 <span>def <span class="ident">expect_err</span></span>(<span>self, msg: str) ‑> ~E</span>
@@ -2925,19 +1492,6 @@ def expect(self, msg: str) -&gt; T:
 <div class="desc"><p>:param msg: Attached message in case result is <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code> and <code>UnwrapException</code> is raised
 :return: The contained <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> value.
 :raises: <code>UnwrapException</code> if result is <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code>.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def expect_err(self, msg: str) -&gt; E:
-    &#34;&#34;&#34;
-    :param msg: Attached message in case result is `Ok` and `UnwrapException` is raised
-    :return: The contained `Err` value.
-    :raises: `UnwrapException` if result is `Ok`.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.flatten"><code class="name flex">
 <span>def <span class="ident">flatten</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~T, ~E]]</span>
@@ -2945,18 +1499,6 @@ def expect_err(self, msg: str) -&gt; E:
 <dd>
 <div class="desc"><p>Converts from Result[Result[T, E], E] to Result<T, E>, any nested level
 :return: Flattened Result[T, E]</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def flatten(self) -&gt; &#34;Result[T, E]&#34;:
-    &#34;&#34;&#34;
-    Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, any nested level
-    :return: Flattened Result[T, E]
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.flatten_one"><code class="name flex">
 <span>def <span class="ident">flatten_one</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~T, ~E]]</span>
@@ -2964,35 +1506,12 @@ def flatten(self) -&gt; &#34;Result[T, E]&#34;:
 <dd>
 <div class="desc"><p>Converts from Result[Result[T, E], E] to Result<T, E>, one nested level.
 :return: Flattened Result[T, E]</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def flatten_one(self) -&gt; &#34;Result[T, E]&#34;:
-    &#34;&#34;&#34;
-    Converts from Result[Result[T, E], E] to Result&lt;T, E&gt;, one nested level.
-    :return: Flattened Result[T, E]
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.iter"><code class="name flex">
 <span>def <span class="ident">iter</span></span>(<span>self) ‑> Iterator[~T]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>:return: An iterator with a value if the result is <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code> otherwise an empty iterator.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def iter(self) -&gt; Iterator[T]:
-    &#34;&#34;&#34;
-    :return: An iterator with a value if the result is `Ok` otherwise an empty iterator.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.map"><code class="name flex">
 <span>def <span class="ident">map</span></span>(<span>self, f: Callable[[~T], ~U]) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~U, ~E], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~U, ~E]]</span>
@@ -3002,21 +1521,6 @@ def iter(self) -&gt; Iterator[T]:
 <p>This function can be used to compose the results of two functions.
 :param f: Function to apply to the <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>(T)</code>
 :return: A new result wrapping the new value, if applied.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def map(self, f: Callable[[T], U]) -&gt; &#34;Result[U, E]&#34;:
-    &#34;&#34;&#34;
-    Maps a `Result[T, E]` to `Result[U, E]` by applying a function to a contained Ok value, leaving an Err value untouched.
-
-    This function can be used to compose the results of two functions.
-    :param f: Function to apply to the `Ok(T)`
-    :return: A new result wrapping the new value, if applied.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.map_err"><code class="name flex">
 <span>def <span class="ident">map_err</span></span>(<span>self, f: Callable[[~E], ~U]) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~T, ~U], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~T, ~U]]</span>
@@ -3027,22 +1531,6 @@ leaving an Ok value untouched.</p>
 <p>This function can be used to pass through a successful result while handling an error.
 :param f: Function to apply to the <code>E</code>
 :return: A new result with the modified <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> value if applies.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def map_err(self, f: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-    &#34;&#34;&#34;
-    Maps a `Result[T, E]` to `Result[T, F]` by applying a function to a contained `Err` value,
-    leaving an Ok value untouched.
-
-    This function can be used to pass through a successful result while handling an error.
-    :param f: Function to apply to the `E`
-    :return: A new result with the modified `Err` value if applies.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.map_or"><code class="name flex">
 <span>def <span class="ident">map_or</span></span>(<span>self, default: ~U, f: Callable[[~T], ~U]) ‑> ~U</span>
@@ -3054,23 +1542,6 @@ it is recommended to use map_or_else, which is lazily evaluated.
 :param default: Default value to be returned if result ir Err
 :param f: Function to apply to the <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>(T)</code>
 :return: A new value with the result of applying the function to the Ok(value) or the default value.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def map_or(self, default: U, f: Callable[[T], U]) -&gt; U:
-    &#34;&#34;&#34;
-    Applies a function to the contained value (if Ok), or returns the provided default (if Err).
-
-    Arguments passed to map_or are eagerly evaluated; if you are passing the result of a function call,
-    it is recommended to use map_or_else, which is lazily evaluated.
-    :param default: Default value to be returned if result ir Err
-    :param f: Function to apply to the `Ok(T)`
-    :return: A new value with the result of applying the function to the Ok(value) or the default value.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.map_or_else"><code class="name flex">
 <span>def <span class="ident">map_or_else</span></span>(<span>self, default: Callable[[~E], ~U], f: Callable[[~T], ~U]) ‑> ~U</span>
@@ -3082,23 +1553,6 @@ or a fallback function to a contained Err value.</p>
 :param default: Callable to lazy load the default return value
 :param f: Function to apply to the <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>(T)</code>
 :return: A new value with the result of applying the function to the Ok(value) or the default value loaded from the default function call.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -&gt; U:
-    &#34;&#34;&#34;
-    Maps a `Result[T, E]` to `U` by applying a function to a contained Ok value,
-    or a fallback function to a contained Err value.
-
-    This function can be used to unpack a successful result while handling an error.
-    :param default: Callable to lazy load the default return value
-    :param f: Function to apply to the `Ok(T)`
-    :return: A new value with the result of applying the function to the Ok(value) or the default value loaded from the default function call.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.ok"><code class="name flex">
 <span>def <span class="ident">ok</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[~T], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -3106,18 +1560,6 @@ def map_or_else(self, default: Callable[[E], U], f: Callable[[T], U]) -&gt; U:
 <dd>
 <div class="desc"><p>Converts from <code>Result[T, E]</code> to <code>Option[T]</code>
 :return: <code><a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>(T)</code> if result is <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>(T)</code> otherwise <code><a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a></code> discarding the error, if any.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def ok(self) -&gt; Option[T]:
-    &#34;&#34;&#34;
-    Converts from `Result[T, E]` to `Option[T]`
-    :return: `Some(T)` if result is `Ok(T)` otherwise `Empty` discarding the error, if any.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.or_else"><code class="name flex">
 <span>def <span class="ident">or_else</span></span>(<span>self, op: Callable[[~E], ~U]) ‑> Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~T, ~U], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~T, ~U]]</span>
@@ -3127,21 +1569,6 @@ def ok(self) -&gt; Option[T]:
 <p>This function can be used for control flow based on Result values.
 :param op: Callable to apply if result value if is <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code>
 :return: A result from applying op if <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code>, original <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code> if not</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def or_else(self, op: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
-    &#34;&#34;&#34;
-    Calls op if the result is `Err`, otherwise returns the `Ok` value of self.
-
-    This function can be used for control flow based on Result values.
-    :param op: Callable to apply if result value if is `Err`
-    :return: A result from applying op if `Err`, original `Ok` if not
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.transpose"><code class="name flex">
 <span>def <span class="ident">transpose</span></span>(<span>self) ‑> Union[<a title="rusty_results.prelude.Some" href="#rusty_results.prelude.Some">Some</a>[Union[<a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a>[~T, ~E], <a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a>[~T, ~E]]], <a title="rusty_results.prelude.Empty" href="#rusty_results.prelude.Empty">Empty</a>]</span>
@@ -3151,20 +1578,6 @@ def or_else(self, op: Callable[[E], U]) -&gt; &#34;Result[T, U]&#34;:
 Ok(Empty) will be mapped to Empty. Ok(Some(<em>)) and Err(</em>) will be mapped to Some(Ok(<em>)) and Some(Err(</em>))
 :return: Option[Result[T, E]] as per the mapping above
 :raises TypeError if inner value is not an <code>Option</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
-    &#34;&#34;&#34;
-    Transposes a Result of an Option into an Option of a Result.
-    Ok(Empty) will be mapped to Empty. Ok(Some(_)) and Err(_) will be mapped to Some(Ok(_)) and Some(Err(_))
-    :return: Option[Result[T, E]] as per the mapping above
-    :raises TypeError if inner value is not an `Option`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.unwrap"><code class="name flex">
 <span>def <span class="ident">unwrap</span></span>(<span>self) ‑> ~T</span>
@@ -3175,22 +1588,6 @@ def transpose(self) -&gt; Option[&#34;Result[T, E]&#34;]:
 pattern matching and handle the <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> case explicitly, or call unwrap_or, unwrap_or_else, or unwrap_or_default.
 :return: Contained <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code> value
 :raises: <code>UnwrapException</code> if resutl is <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap(self) -&gt; T:
-    &#34;&#34;&#34;
-    Returns the contained `Ok` value.
-
-    Because this function may raise an exception, its use is generally discouraged. Instead, prefer to use
-    pattern matching and handle the `Err` case explicitly, or call unwrap_or, unwrap_or_else, or unwrap_or_default.
-    :return: Contained `Ok` value
-    :raises: `UnwrapException` if resutl is `Err`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.unwrap_err"><code class="name flex">
 <span>def <span class="ident">unwrap_err</span></span>(<span>self) ‑> ~E</span>
@@ -3198,18 +1595,6 @@ def unwrap(self) -&gt; T:
 <dd>
 <div class="desc"><p>:return: The contained <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code> value.
 :raises: <code>UnwrapException</code> if result is <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code>.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap_err(self) -&gt; E:
-    &#34;&#34;&#34;
-    :return: The contained `Err` value.
-    :raises: `UnwrapException` if result is `Ok`.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.unwrap_or"><code class="name flex">
 <span>def <span class="ident">unwrap_or</span></span>(<span>self, default: ~T) ‑> ~T</span>
@@ -3220,22 +1605,6 @@ def unwrap_err(self) -&gt; E:
 it is recommended to use unwrap_or_else, which is lazily evaluated.
 :param default: Value to be returned if result is <code><a title="rusty_results.prelude.Err" href="#rusty_results.prelude.Err">Err</a></code>
 :return: <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code> value or <code>default</code></p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap_or(self, default: T) -&gt; T:
-    &#34;&#34;&#34;
-    Returns the contained `Ok` value or a provided default.
-
-    Arguments passed to unwrap_or are eagerly evaluated; if you are passing the result of a function call,
-    it is recommended to use unwrap_or_else, which is lazily evaluated.
-    :param default: Value to be returned if result is `Err`
-    :return: `Ok` value or `default`
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 <dt id="rusty_results.prelude.ResultProtocol.unwrap_or_else"><code class="name flex">
 <span>def <span class="ident">unwrap_or_else</span></span>(<span>self, default: Callable[[], ~T]) ‑> ~T</span>
@@ -3243,18 +1612,6 @@ def unwrap_or(self, default: T) -&gt; T:
 <dd>
 <div class="desc"><p>:param default: Function to call for the default value
 :return: The contained <code><a title="rusty_results.prelude.Ok" href="#rusty_results.prelude.Ok">Ok</a></code> value or computes it from a closure.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-def unwrap_or_else(self, default: Callable[[], T]) -&gt; T:
-    &#34;&#34;&#34;
-    :param default: Function to call for the default value
-    :return: The contained `Ok` value or computes it from a closure.
-    &#34;&#34;&#34;
-    ...  # pragma: no cover</code></pre>
-</details>
 </dd>
 </dl>
 </dd>
@@ -3423,7 +1780,6 @@ class Some(OptionProtocol[T]):
 </section>
 </article>
 <nav id="sidebar">
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -3431,6 +1787,11 @@ class Some(OptionProtocol[T]):
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="rusty_results" href="index.html">rusty_results</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="rusty_results.prelude.option_from" href="#rusty_results.prelude.option_from">option_from</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
@@ -3520,7 +1881,7 @@ class Some(OptionProtocol[T]):
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
 </footer>
 </body>
 </html>
