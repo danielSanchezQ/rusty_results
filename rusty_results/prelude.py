@@ -540,7 +540,7 @@ class Empty(OptionProtocol):
 Option = Union[Some[T], Empty]
 
 
-def option_from[T](value: Optional[T]) -> Option[T]:
+def option_from(value: Optional[T]) -> Option[T]:
     """
     :param value: Value from any type to be converted to an Option
     :return: The value wrapped in an Option or the original Option if it is already an Option
