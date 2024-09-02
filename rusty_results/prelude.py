@@ -2,6 +2,7 @@ from abc import abstractmethod
 from dataclasses import dataclass
 from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any, Optional
 from rusty_results.exceptions import UnwrapException, EarlyReturnException
+
 try:
     from pydantic.fields import ModelField
 except ImportError:  # pragma: no cover
