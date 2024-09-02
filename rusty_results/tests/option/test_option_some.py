@@ -172,3 +172,8 @@ def test_transpose(option, expected_transpose):
 def test_transpose_type_error():
     with pytest.raises(TypeError):
         Some(10).transpose()
+
+
+def test_early_return():
+    value = ~Some(10)
+    assert value == 10

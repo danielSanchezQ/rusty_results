@@ -148,3 +148,9 @@ def test_flatten():
 def test_transpose():
     this: Result = Err(None)
     assert this.transpose() == Some(Err(None))
+
+
+def test_early_return():
+    err: Result[int, int] = Err(0)
+    with pytest.raises(EarlyReturnException):
+        _ = ~err
