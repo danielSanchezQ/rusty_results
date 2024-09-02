@@ -32,3 +32,16 @@ def test_option_contains():
 def test_option_iter():
     assert list(iter(Empty())) == []
     assert list(iter(Some(1))) == [1]
+
+
+def test_option_from():
+    assert Some(0) == option_from(0)
+    assert Empty() == option_from(None)
+    example_dictionary = {"data": 5}
+    assert Empty() == option_from(example_dictionary.get("key_not_found"))
+    assert Some(5) == option_from(example_dictionary.get("data"))
+    opt = Some(3)
+    assert opt == option_from(opt)
+    assert Empty() == option_from(Empty())
+    nested_opt = Some(Some(Some(Some(3))))
+    assert nested_opt == option_from(nested_opt)

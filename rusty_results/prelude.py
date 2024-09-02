@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any
+from typing import cast, TypeVar, Union, Callable, Generic, Iterator, Tuple, Dict, Any, Optional
 from rusty_results.exceptions import UnwrapException, EarlyReturnException
 
 try:
@@ -538,6 +538,16 @@ class Empty(OptionProtocol):
 
 
 Option = Union[Some[T], Empty]
+
+
+def option_from(value: Optional[T]) -> Option[T]:
+    """
+    :param value: Value from any type to be converted to an Option
+    :return: The value wrapped in an Option or the original Option if it is already an Option
+    """
+    if value is None:
+        return Empty()
+    return Some(value).flatten_one()
 
 
 class ResultProtocol(Generic[T, E]):

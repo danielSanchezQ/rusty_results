@@ -1,11 +1,12 @@
 """
 Example on pattern matching handling of Option
 """
+from typing import List
 
 from rusty_results import Option, Some, Empty
 
 
-def find_index(l: [str], value: str) -> Option[int]:
+def find_index(l: List[str], value: str) -> Option[int]:
     for i, e in enumerate(l):
         if e == value:
             return Some(i)
