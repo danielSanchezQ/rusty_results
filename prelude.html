@@ -752,71 +752,7 @@ return default</p></div>
         :return: Self if self is Some(T) otherwise
         :raises: EarlyReturnException(Empty)
         &#34;&#34;&#34;
-        return self.early_return()
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.__validate
-
-    @classmethod
-    def __validate(cls, value: Union[&#34;Some&#34;, &#34;Empty&#34;, Dict], field: &#34;ModelField&#34;):
-        if isinstance(value, Some):
-            return cls.__validate_some(value, field)
-        elif isinstance(value, Empty):
-            return cls.__validate_empty(value, field)
-        elif isinstance(value, dict):
-            return cls.__validate_dict(value, field)
-
-        raise TypeError(&#34;Unable to validate Option&#34;)  # pragma: no cover
-
-    @classmethod
-    def __validate_some(cls, value: &#34;Some&#34;, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if not field.sub_fields:
-            raise TypeError(&#34;No subfields found for Some&#34;)
-
-        field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value.Some, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError((error, ), Some)  # type: ignore
-
-        return Some(valid_value)
-
-    @classmethod
-    def __validate_empty(cls, _: &#34;Empty&#34;, field: &#34;ModelField&#34;):
-        if field.sub_fields:
-            raise TypeError(&#34;Empty value cannot be bound to external types&#34;)
-
-        return Empty()
-
-    @classmethod
-    def __validate_dict(cls, value: Dict, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if value == {}:
-            return Empty()
-
-        if len(value) != 1:
-            raise TypeError(
-                &#34;Extra object parameters found, Option can have strictly 0 (Empty) or 1 Value (Some)&#34;,
-            )
-
-        inner_value = value.get(&#34;Some&#34;)
-        if inner_value is None:
-            raise TypeError(&#34;Non Empty Option do not have a proper Value&#34;)
-
-        if not field.sub_fields:
-            raise TypeError(&#34;Cannot check Option pydantic subfields validations&#34;) # pragma: no cover
-
-        field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value[&#34;Some&#34;], {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Option)  # type: ignore  # pragma: no cover
-
-        return Some(valid_value)</code></pre>
+        return self.early_return()</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1316,82 +1252,7 @@ return default</p></div>
         return self.contains(item)
 
     def __iter__(self) -&gt; Iterator[T]:
-        return self.iter()
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.__validate
-
-    @classmethod
-    def __validate(cls, value: Union[&#34;Ok&#34;, &#34;Err&#34;, Dict], field: &#34;ModelField&#34;):
-        if isinstance(value, Ok):
-            return cls.__validate_ok(value, field)
-        elif isinstance(value, Err):
-            return cls.__validate_err(value, field)
-        elif isinstance(value, dict):
-            return cls.__validate_dict(value, field)
-
-        raise TypeError(&#34;Unable to validate Result&#34;)  # pragma: no cover
-
-    @classmethod
-    def __validate_ok(cls, value: &#34;Ok&#34;, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError(&#34;Wrong subfields found for Ok&#34;) # pragma: no cover
-
-        field_value = field.sub_fields[0]
-        valid_value, error = field_value.validate(value.Ok, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Result)  # type: ignore
-
-        return Ok(valid_value)
-
-    @classmethod
-    def __validate_err(cls, value: &#34;Err&#34;, field: &#34;ModelField&#34;):
-        import pydantic
-
-        if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError(&#34;Wrong subfields found for Ok&#34;) # pragma: no cover
-
-        field_value = field.sub_fields[1]
-        valid_value, error = field_value.validate(value.Error, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Result)  # type: ignore
-
-        return Err(valid_value)
-
-    @classmethod
-    def __validate_dict(cls, value: Dict, field: &#34;ModelField&#34;):  # mypy: ignore
-        import pydantic
-
-        if not field.sub_fields or len(field.sub_fields) != 2:
-            raise TypeError(&#34;Wrong subfields found for Ok&#34;) # pragma: no cover
-
-        if len(value) != 1:
-            raise TypeError(
-                &#34;Extra object parameters found, Results have strictly 1 value (either Value (Ok) or Error (Err))&#34;
-            )  # pragma: no cover
-
-        return_class: Callable[[Any], Any]
-        inner_value: Any
-        if &#34;Ok&#34; in value:
-            inner_value, return_class, subfield = value.get(&#34;Ok&#34;), Ok, 0
-        elif &#34;Error&#34; in value:
-            inner_value, return_class, subfield = value.get(&#34;Error&#34;), Err, 1
-        else:
-            # should never be able to reach here
-            raise TypeError(&#34;Cannot find any Result correct value&#34;)  # pragma: no cover
-
-        field_value = field.sub_fields[subfield]
-        valid_value, error = field_value.validate(inner_value, {}, loc=&#34;&#34;)
-        if error:
-            # ignore type since it do not come from a base model
-            raise pydantic.ValidationError(error, Result)  # type: ignore  # pragma: no cover
-
-        return return_class(valid_value)</code></pre>
+        return self.iter()</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
