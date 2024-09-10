@@ -18,8 +18,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    extras_require={
-        "pydantic": ["pydantic"]
-    },
     python_requires='>=3.7'
 )
